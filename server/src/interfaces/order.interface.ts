@@ -1,3 +1,6 @@
+import { CategoriesInterface } from "./categories.interface";
+import { ItemInterface } from "./item.interface";
+
 export interface OrderItemInterface {
     restaurantId: number;
     orderId: number;

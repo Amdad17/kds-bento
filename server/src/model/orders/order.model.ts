@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { IOrder } from '../../interfaces/order.interface';
+import { OrderItemInterface } from '../../interfaces/order.interface';
 const orderItemSchema = new Schema<OrderItemInterface>({
     restaurantId: { type: Number, required: true },
     orderId: { type: Number, required: true },
