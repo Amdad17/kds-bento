@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npx tsc",
     "dev": "concurrently \"npm:watch-ts\" \"npm:start-server\" ",
     "start-server":"nodemon dist/index.js",
     "watch-ts": "tsc -w",
