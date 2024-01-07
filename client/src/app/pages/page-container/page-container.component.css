@@ -1,0 +1,8 @@
+[nz-menu] {
+  width: 150px;
+  height: 90dvh;
+}
+
+.page-container {
+  display: flex;
+}

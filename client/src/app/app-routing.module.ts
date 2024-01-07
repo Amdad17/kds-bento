@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthRedirectPageComponent } from './pages/auth-redirect-page/auth-redirect-page.component';
+import { PageContainerComponent } from './pages/page-container/page-container.component';
+import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { DisplayPageComponent } from './pages/display-page/display-page.component';
+import { RuleSetterPageComponent } from './pages/rule-setter-page/rule-setter-page.component';
 
 const routes: Routes = [
-
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-
-
+  { path: 'auth-redirect', component: AuthRedirectPageComponent },
+  { path: '', component: PageContainerComponent, children: [
+    { path: 'dashboard', component: DashboardPageComponent },
+    { path: 'display', component: DisplayPageComponent },
+    { path: 'rule-setter', component: RuleSetterPageComponent },
+    { path: '**', redirectTo: '/dashboard' },
+  ]},
+  { path: '**', redirectTo: '/dashboard', pathMatch: 'full'},
 ];
 
 @NgModule({

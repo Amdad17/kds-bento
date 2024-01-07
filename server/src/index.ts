@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import orderRouter from './routers/orderRouter';
 import employeePermanceRouter from './routers/employeePerformanceRouter';
 import rulerouter from './routers/ruleRouter';
+import authrouter from './routers/auth.router';
 
 import { config } from './config';
 
@@ -13,7 +14,7 @@ app.use(express.json())
 app.use('/order', orderRouter);
 app.use('/create-employee', employeePermanceRouter);
 app.use('/rules', rulerouter)
-
+app.use('auth',authrouter)
 
 async function main (){
     try {
@@ -26,5 +27,4 @@ async function main (){
         
     }
 }
-
 main();
