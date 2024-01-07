@@ -1,4 +1,4 @@
-import { EmployeePerformance } from "../interfaces/employeePerformance.interface";
+import { EmployeePerformance } from '../../interfaces/employeePerformance.interface';
 import { model, Schema } from 'mongoose';
 const employeePerformanceSchema = new Schema<EmployeePerformance>({
   employeeId: { type: Number, required: true },

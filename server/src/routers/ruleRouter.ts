@@ -1,9 +1,24 @@
 import express from 'express';
-import { createRule, getRules } from '../controllers/ruleController'
+import {
+  createRules,
+  findRulesForRestaurant,
+  updateExistingRules,
+  deleteRulesForRestaurant,
+  deleteRulesById,
+} from '../controllers/rules.contoller';
 
-const rulerouter = express.Router();
+const Rulerouter = express.Router();
 
-rulerouter.post('/create',createRule);
-rulerouter.get('/get',getRules);
 
-export default rulerouter;
+Rulerouter.post('/rules', createRules);
+
+Rulerouter.get('/rules/:restaurantId', findRulesForRestaurant);
+
+Rulerouter.put('/rules/:ruleId', updateExistingRules);
+
+Rulerouter.delete('/rules/:restaurantId', deleteRulesForRestaurant);
+
+Rulerouter.delete('/rules/:ruleId', deleteRulesById);
+
+export default  Rulerouter;
+
