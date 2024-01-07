@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NzButtonModule} from 'ng-zorro-antd/button';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { RuleSetterPageComponent } from './pages/rule-setter-page/rule-setter-pa
 import { AuthInterceptor } from './interceptors/auth-interceptor/auth-interceptor.service';
 import { ErrorInterceptor } from './interceptors/error-interceptor/error-interceptor.service';
 import { TokenInterceptor } from './interceptors/token-interceptor/token-interceptor.service';
+import { SpashLogoComponent } from './components/spash-logo/spash-logo.component';
 
 registerLocaleData(en);
 
@@ -33,7 +35,8 @@ registerLocaleData(en);
     DashboardPageComponent,
     DisplayPageComponent,
     RuleSetterPageComponent,
-    NavbarComponent
+    NavbarComponent,
+    SpashLogoComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     NzButtonModule,
     NzMessageModule,
-    NzMenuModule
+    NzMenuModule,
+    NzSpinModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
