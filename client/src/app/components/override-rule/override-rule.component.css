@@ -1,0 +1,53 @@
+.container {
+  width: 50dvw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 5px;
+}
+
+.lists {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.list-container {
+  min-height: 200px;
+  width: 40%;
+  text-align: center;
+}
+
+.list {
+  border: solid rgb(175, 175, 175) 1px;
+  min-height: 200px;
+  border-radius: 10px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.list .cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+.rule-description {
+  margin-top: 20px;
+  display: flex;
+  width: 80%;
+  align-items: center;
+}
+
+.rule-name {
+  min-width: 30%;
+}
+
+.rule-description {
+  flex-grow: 1;
+}

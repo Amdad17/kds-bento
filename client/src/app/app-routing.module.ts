@@ -5,10 +5,11 @@ import { PageContainerComponent } from './pages/page-container/page-container.co
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 import { DisplayPageComponent } from './pages/display-page/display-page.component';
 import { RuleSetterPageComponent } from './pages/rule-setter-page/rule-setter-page.component';
+import { authGuard } from './guards/auth/auth.guard';
 
 const routes: Routes = [
   { path: 'auth-redirect', component: AuthRedirectPageComponent },
-  { path: '', component: PageContainerComponent, children: [
+  { path: '', component: PageContainerComponent, canActivate: [authGuard], children: [
     { path: 'dashboard', component: DashboardPageComponent },
     { path: 'display', component: DisplayPageComponent },
     { path: 'rule-setter', component: RuleSetterPageComponent },

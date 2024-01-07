@@ -1,0 +1,12 @@
+<div class="option-card">
+  <div class="card-content">
+    <img class="icon" nz-icon src={{getIcon()}} alt="Order type" />
+    <p class="title">{{option.title}}</p>
+
+    @if (showInput) {
+      <nz-input-group class="max-time-input" nzSuffix="min">
+        <input nz-input type="number" [min]="1" [(ngModel)]="option.maxTime" [nzStatus]="option.maxTime <= 0 ? 'error' : '' " />
+      </nz-input-group>
+    }
+  </div>
+</div>

@@ -3,7 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NzButtonModule} from 'ng-zorro-antd/button';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +26,10 @@ import { AuthInterceptor } from './interceptors/auth-interceptor/auth-intercepto
 import { ErrorInterceptor } from './interceptors/error-interceptor/error-interceptor.service';
 import { TokenInterceptor } from './interceptors/token-interceptor/token-interceptor.service';
 import { SpashLogoComponent } from './components/spash-logo/spash-logo.component';
+import { BaseRuleComponent } from './components/base-rule/base-rule.component';
+import { OverrideRuleComponent } from './components/override-rule/override-rule.component';
+import { BaseOptionCardComponent } from './components/base-option-card/base-option-card.component';
+import { OverrideOptionCardComponent } from './components/override-option-card/override-option-card.component';
 
 registerLocaleData(en);
 
@@ -36,7 +42,11 @@ registerLocaleData(en);
     DisplayPageComponent,
     RuleSetterPageComponent,
     NavbarComponent,
-    SpashLogoComponent
+    SpashLogoComponent,
+    BaseRuleComponent,
+    OverrideRuleComponent,
+    BaseOptionCardComponent,
+    OverrideOptionCardComponent
   ],
   imports: [
     BrowserModule,
@@ -44,10 +54,13 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    CdkDrag,
+    CdkDropList,
+    NzInputModule,
     NzButtonModule,
     NzMessageModule,
     NzMenuModule,
-    NzSpinModule
+    NzSwitchModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

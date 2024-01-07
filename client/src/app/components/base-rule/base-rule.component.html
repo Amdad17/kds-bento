@@ -1,0 +1,52 @@
+<div class="container">
+
+  <h2>Base Rules</h2>
+  
+  <p>These rules determine the base operations of the kitchen.</p>
+  
+  <div class="lists">
+    
+    <div class="list-container">
+      <h3>Type of Order</h3>
+      <div
+      cdkDropList
+      #availableList="cdkDropList"
+      [cdkDropListData]="availableOptions"
+      [cdkDropListConnectedTo]="[selectedList]"
+      class="list"
+      (cdkDropListDropped)="drop($event)">
+      @for (item of availableOptions; track item) {
+        <div class="example-box" cdkDrag>
+          <app-base-option-card title={{item}}></app-base-option-card>
+        </div>
+      }
+    </div>
+  </div>
+  
+  <div class="list-container">
+    <h3>Order Hierarchy</h3>
+    <div
+    cdkDropList
+    #selectedList="cdkDropList"
+    [cdkDropListData]="selectedOptions"
+    [cdkDropListConnectedTo]="[availableList]"
+    (cdkDropListDropped)="drop($event)"
+    class="list">
+    @for (item of selectedOptions; track $index) {
+          <div class="example-box" cdkDrag>
+            <app-base-option-card title={{item}} index={{$index}}></app-base-option-card>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  
+  <br>
+  <br>
+
+  <h2>Order Assigning</h2>
+  <div class="switch-container">
+    <p>Choose how orders will be assigned to the kitchen staff. "Efficiency" will take into account your staffs past efficiency records and current workload when assigning orders. "Workload" will assign orders only based on who is free at the given time.</p>
+    <nz-switch nzCheckedChildren="Efficiency" nzUnCheckedChildren="Workload" [(ngModel)]="efficiency" (ngModelChange)="emitEfficiencyChange($event)"></nz-switch>
+  </div>
+</div>

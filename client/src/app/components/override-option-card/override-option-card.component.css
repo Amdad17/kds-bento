@@ -1,0 +1,38 @@
+.option-card {
+  margin: 10px;
+  padding: 2px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.card-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin: 0;
+}
+
+.index {
+  font-weight: bold;
+}
+
+.max-time-input {
+  max-width: 75px;
+  margin: 0 10px;
+}

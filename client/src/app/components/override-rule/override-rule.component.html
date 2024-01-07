@@ -1,0 +1,75 @@
+<div class="container">
+  <h2>Overrides</h2>
+
+  <p>These rules determine when an order can override the hierarchy.</p>
+
+  <div class="lists">
+    <div class="list-container">
+      <h3>Possible Overrides</h3>
+      <div
+        cdkDropList
+        #availableList="cdkDropList"
+        [cdkDropListData]="possibleOverrides"
+        [cdkDropListConnectedTo]="[selectedList]"
+        class="list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (item of possibleOverrides; track item) {
+        <div class="example-box" cdkDrag>
+          <app-override-option-card [option]="item"></app-override-option-card>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="list-container">
+      <h3>Selected Overrides</h3>
+      <div
+        cdkDropList
+        #selectedList="cdkDropList"
+        [cdkDropListData]="selectedOverrides"
+        [cdkDropListConnectedTo]="[availableList]"
+        (cdkDropListDropped)="drop($event)"
+        class="list"
+      >
+        @for (item of selectedOverrides; track $index) {
+        <div class="example-box" cdkDrag>
+          <app-override-option-card [option]="item" [showInput]="true"></app-override-option-card>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <h3>Rule Descriptions</h3>
+
+  <div class="rule-description">
+    <div class="rule-name">
+      <b>Rider Distance</b>
+    </div>
+    <div class="info">
+      <p>When an order comes in and a rider is said to arrive at the restaurant in the time set in this rule or before, then the order will get importance over others.</p>
+    </div>
+  </div>
+
+  <div class="rule-description">
+    <div class="rule-name">
+      <b>Customer Wait</b>
+    </div>
+    <div class="info">
+      <p>When an in-house order has been waiting for the time given in this rule, it will be given priority.</p>
+    </div>
+  </div>
+
+  <div class="rule-description">
+    <div class="rule-name">
+      <b>Course Wait</b>
+    </div>
+    <div class="info">
+      <p>When an in-house order has multiple courses and a course has been waiting for the time given in this rule, it will be given priority.</p>
+    </div>
+  </div>
+</div>
