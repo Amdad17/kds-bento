@@ -7,7 +7,11 @@ import authrouter from './routers/auth.router';
 import { config } from './config';
 
 const app : Express = express()
-app.use(cors({ origin: config.CORS_ORIGIN.split(',')}));
+app.use(cors(
+    { 
+        origin: config.CORS_ORIGIN.split(','),
+        exposedHeaders: ['Authorization']
+    }));
 app.use(express.json())
 app.use('/order', orderRouter);
 app.use('/rules', rulerouter)
