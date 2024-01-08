@@ -5,6 +5,7 @@ import orderRouter from './routers/orderRouter';
 import rulerouter from './routers/ruleRouter';
 import authrouter from './routers/auth.router';
 import { config } from './config';
+import { authMiddleware } from './middleware/auth.middleware';
 
 const app : Express = express()
 app.use(cors(
@@ -12,10 +13,13 @@ app.use(cors(
         origin: config.CORS_ORIGIN.split(','),
         exposedHeaders: ['Authorization']
     }));
+    
 app.use(express.json())
+app.use('/auth',authrouter);
+
+app.use(authMiddleware);
 app.use('/order', orderRouter);
-app.use('/rules', rulerouter)
-app.use('/auth',authrouter)
+app.use('/rules', rulerouter);
 
 async function main (){
     try {
