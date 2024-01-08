@@ -1,10 +1,15 @@
 import express, { Request, Response } from 'express';
-import { createOrder } from '../controllers/order.contoller';
+import { createOrder, deleteOrderById, findOrderById, findOrdersByOrderType, findOrdersByRestaurantId,
+     updateOrderById } from '../controllers/order.contoller';
 
-const router = express.Router();
+const orderrouter = express.Router();
 
-// router.get('/orders', findOrders);
-router.post('/create', createOrder);
+orderrouter.post('/create', createOrder);
+orderrouter.get('/orders/:orderId', findOrderById);
+orderrouter.put('/orders/:orderId', updateOrderById);
+orderrouter.delete('/orders/:orderId', deleteOrderById);
+orderrouter.get('/orders/restaurant/:restaurantId', findOrdersByRestaurantId);
+orderrouter.get('/orders/orderType/:orderType', findOrdersByOrderType);
 
-export default router;
+export default orderrouter;
 

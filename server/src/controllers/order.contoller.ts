@@ -4,6 +4,7 @@ import Orders from '../model/orders/order.model';
 export async function createOrder(req: Request, res: Response) {
   try {
     const data = req.body;
+    data.createdAt = new Date()
     const newOrder = await Orders.create(data);
     res.status(201).json(newOrder);
   } catch (error) {
@@ -14,7 +15,7 @@ export async function createOrder(req: Request, res: Response) {
 
 export async function findOrderById(req: Request, res: Response) {
   try {
-    const orderId = parseInt(req.params.orderId, 10);
+    const orderId = (req.params.orderId, 10);
     const order = await Orders.findOne({ orderId });
 
     if (!order) {
