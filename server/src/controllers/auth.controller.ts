@@ -5,6 +5,7 @@ export async function getToken (req: Request, res: Response) {
   try {
     const { code } = req.params;
     const response = await getTokenFromCode(code);
+    console.log(response.headers);
     const token = response.headers['authorization'];
 
     if (token) {
