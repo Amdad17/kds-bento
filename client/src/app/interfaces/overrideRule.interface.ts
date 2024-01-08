@@ -1,5 +1,5 @@
 export interface IOverrideRule {
   title: string,
-  type: string,
+  ruleType: string,
   maxTime: number
 }

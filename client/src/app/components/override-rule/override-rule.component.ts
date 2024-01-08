@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IOverrideRule } from '../../interfaces/overrideRule.interface';
 
 @Component({
@@ -7,8 +7,16 @@ import { IOverrideRule } from '../../interfaces/overrideRule.interface';
   templateUrl: './override-rule.component.html',
   styleUrl: './override-rule.component.css'
 })
-export class OverrideRuleComponent {
-  possibleOverrides : IOverrideRule[] = [{ title: "Rider distance", type: "rider-arrival-time", maxTime: 0 }, { title: "Customer wait", type: "customer-wait-time", maxTime: 0 }, { title: "Course wait", type: "course-wait-time", maxTime: 0 }];
+export class OverrideRuleComponent implements OnInit {
+
+  ngOnInit(): void {
+    this.selectedOverrides = this.selected;
+    this.possibleOverrides = this.possibleOverrides.filter(item => this.selected.findIndex(override => override.ruleType === item.ruleType) === -1);
+  }
+
+  @Input() selected! : IOverrideRule[];
+
+  possibleOverrides : IOverrideRule[] = [{ title: "Rider distance", ruleType: "rider-arrival-time", maxTime: 0 }, { title: "Customer wait", ruleType: "customer-wait-time", maxTime: 0 }, { title: "Course wait", ruleType: "course-wait-time", maxTime: 0 }];
   selectedOverrides : IOverrideRule[] = [];
 
   @Output() newOverrideRules = new EventEmitter<IOverrideRule[]>();

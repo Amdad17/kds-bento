@@ -10,7 +10,7 @@ export class BaseOptionCardComponent {
   @Input() index?: string;
 
   getIcon () {
-    switch (this.title.toLowerCase()) {
+    switch (this.title) {
       case "vip":
         return '../../../assets/svg/vip-gem.svg';
       case "delivery":
@@ -22,5 +22,14 @@ export class BaseOptionCardComponent {
 
   getListIndex () {
     return this.index ? Number(this.index) + 1 : null;
+  }
+
+  getDisplayTitle () {
+    switch (this.title) {
+      case "vip":
+        return "VIP"
+      default:
+        return this.title.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join("-");
+    }
   }
 }

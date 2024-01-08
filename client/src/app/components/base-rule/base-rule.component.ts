@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IBaseRule } from '../../interfaces/baseRule.interface';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -7,9 +7,17 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   templateUrl: './base-rule.component.html',
   styleUrl: './base-rule.component.css'
 })
-export class BaseRuleComponent {
+export class BaseRuleComponent implements OnInit {
+  ngOnInit(): void {
+    this.selectedOptions = this.selected.filter(item => item.priority > 0).map(item => item.ruleType);
+    this.availableOptions = this.selected.length ? this.selected.filter(item => item.priority === 0).map(item => item.ruleType) : ["vip", "delivery", "in-House"];
+    this.efficiency = this.selectedEfficiency;
+  }
 
-  availableOptions : string[] = ["VIP", "Delivery", "In-House"];
+  @Input() selected! : IBaseRule[];
+  @Input() selectedEfficiency! : boolean;
+
+  availableOptions : string[] = ["vip", "delivery", "in-House"];
   selectedOptions : string[] = [];
   efficiency : boolean = false;
 
@@ -32,8 +40,8 @@ export class BaseRuleComponent {
   }
 
   emitNewBaseRules () {
-    const selectedBaseRules = this.selectedOptions.map((value, index) => ({ type: value.toLocaleLowerCase(), priority: this.selectedOptions.length - index }));
-    const remainingRules = this.availableOptions.map((value) => ({ type: value.toLocaleLowerCase(), priority: 0 }));
+    const selectedBaseRules = this.selectedOptions.map((value, index) => ({ ruleType: value, priority: this.selectedOptions.length - index }));
+    const remainingRules = this.availableOptions.map((value) => ({ ruleType: value, priority: 0 }));
     const newBaseRules = [...selectedBaseRules, ...remainingRules];
 
     this.baseRuleChange.emit(newBaseRules);

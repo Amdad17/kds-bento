@@ -1,4 +1,4 @@
 export interface IBaseRule {
-  type: string,
+  ruleType: string,
   priority: number
 }
