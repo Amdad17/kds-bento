@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-page-container',
@@ -11,7 +12,7 @@ export class PageContainerComponent implements OnInit {
   paths = ['dashboard','display','rule-setter'];
   currentPath:string = '/dashboard'
 
-  constructor(private route:Router){
+  constructor(private route:Router, private api: ApiService){
 
   }
 
@@ -21,6 +22,8 @@ export class PageContainerComponent implements OnInit {
         this.currentPath=event.url
       }
     })
+
+    this.api.testAuthentication().subscribe(data => console.log(data));
       
   }
   parseName (path: string) {
