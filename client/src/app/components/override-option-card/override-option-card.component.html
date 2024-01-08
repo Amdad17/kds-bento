@@ -1,12 +1,17 @@
 <div class="option-card">
   <div class="card-content">
-    <img class="icon" nz-icon src={{getIcon()}} alt="Order type" />
-    <p class="title">{{option.title}}</p>
+    <img class="icon" nz-icon src="{{ getIcon() }}" alt="Order type" />
+    <p class="title">{{ option.title }}</p>
 
     @if (showInput) {
-      <nz-input-group class="max-time-input" nzSuffix="min">
-        <input nz-input type="number" [min]="1" [(ngModel)]="option.maxTime" [nzStatus]="option.maxTime <= 0 ? 'error' : '' " />
-      </nz-input-group>
+    <nz-input-number-group class="max-time-input" nzAddOnAfter="min" [nzStatus]="option.maxTime <= 0 ? 'error' : '' ">
+      <nz-input-number
+        [(ngModel)]="option.maxTime"
+        [nzStep]="1"
+        [nzMin]="1"
+        [nzStatus]="option.maxTime <= 0 ? 'error' : '' "
+      ></nz-input-number>
+    </nz-input-number-group>
     }
   </div>
 </div>

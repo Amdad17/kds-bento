@@ -1,8 +1,5 @@
-[nz-menu] {
-  width: 30dvw;
+ul {
+  width: fit-content;
+  min-width: 10dvw;
   height: 90dvh;
-}
-
-.page-container {
-  display: flex;
 }
