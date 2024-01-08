@@ -1,7 +1,7 @@
-import { IngredientInterface } from "../controllers/ingredient.interface";
+import { IngredientInterface } from "./ingredient.interface";
 
 export interface NoOptionInterface {
     ingredientId: number;
-    ingredientName: String;
+    ingredientName: string;
     ingredient: IngredientInterface;
   }
