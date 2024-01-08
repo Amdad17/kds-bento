@@ -1,1 +1,31 @@
 <p>display-page works!</p>
+<div class="drag-drop-layout">
+  <!-- Type of Order Column -->
+  <div class="drag-drop-column">
+    <h3>Pending Orders</h3>
+    <div cdkDropList [cdkDropListData]="typeOfOrders" class="drop-list" cdkDropListSortingDisabled>
+      <div class="drop-item" *ngFor="let orderType of typeOfOrders" cdkDrag>{{ orderType }}</div>
+    </div>
+  </div>
+  <div class="drag-drop-column">
+    <h3>Being Preparing</h3>
+    <div cdkDropList class="drop-list" cdkDropListSortingDisabled>
+    </div>
+  </div>
+  <div class="drag-drop-column">
+    <h3>Ready to Serve</h3>
+    <div cdkDropList #possibleOverridesList="cdkDropList" [cdkDropListData]="possibleOverrides" [cdkDropListConnectedTo]="['selectedOverridesList']" (cdkDropListDropped)="onDrop($event)" class="drop-list">
+      <div class="drop-item" *ngFor="let override of possibleOverrides" cdkDrag>{{ override }}</div>
+    </div>
+  </div>
+  <div class="drag-drop-column">
+    <h3>Delivered</h3>
+    <div cdkDropList #selectedOverridesList="cdkDropList" [cdkDropListData]="selectedOverrides" (cdkDropListDropped)="onDrop($event)" class="drop-list">
+      <div class="drop-item" *ngFor="let selected of selectedOverrides" cdkDrag>{{ selected }}</div>
+    </div>
+  </div>
+</div>
+
+
+
+

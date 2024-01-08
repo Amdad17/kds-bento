@@ -1,0 +1,31 @@
+.drag-drop-layout {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.drag-drop-column {
+  width: 220%;
+  height: 500px;
+  margin: 0 10px;
+}
+
+.drop-list {
+  min-height: 150px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.drop-item {
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: grab;
+}
+
+
