@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
 
 @Component({
@@ -22,9 +22,6 @@ export class PageContainerComponent implements OnInit {
         this.currentPath=event.url
       }
     })
-
-    this.api.testAuthentication().subscribe(data => console.log(data));
-      
   }
   parseName (path: string) {
     return path.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");

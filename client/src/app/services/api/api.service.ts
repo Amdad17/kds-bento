@@ -12,8 +12,4 @@ export class ApiService {
   authenticate (code: string) {
     return this.http.get(environment.API_URL + '/auth/token/' + code);
   }
-
-  testAuthentication () {
-    return this.http.get(environment.API_URL + '/auth/test');
-  }
 }
