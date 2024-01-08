@@ -7,6 +7,9 @@ import { Order } from './models/order.model';
   providedIn: 'root'
 })
 export class OrderService {
+  updateOrder(order: Order) {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl ='/api/orders';
 
   constructor(private http: HttpClient) { }

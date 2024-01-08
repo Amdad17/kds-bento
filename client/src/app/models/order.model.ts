@@ -4,5 +4,6 @@ export interface Order {
     orderDetails: string;
     chefName: string;
     status: 'pending' | 'preparing' | 'ready' | 'served';
+    
   }
   

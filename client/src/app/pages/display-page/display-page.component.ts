@@ -1,8 +1,6 @@
 
-
 import { Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-
 export interface Order {
   id: number;
   customerName: string;
@@ -18,9 +16,9 @@ export interface Order {
   styleUrls: ['./display-page.component.css']
 })
 export class DisplayPageComponent {
-  typeOfOrders: string[] = [];
-  possibleOverrides: string[] = [];
-  selectedOverrides: string[] = [];
+  pendingOrders: string[] = [];
+  BeingPreparing: string[] = [];
+  ReadyToServe: string[] = [];
 
   onDrop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
