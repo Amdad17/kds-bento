@@ -5,10 +5,11 @@ export async function getToken (req: Request, res: Response) {
   try {
     const { code } = req.params;
     const response = await getTokenFromCode(code);
-    const token = response.headers['Authorization'];
+    const token = response.headers['authorization'];
 
     if (token) {
       res.setHeader("Authorization", token);
+      res.send({ auth: true });
     } else res.status(401).send({ message: "No auth token found."});
   } catch (error) {
     console.log(error);

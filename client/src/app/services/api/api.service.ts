@@ -10,7 +10,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   authenticate (code: string) {
-    return this.http.get(environment.API_URL + '/authenticate?code=' + code);
+    return this.http.get(environment.API_URL + '/auth/token/' + code);
   }
 
 }
