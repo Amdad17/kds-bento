@@ -15,7 +15,7 @@ const ruleSchema = new Schema<IRules>({
     type: [{
       ruleType: {
         type: String,
-        enum: ['Vip-InHouse', 'Delivery',' InHouse'],
+        enum: ['vip', 'delivery',' in-house'],
         required: true
       },
       priority: {
@@ -33,7 +33,7 @@ const ruleSchema = new Schema<IRules>({
         },
         ruleType: {
           type: String,
-          enum: ['DeliveryTime', 'InHouseWaitingTime', 'CourseGap'],
+          enum: ['rider-arrival-time', 'customer-wait-time', 'course-wait-time'],
           required: true
         },
         maxTime: {
