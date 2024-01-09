@@ -21,7 +21,9 @@ export class PageContainerComponent implements OnInit {
       if(event instanceof NavigationStart) {
         this.currentPath=event.url
       }
-    })
+    });
+
+    this.api.getUser().subscribe(data => console.log(data));
   }
   parseName (path: string) {
     return path.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "../config";
+import { IUser } from "../interfaces/user.interface";
 
 export async function getTokenFromCode (code: string) {
   try {
@@ -11,11 +12,11 @@ export async function getTokenFromCode (code: string) {
 }
 
 
-export async function verifyToken (token: string) {
+export async function getUserFromToken (token: string) {
   try {
-    const res = await axios.post<{ auth: boolean }>(config.SKELETON_BE_URL + '/service-auth/verify', {}, { headers: { 'Authorization': token }});
+    const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
-    throw new Error("Error verifying user token.");
+    throw new Error("Error getting user from token.")
   }
-}
+} 

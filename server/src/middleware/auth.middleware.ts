@@ -1,13 +1,15 @@
-import { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../services/skeleton.service";
+import { NextFunction, Response } from "express";
+import { getUserFromToken } from "../services/skeleton.service";
+import { AuthRequest } from "../interfaces/authRequest.interface";
 
-export async function authMiddleware (req: Request, res: Response, next: NextFunction) {
+export async function authMiddleware (req: AuthRequest, res: Response, next: NextFunction) {
   try {
     const authHeaders = req.headers["authorization"];
     if (!authHeaders) return res.status(401).send({ message: "Unauthorized" });
 
-    const check = await verifyToken(authHeaders);
-    if (check.auth) {
+    const check = await getUserFromToken(authHeaders);
+    if (check) {
+      req.user = check.user
       next();
     } else res.status(403).send({ message: 'Forbidden.' });
   } catch (error) {
