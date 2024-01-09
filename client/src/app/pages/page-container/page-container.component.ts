@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
+import { IUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-page-container',
@@ -16,6 +17,8 @@ export class PageContainerComponent implements OnInit {
 
   }
 
+  user: IUser | undefined;
+
   ngOnInit(): void {
     this.route.events.subscribe(event =>{
       if(event instanceof NavigationStart) {
@@ -23,7 +26,7 @@ export class PageContainerComponent implements OnInit {
       }
     });
 
-    this.api.getUser().subscribe(data => console.log(data));
+    this.api.getUser().subscribe(data => this.user = data.user);
   }
   parseName (path: string) {
     return path.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");

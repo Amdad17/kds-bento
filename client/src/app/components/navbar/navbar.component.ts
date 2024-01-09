@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+
+  @Input() user : IUser | undefined;
 
   logout () {
     localStorage.removeItem('accessToken');
