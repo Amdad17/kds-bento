@@ -1,62 +1,86 @@
-
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-export interface Order {
-  id: number;
-  customerName: string;
-  orderDetails: string;
-  chefName: string;
-  status: string;
-  dragging?: boolean;
-}
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { OrderItemInterface } from '../../interfaces/order.interface';
+import { OrdersService } from '../../services/orders/orders.service';
+import { LoadingService } from '../../services/loading/loading.service';
+import { RuleService } from '../../services/rule/rule.service';
+import { sortOrdersByRules } from '../../utils/sorting.helper';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-display-page',
   templateUrl: './display-page.component.html',
-  styleUrls: ['./display-page.component.css']
+  styleUrls: ['./display-page.component.css'],
 })
 export class DisplayPageComponent implements OnInit {
+  pending: OrderItemInterface[] = [];
+  preparing: OrderItemInterface[] = [];
+  ready: OrderItemInterface[] = [];
+  served: OrderItemInterface[] = [];
 
-  pending: Order[] = [];
-  BeingPreparing: Order[] = [];
-  ReadyToServe: Order[] = [];
-  ServedDelivered: Order[] = [];
+  loading: boolean = false;
 
-  constructor() {}
+  constructor(
+    private orderService: OrdersService,
+    private loadingService: LoadingService,
+    private ruleService: RuleService,
+    private api: ApiService
+    ) {}
 
   ngOnInit(): void {
-    this.pending = [
-      { id: 1, customerName: 'John Doe', orderDetails: '2 x Beef Burger, Add: 1 extra cheese, No: Pickles', chefName: 'Chef A', status: 'Pending' },
-      { id: 2, customerName: 'Jane Doe', orderDetails: '1 x Chicken Sandwich, Add: Tomato, No: Mayo', chefName: 'Chef B', status: 'Pending' },
-    ];
-    this.BeingPreparing = [];
-    this.ReadyToServe = [];
-    this.ServedDelivered = [];
+    this.setOrders(this.orderService.orders);
+    this.loading = this.loadingService.orderLoading;
+    this.loadingService.orderLoadingEvent.subscribe(value => {
+      this.loading = value;
+      if (!value) this.setOrders(this.orderService.orders);
+    })
   }
 
-  onDrop(event: CdkDragDrop<Order[]>, targetList: string) {
+  setOrders(orders: OrderItemInterface[]) {
+    this.pending = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
+    this.preparing = orders.filter((item) => item.status === 'preparing');
+    this.ready = orders.filter((item) => item.status === 'ready');
+    this.served = orders.filter((item) => item.status === 'complete');
+  }
+
+  onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: string) {
+    console.log(event);
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
-      
-      event.container.data[event.currentIndex].status = this.getNewStatus(targetList);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+
+      event.container.data[event.currentIndex].status =
+        this.getNewStatus(targetList);
+
+      console.log(event.container.data[event.currentIndex]);
+      this.api.updateOrderStatus(event.container.data[event.currentIndex], this.getNewStatus(targetList)).subscribe(() => console.log("done"));
     }
   }
 
-  getNewStatus(targetList: string): string {
+  getNewStatus(targetList: string) {
     switch (targetList) {
       case 'BeingPreparing':
-        return 'Preparing';
+        return 'preparing';
       case 'ReadyToServe':
-        return 'Ready';
+        return 'ready';
       case 'ServedDelivered':
-        return 'Delivered';
+        return 'complete';
       default:
-        return 'Pending';
+        return 'pending';
     }
   }
 }

@@ -29,19 +29,31 @@ export class PageContainerComponent implements OnInit {
   user: IUser | undefined;
 
   ngOnInit(): void {
-    this.loadingService.setRuleLoading(true);
     this.route.events.subscribe(event => event instanceof NavigationStart ? this.currentPath=event.url : null);
     this.api.getUser().subscribe(data => this.user = data.user);
+    this.fetchRules();
+    this.fetchOrders();
+  }
+
+  fetchOrders () {
+    this.loadingService.setOrderLoading(true);
+    this.api.getOrders().subscribe(data => {
+      this.ordersService.orders = data;
+      this.loadingService.setOrderLoading(false);
+    })
+  }
+
+  fetchRules () {
+    this.loadingService.setRuleLoading(true);
     this.api.getRules().subscribe(data => {
       this.loadingService.setRuleLoading(false);
       if (data) {
         const { baseRules, overrideRules, efficiency } = data;
         this.rule.setRule({ baseRules, overrideRules, efficiency });
       }
-    });                     
-
-    this.api.getOrders().subscribe(data => this.ordersService.orders = data)
+    }); 
   }
+
   parseName (path: string) {
     return path.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");
   }

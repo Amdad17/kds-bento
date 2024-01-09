@@ -1,4 +1,4 @@
-/* .drag-drop-layout {
+.drag-drop-layout {
   display: flex;
   justify-content: space-around;
   padding: 20px;
@@ -11,7 +11,7 @@
 }
 
 .drop-list {
-  min-height: 150px;
+  min-height: 75dvh;
   padding: 10px;
   background-color: #fff;
   border-radius: 4px;
@@ -29,16 +29,13 @@
 }
 h1 {
   font-size: 36px; 
-  color: #8B4513; 
-  font-family: 'Arial', sans-serif; 
   text-align: center; 
   padding-bottom: 10px; 
 }
 .center-text {
   text-align: center; 
   font-size: 30px;
-  color: #8B4513;
-} */
+}
 
 .container {
   display: flex;

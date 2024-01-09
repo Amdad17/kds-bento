@@ -1,17 +1,22 @@
-<!-- <p>order-card works!</p> -->
-
-
-<!-- order-card.component.html -->
-
 <div class="order-card">
     <div class="order-info">
-      <h2>Order Id #{{ getListIndex() }}</h2>
-      <p><strong>2 x Beef Burger</strong></p>
-      <p>Add: 1 extra cheese</p>
-      <p>No: Pickles</p>
-      <p class="notes">Notes: Please make it spicy</p>
+      <h2>Order ID #{{ order.orderId }}</h2>
+
+      @for (item of order.items; track $index) {
+        <div class="my-5">
+          <p><strong>{{item.itemQuantity}} x {{item.itemName}}</strong></p>
+          @for (option of item.options.add; track $index) {
+            <p class="ml-3">Add: {{option.ingredientName}}</p>
+          }
+  
+          @for (option of item.options.no; track $index) {
+            <p class="ml-3">No: {{option.ingredientName}}</p>
+          }
+          <p class="notes ml-3">Notes: {{item.optionalNotes}}</p>
+        </div>
+      }
+
     </div>
-    <div class="chef-name">{{ getDisplayTitle() }}</div>
-    <button class="status-btn">Started Preparing</button>
+    <button class="status-btn">{{order.status}}</button>
   </div>
   

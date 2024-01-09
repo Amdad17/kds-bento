@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Order } from '../orders/orders.component';
+import { OrderItemInterface } from '../../interfaces/order.interface';
 
 @Component({
   selector: 'app-order-card',
@@ -7,14 +7,15 @@ import { Order } from '../orders/orders.component';
   styleUrls: ['./order-card.component.css']
 })
 export class OrderCardComponent {
-  @Input() order!: Order;
+  @Input() order!: OrderItemInterface;
   @Input() index?: number;
 
+  
   getListIndex() {
     return this.index ? this.index + 1 : null;
   }
-
+  
   getDisplayTitle() {
-    return this.order.toUpperCase();
+    return this.order.orderId;
   }
 }

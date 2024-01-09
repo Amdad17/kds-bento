@@ -32,4 +32,8 @@ export class ApiService {
   getOrders () : Observable<OrderItemInterface[]> {
     return this.http.get<OrderItemInterface[]>(environment.API_URL + '/orders/restaurant');
   }
+
+  updateOrderStatus (order: OrderItemInterface, status: "pending" | "preparing" | "ready" | "complete") : Observable<OrderItemInterface> {
+    return this.http.put<OrderItemInterface>(environment.API_URL + "/orders/status", { orderId: order._id, status });
+  }
 }
