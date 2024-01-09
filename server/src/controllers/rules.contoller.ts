@@ -1,19 +1,26 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { IRules } from '../interfaces/rules.interface';
 import { createRules, findRulesForRestaurant, updateExistingRules } from '../model/rules/rules.query';
+import { AuthRequest } from '../interfaces/authRequest.interface';
+import { IBaseRule } from '../interfaces/baseRule.interface';
+import { IOverrideRule } from '../interfaces/overrideRule.interface';
 ;
 
-export async function setRulesRestaurant(req: Request, res: Response) {
+export async function setRulesRestaurant(req: AuthRequest, res: Response) {
   try {
-    const data: IRules = req.body;
-    const restaurantId: string = req.params.restaurantId;
+    const user = req.user;
+
+    if (!user) return res.status(401).send({ message: 'Unauthorized' });
+
+    const restaurantId = user.employeeInformation.restaurantId;
+    const data: { baseRules: IBaseRule[], overrideRules: IOverrideRule[], efficiency: boolean } = req.body;
     const rules = await findRulesForRestaurant(restaurantId)
     if(rules){
-      const updatedRules = await updateExistingRules(rules.id, data)
+      const updatedRules = await updateExistingRules(rules.id, { ...data, restaurantId })
       res.status(200).send({ rules: updatedRules})
     }
     else{
-      const newRules = await createRules(data);
+      const newRules = await createRules({ ...data, restaurantId });
       res.status(201).send({ rules: newRules});
       
     }
@@ -23,9 +30,12 @@ export async function setRulesRestaurant(req: Request, res: Response) {
   }
 }
 
-export async function getRulesForRestaurant(req: Request, res: Response) {
+export async function getRulesForRestaurant(req: AuthRequest, res: Response) {
   try {
-    const restaurantId: string = req.params.restaurantId;
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: 'Unauthorized' });
+
+    const restaurantId = user.employeeInformation.restaurantId;
     const rules = await findRulesForRestaurant(restaurantId);
     res.status(200).json(rules);
   } catch (error) {

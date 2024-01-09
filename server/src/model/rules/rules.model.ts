@@ -3,7 +3,7 @@ import { IRules } from '../../interfaces/rules.interface';
 
 const ruleSchema = new Schema<IRules>({
   restaurantId: {
-    type: String,
+    type: Number,
     required: true
   },
   efficiency: {

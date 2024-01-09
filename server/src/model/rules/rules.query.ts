@@ -13,7 +13,7 @@ export async function createRules (data: IRules) {
 }
 
 
-export async function findRulesForRestaurant (restaurantId: string) {
+export async function findRulesForRestaurant (restaurantId: number) {
   try {
     const rules = await Rules.findOne({ restaurantId });
     return rules;
