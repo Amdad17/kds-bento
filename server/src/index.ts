@@ -14,7 +14,7 @@ app.use(cors(
         exposedHeaders: ['Authorization']
     }));
     
-app.use(express.json())
+app.use(express.json());
 app.use('/auth',authrouter);
 app.use('/orders', orderRouter);
 app.use(authMiddleware);

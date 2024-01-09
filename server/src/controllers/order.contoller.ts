@@ -7,6 +7,7 @@ export async function createOrder(req: Request, res: Response) {
   try {
     const data = req.body;
     data.createdAt = new Date();
+    data.status = "pending";
     const newOrder = await Orders.create(data);
     res.status(201).json(newOrder);
   } catch (error) {
