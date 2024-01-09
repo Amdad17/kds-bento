@@ -31,6 +31,7 @@ import { OverrideRuleComponent } from './components/override-rule/override-rule.
 import { BaseOptionCardComponent } from './components/base-option-card/base-option-card.component';
 import { OverrideOptionCardComponent } from './components/override-option-card/override-option-card.component';
 import { FilterOrdersPipe } from './components/filter/filter.order';
+import { OrderCardComponent } from './components/order-card/order-card.component';
 
 registerLocaleData(en);
 
@@ -49,6 +50,7 @@ registerLocaleData(en);
     BaseOptionCardComponent,
     OverrideOptionCardComponent,
     FilterOrdersPipe,
+    OrderCardComponent,
   ],
   imports: [
     BrowserModule,

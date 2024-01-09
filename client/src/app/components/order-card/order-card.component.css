@@ -1,0 +1,43 @@
+/* order-card.component.css */
+
+.order-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px;
+    padding: 15px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+  }
+  
+  .order-info {
+    border-left: 4px solid #000;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .chef-name {
+    align-self: flex-end;
+    background-color: #6a329f;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+  }
+  
+  .notes {
+    font-style: italic;
+  }
+  
+  .status-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

@@ -1,31 +1,36 @@
 
+
 <h1>Kitchen Display</h1>
 <div class="drag-drop-layout">
+ 
   <div class="drag-drop-column">
-    <h3>Pending Orders</h3>
-    <div cdkDropList [cdkDropListData]="pendingOrders" class="drop-list" cdkDropListSortingDisabled>
-      <div class="drop-item" *ngFor="let orderType of pendingOrders" cdkDrag>{{ orderType }}</div>
+    <h3 class="center-text">Pending Orders</h3>
+    <div cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending" [cdkDropListConnectedTo]="['beingPreparingList']" class="drop-list" (cdkDropListDropped)="onDrop($event, 'BeingPreparing')">
+      <app-order-card *ngFor="let order of pending order" cdkDrag></app-order-card>
     </div>
   </div>
+
+  
   <div class="drag-drop-column">
-    <h3>Being Preparing</h3>
-    <div cdkDropList class="drop-list" cdkDropListSortingDisabled>
+    <h3 class="center-text">Being Preparing</h3>
+    <div cdkDropList #beingPreparingList="cdkDropList" [cdkDropListData]="BeingPreparing" [cdkDropListConnectedTo]="['pendingList', 'readyToServeList']" class="drop-list" (cdkDropListDropped)="onDrop($event, 'ReadyToServe')">
+      <app-order-card *ngFor="let order of BeingPreparing order" cdkDrag></app-order-card>
     </div>
   </div>
+
+  
   <div class="drag-drop-column">
-    <h3>Ready to Serve</h3>
-    <div cdkDropList #possibleOverridesList="cdkDropList" [cdkDropListData]="BeingPreparing" [cdkDropListConnectedTo]="['BeingPreparingdesList']" (cdkDropListDropped)="onDrop($event)" class="drop-list">
-      <div class="drop-item" *ngFor="let override of BeingPreparing" cdkDrag>{{ override }}</div>
+    <h3 class="center-text">Ready To Serve</h3>
+    <div cdkDropList #readyToServeList="cdkDropList" [cdkDropListData]="ReadyToServe" [cdkDropListConnectedTo]="['beingPreparingList', 'servedDeliveredList']" class="drop-list" (cdkDropListDropped)="onDrop($event, 'ServedDelivered')">
+      <app-order-card *ngFor="let order of ReadyToServe order" cdkDrag></app-order-card>
     </div>
   </div>
+
+  
   <div class="drag-drop-column">
-    <h3>Delivered</h3>
-    <div cdkDropList #ReadyToServedesList="cdkDropList" [cdkDropListData]="ReadyToServe" (cdkDropListDropped)="onDrop($event)" class="drop-list">
-      <div class="drop-item" *ngFor="let ReadyToServe of ReadyToServe" cdkDrag>{{ReadyToServe}}</div>
+    <h3 class="center-text">Served/Delivered</h3>
+    <div cdkDropList #servedDeliveredList="cdkDropList" [cdkDropListData]="ServedDelivered" [cdkDropListConnectedTo]="['readyToServeList']" class="drop-list" (cdkDropListDropped)="onDrop($event, 'ServedDelivered')">
+      <app-order-card *ngFor="let order of ServedDelivered order" cdkDrag></app-order-card>
     </div>
   </div>
 </div>
-
-
-
-

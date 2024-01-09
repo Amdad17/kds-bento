@@ -1,4 +1,4 @@
-.drag-drop-layout {
+/* .drag-drop-layout {
   display: flex;
   justify-content: space-around;
   padding: 20px;
@@ -27,5 +27,30 @@
   border-radius: 4px;
   cursor: grab;
 }
+h1 {
+  font-size: 36px; 
+  color: #8B4513; 
+  font-family: 'Arial', sans-serif; 
+  text-align: center; 
+  padding-bottom: 10px; 
+}
+.center-text {
+  text-align: center; 
+  font-size: 30px;
+  color: #8B4513;
+} */
 
+.container {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
 
+.list {
+  width: 24%;
+  min-height: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
