@@ -1,85 +1,148 @@
-import { Request, Response } from 'express';
-import Orders from '../model/orders/order.model';
+import { Request, Response } from "express";
+import Orders from "../model/orders/order.model";
+import { AuthRequest } from "../interfaces/authRequest.interface";
+import { getDataFromStatus } from "../utils/status.helper";
 
 export async function createOrder(req: Request, res: Response) {
   try {
     const data = req.body;
-    data.createdAt = new Date()
+    data.createdAt = new Date();
     const newOrder = await Orders.create(data);
     res.status(201).json(newOrder);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error in creating a new order.' });
+    res.status(500).json({ error: "Error in creating a new order." });
   }
 }
 
-export async function findOrderById(req: Request, res: Response) {
+export async function findOrderById(req: AuthRequest, res: Response) {
   try {
-    const orderId = (req.params.orderId, 10);
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
+
+    const orderId = parseInt(req.params.orderId, 10);
     const order = await Orders.findOne({ orderId });
 
     if (!order) {
-      return res.status(404).json({ error: 'Order not found.' });
-    }
-
-    res.status(200).json(order);
+      return res.status(404).json({ error: "Order not found." });
+    } else if (order.restaurantId !== user.employeeInformation.restaurantId) {
+      return res.status(403).json({ error: "Order not from your restaurant." });
+    } else res.status(200).json(order);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error in finding an order by ID.' });
+    res.status(500).json({ error: "Error in finding an order by ID." });
   }
 }
 
-export async function updateOrderById(req: Request, res: Response) {
+export async function updateOrderById(req: AuthRequest, res: Response) {
   try {
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
     const orderId = parseInt(req.params.orderId, 10);
     const data = req.body;
-    const updatedOrder = await Orders.findOneAndUpdate({ orderId }, { $set: data }, { new: true });
 
-    if (!updatedOrder) {
-      return res.status(404).json({ error: 'Order not found.' });
+    const order = await Orders.findOne({ orderId });
+
+    if (!order) return res.status(404).json({ error: "Order not found." });
+    else if (order.restaurantId !== user.employeeInformation.restaurantId)
+      return res.status(403).json({ error: "Order not from your restaurant." });
+    else {
+      const updatedOrder = await Orders.findByIdAndUpdate(
+        order._id,
+        { $set: data },
+        { new: true }
+      );
+      res.status(200).json(updatedOrder);
     }
-
-    res.status(200).json(updatedOrder);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error in updating an order record by ID.' });
+    res.status(500).json({ error: "Error in updating an order record by ID." });
   }
 }
 
-export async function deleteOrderById(req: Request, res: Response) {
+export async function deleteOrderById(req: AuthRequest, res: Response) {
   try {
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
     const orderId = parseInt(req.params.orderId, 10);
-    const deletedOrder = await Orders.findOneAndDelete({ orderId });
 
-    if (!deletedOrder) {
-      return res.status(404).json({ error: 'Order not found.' });
+    const order = await Orders.findOne({ orderId });
+
+    if (!order) return res.status(404).json({ error: "Order not found." });
+    else if (order.restaurantId !== user.employeeInformation.restaurantId)
+      return res.status(403).json({ error: "Order not from your restaurant." });
+    else {
+      const deletedOrder = await Orders.findByIdAndDelete(order._id);
+      res.status(200).json(deletedOrder);
     }
-
-    res.status(200).json(deletedOrder);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error in deleting an order record by ID.' });
+    res.status(500).json({ error: "Error in deleting an order record by ID." });
   }
 }
 
-export async function findOrdersByRestaurantId(req: Request, res: Response) {
+export async function findOrdersByRestaurantId(
+  req: AuthRequest,
+  res: Response
+) {
   try {
-    const restaurantId = parseInt(req.params.restaurantId, 10);
-    const orders = await Orders.find({ restaurantId });
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
+
+    const orders = await Orders.find({
+      restaurantId: user.employeeInformation.restaurantId,
+    });
     res.status(200).json(orders);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error in finding orders by restaurantId.' });
+    res.status(500).json({ error: "Error in finding orders by restaurantId." });
   }
 }
 
-export async function findOrdersByOrderType(req: Request, res: Response) {
+export async function findOrdersByOrderType(req: AuthRequest, res: Response) {
   try {
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
+
     const orderType = req.params.orderType;
-    const orders = await Orders.find({ orderType });
+    const orders = await Orders.find({
+      orderType,
+      restaurantId: user.employeeInformation.restaurantId,
+    });
     res.status(200).json(orders);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error in finding orders by orderType.' });
+    res.status(500).json({ error: "Error in finding orders by orderType." });
+  }
+}
+
+export async function changeOrderStatus(req: AuthRequest, res: Response) {
+  try {
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
+
+    const { orderId, status } = req.body;
+
+    if (
+      isNaN(orderId) ||
+      status !== "preparing" ||
+      status !== "ready" ||
+      status !== "complete"
+    )
+      return res.status(400).send({ message: "Invalid fields." });
+
+    const order = await Orders.findOne({ orderId });
+
+    if (!order) return res.status(404).json({ error: "Order not found." });
+    else if (order.restaurantId !== user.employeeInformation.restaurantId)
+      return res.status(403).json({ error: "Order not from your restaurant." });
+    else {
+      const newData = getDataFromStatus(status);
+      const updatedOrder = await Orders.findByIdAndUpdate(order._id, { $set: newData }, { new: true });
+      res.status(200).json(updatedOrder);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error in finding orders by orderType." });
   }
 }

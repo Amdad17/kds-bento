@@ -13,7 +13,12 @@ const orderItemSchema = new Schema<OrderItemInterface>({
     createdAt: { type: Date, required: true },
     preparingTimestamp: { type: Date },
     readyTimestamp: { type: Date },
-    servedTimestamp: { type: Date }
+    servedTimestamp: { type: Date },
+    status: {
+      type: String,
+      required: true,
+      enum: ["pending", "preparing", "ready", "complete"]
+    }
   })
   const Orders = model('orders', orderItemSchema );
 

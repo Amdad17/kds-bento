@@ -3,6 +3,8 @@ import { NavigationStart, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
 import { IUser } from '../../interfaces/user.interface';
 import { RuleService } from '../../services/rule/rule.service';
+import { LoadingService } from '../../services/loading/loading.service';
+import { OrdersService } from '../../services/orders/orders.service';
 
 @Component({
   selector: 'app-page-container',
@@ -17,7 +19,9 @@ export class PageContainerComponent implements OnInit {
   constructor(
     private route:Router, 
     private api: ApiService,
-    private rule: RuleService
+    private rule: RuleService,
+    private ordersService: OrdersService,
+    private loadingService: LoadingService
     ){
 
   }
@@ -25,18 +29,18 @@ export class PageContainerComponent implements OnInit {
   user: IUser | undefined;
 
   ngOnInit(): void {
-    this.route.events.subscribe(event =>{
-      if(event instanceof NavigationStart) {
-        this.currentPath=event.url
-      }
-    });
-
+    this.loadingService.setRuleLoading(true);
+    this.route.events.subscribe(event => event instanceof NavigationStart ? this.currentPath=event.url : null);
     this.api.getUser().subscribe(data => this.user = data.user);
-
     this.api.getRules().subscribe(data => {
-      if (data) 
-        this.rule.setRule({ baseRules: data.baseRules, overrideRules: data.overrideRules, efficiency: data.efficiency });
-    });
+      this.loadingService.setRuleLoading(false);
+      if (data) {
+        const { baseRules, overrideRules, efficiency } = data;
+        this.rule.setRule({ baseRules, overrideRules, efficiency });
+      }
+    });                     
+
+    this.api.getOrders().subscribe(data => this.ordersService.orders = data)
   }
   parseName (path: string) {
     return path.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");

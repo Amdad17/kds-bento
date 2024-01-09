@@ -1,11 +1,13 @@
-<div class="flex flex-col items-center rules">
-  <h1>Rule Setter</h1>
-  <div class="flex">
-    <app-base-rule class="half" [selected]="baseRules" [selectedEfficiency]="efficiency" (baseRuleChange)="handleNewBaseRules($event)" (efficiencyChange)="handleEfficiency($event)" ></app-base-rule>
-    <app-override-rule class="half" [selected]="overrideRules" (newOverrideRules)="handleNewOverrideRules($event)" ></app-override-rule>
+<nz-spin [nzSpinning]="pageLoading" nzTip="Getting rules...">
+  <div class="flex flex-col items-center rules">
+    <h1>Rule Setter</h1>
+    <div class="flex">
+      <app-base-rule class="half" [selected]="baseRules" [selectedEfficiency]="efficiency" (baseRuleChange)="handleNewBaseRules($event)" (efficiencyChange)="handleEfficiency($event)" ></app-base-rule>
+      <app-override-rule class="half" [selected]="overrideRules" (newOverrideRules)="handleNewOverrideRules($event)" ></app-override-rule>
+    </div>
+  
+    <div class="button-container">
+      <button nz-button [nzLoading]="loading" nzSize="large" nzType="primary" [disabled]="!checkRules()" (click)="handleSubmit()">Save</button>
+    </div>
   </div>
-
-  <div class="button-container">
-    <button nz-button [nzLoading]="loading" nzSize="large" nzType="primary" [disabled]="!checkRules()" (click)="handleSubmit()">Save</button>
-  </div>
-</div>
+</nz-spin>

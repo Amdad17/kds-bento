@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { IUser } from '../../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import { IRules } from '../../interfaces/rules.interface';
+import { OrderItemInterface } from '../../interfaces/order.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,9 @@ export class ApiService {
 
   setRules (rules: IRules) : Observable<{rules: (IRules & { restaurantId: string })}> {
     return this.http.post<{ rules: (IRules & { restaurantId: string })}>(environment.API_URL + '/rules/add', rules);
+  }
+
+  getOrders () : Observable<OrderItemInterface[]> {
+    return this.http.get<OrderItemInterface[]>(environment.API_URL + '/orders/restaurant');
   }
 }

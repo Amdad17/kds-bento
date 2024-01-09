@@ -11,6 +11,7 @@ export interface OrderItemInterface {
     tableId: number;
     deliveryServiceArriveTime?: number;
     items: ItemInterface[];
+    status: "pending" | "preparing" | "ready" | "complete";
     createdAt: Date;
     preparingTimestamp?: Date;
     readyTimestamp?: Date;
