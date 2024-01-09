@@ -29,6 +29,7 @@ export class PageContainerComponent implements OnInit {
   user: IUser | undefined;
 
   ngOnInit(): void {
+    this.currentPath = this.route.routerState.snapshot.url;
     this.route.events.subscribe(event => event instanceof NavigationStart ? this.currentPath=event.url : null);
     this.api.getUser().subscribe(data => this.user = data.user);
     this.fetchRules();
