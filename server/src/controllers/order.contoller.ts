@@ -123,16 +123,18 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
     if (!user) return res.status(401).send({ message: "Unauthorized." });
 
     const { orderId, status } = req.body;
+    console.log({ orderId, status })
 
     if (
-      isNaN(orderId) ||
-      status !== "preparing" ||
-      status !== "ready" ||
-      status !== "complete"
+      !orderId ||
+      (status !== "pending" &&
+      status !== "preparing" &&
+      status !== "ready" &&
+      status !== "complete")
     )
       return res.status(400).send({ message: "Invalid fields." });
 
-    const order = await Orders.findOne({ orderId });
+    const order = await Orders.findById(orderId);
 
     if (!order) return res.status(404).json({ error: "Order not found." });
     else if (order.restaurantId !== user.employeeInformation.restaurantId)
@@ -144,6 +146,6 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error in finding orders by orderType." });
+    res.status(500).json({ error: "Error in updating order status." });
   }
 }

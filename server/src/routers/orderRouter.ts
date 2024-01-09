@@ -8,7 +8,7 @@ const orderrouter = express.Router();
 orderrouter.post('/create', createOrder);
 orderrouter.get('/id/:orderId', authMiddleware, findOrderById);
 orderrouter.put('/id/:orderId', authMiddleware, updateOrderById);
-orderrouter.put('/status/', authMiddleware, changeOrderStatus);
+orderrouter.put('/status', authMiddleware, changeOrderStatus);
 orderrouter.delete('/id/:orderId', authMiddleware, deleteOrderById);
 orderrouter.get('/restaurant', authMiddleware, findOrdersByRestaurantId);
 orderrouter.get('/type/:orderType', authMiddleware, findOrdersByOrderType);
