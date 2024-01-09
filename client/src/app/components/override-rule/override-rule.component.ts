@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IOverrideRule } from '../../interfaces/overrideRule.interface';
 
 @Component({
@@ -7,11 +7,14 @@ import { IOverrideRule } from '../../interfaces/overrideRule.interface';
   templateUrl: './override-rule.component.html',
   styleUrl: './override-rule.component.css'
 })
-export class OverrideRuleComponent implements OnInit {
-
+export class OverrideRuleComponent implements OnInit, OnChanges {
+  
   ngOnInit(): void {
-    this.selectedOverrides = this.selected;
-    this.possibleOverrides = this.possibleOverrides.filter(item => this.selected.findIndex(override => override.ruleType === item.ruleType) === -1);
+    this.setOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setOptions();
   }
 
   @Input() selected! : IOverrideRule[];
@@ -38,5 +41,10 @@ export class OverrideRuleComponent implements OnInit {
 
   emitNewOverrideRules () {
     this.newOverrideRules.emit(this.selectedOverrides);
+  }
+
+  setOptions () {
+    this.selectedOverrides = this.selected;
+    this.possibleOverrides = this.possibleOverrides.filter(item => this.selected.findIndex(override => override.ruleType === item.ruleType) === -1);
   }
 }

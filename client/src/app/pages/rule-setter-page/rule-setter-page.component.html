@@ -6,6 +6,6 @@
   </div>
 
   <div class="button-container">
-    <button nz-button nzSize="large" nzType="primary" [disabled]="!checkRules()" (click)="handleSubmit()">Save</button>
+    <button nz-button [nzLoading]="loading" nzSize="large" nzType="primary" [disabled]="!checkRules()" (click)="handleSubmit()">Save</button>
   </div>
 </div>

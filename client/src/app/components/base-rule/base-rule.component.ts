@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IBaseRule } from '../../interfaces/baseRule.interface';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -7,17 +7,19 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   templateUrl: './base-rule.component.html',
   styleUrl: './base-rule.component.css'
 })
-export class BaseRuleComponent implements OnInit {
+export class BaseRuleComponent implements OnInit, OnChanges {
   ngOnInit(): void {
-    this.selectedOptions = this.selected.filter(item => item.priority > 0).map(item => item.ruleType);
-    this.availableOptions = this.selected.length ? this.selected.filter(item => item.priority === 0).map(item => item.ruleType) : ["vip", "delivery", "in-House"];
-    this.efficiency = this.selectedEfficiency;
+    this.setOptions();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setOptions();
   }
 
   @Input() selected! : IBaseRule[];
   @Input() selectedEfficiency! : boolean;
 
-  availableOptions : string[] = ["vip", "delivery", "in-House"];
+  availableOptions : string[] = ["vip", "delivery", "in-house"];
   selectedOptions : string[] = [];
   efficiency : boolean = false;
 
@@ -49,6 +51,12 @@ export class BaseRuleComponent implements OnInit {
 
   emitEfficiencyChange (event: boolean) {
     this.efficiencyChange.emit(event);
+  }
+
+  setOptions () {
+    this.selectedOptions = this.selected.filter(item => item.priority > 0).map(item => item.ruleType);
+    this.availableOptions = this.selected.length ? this.selected.filter(item => item.priority === 0).map(item => item.ruleType) : ["vip", "delivery", "in-house"];
+    this.efficiency = this.selectedEfficiency;
   }
 
 }

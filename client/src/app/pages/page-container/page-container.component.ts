@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ApiService } from '../../services/api/api.service';
 import { IUser } from '../../interfaces/user.interface';
+import { RuleService } from '../../services/rule/rule.service';
 
 @Component({
   selector: 'app-page-container',
@@ -13,7 +14,11 @@ export class PageContainerComponent implements OnInit {
   paths = ['dashboard','display','rule-setter'];
   currentPath:string = '/dashboard'
 
-  constructor(private route:Router, private api: ApiService){
+  constructor(
+    private route:Router, 
+    private api: ApiService,
+    private rule: RuleService
+    ){
 
   }
 
@@ -27,6 +32,11 @@ export class PageContainerComponent implements OnInit {
     });
 
     this.api.getUser().subscribe(data => this.user = data.user);
+
+    this.api.getRules().subscribe(data => {
+      if (data) 
+        this.rule.setRule({ baseRules: data.baseRules, overrideRules: data.overrideRules, efficiency: data.efficiency });
+    });
   }
   parseName (path: string) {
     return path.split("-").map(word => word[0].toUpperCase() + word.slice(1)).join(" ");

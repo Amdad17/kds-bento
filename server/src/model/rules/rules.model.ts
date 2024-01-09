@@ -15,7 +15,7 @@ const ruleSchema = new Schema<IRules>({
     type: [{
       ruleType: {
         type: String,
-        enum: ['vip', 'delivery',' in-house'],
+        enum: ['vip', 'delivery', 'in-house'],
         required: true
       },
       priority: {
