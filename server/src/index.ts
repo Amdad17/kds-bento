@@ -16,9 +16,8 @@ app.use(cors(
     
 app.use(express.json())
 app.use('/auth',authrouter);
-
+app.use('/orders', orderRouter);
 app.use(authMiddleware);
-app.use('/order', orderRouter);
 app.use('/rules', rulerouter);
 
 async function main (){
