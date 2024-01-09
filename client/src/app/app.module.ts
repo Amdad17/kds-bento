@@ -6,6 +6,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -63,7 +64,8 @@ registerLocaleData(en);
     NzMessageModule,
     NzMenuModule,
     NzSwitchModule,
-    NzInputNumberModule
+    NzInputNumberModule,
+    NzSpinModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

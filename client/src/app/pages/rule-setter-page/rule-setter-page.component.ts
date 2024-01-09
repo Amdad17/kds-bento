@@ -4,6 +4,8 @@ import { IOverrideRule } from '../../interfaces/overrideRule.interface';
 import { RuleService } from '../../services/rule/rule.service';
 import { ApiService } from '../../services/api/api.service';
 import { ToastMessageService } from '../../services/toast-message/toast-message.service';
+import { IRules } from '../../interfaces/rules.interface';
+import { LoadingService } from '../../services/loading/loading.service';
 
 @Component({
   selector: 'app-rule-setter-page',
@@ -12,25 +14,25 @@ import { ToastMessageService } from '../../services/toast-message/toast-message.
 })
 export class RuleSetterPageComponent implements OnInit {
 
-  constructor (private ruleService: RuleService, private api: ApiService, private toast: ToastMessageService) {}
+  constructor (
+    private ruleService: RuleService, 
+    private api: ApiService, 
+    private toast: ToastMessageService,
+    private loadingService: LoadingService
+    ) {}
 
   baseRules : IBaseRule[] = [];
   overrideRules : IOverrideRule[] = [];
   efficiency : boolean = false;
   loading : boolean = false;
+  pageLoading: boolean = false;
 
   ngOnInit(): void {
-    this.baseRules = this.ruleService.rule.baseRules.length ? this.ruleService.rule.baseRules : [];
-    this.overrideRules = this.ruleService.rule.overrideRules.length ? this.ruleService.rule.overrideRules : [];
-    this.efficiency = this.ruleService.rule.efficiency;
-
-    this.ruleService.ruleEvent.subscribe((rule) => {
-      this.baseRules = rule.baseRules;
-      this.overrideRules = rule.overrideRules.length ? rule.overrideRules : [];
-      this.efficiency = rule.efficiency;
-    })
+    this.pageLoading = this.loadingService.ruleLoading;
+    this.setSelectedRules(this.ruleService.rule);
+    this.ruleService.ruleEvent.subscribe((rule) => this.setSelectedRules(rule));
+    this.loadingService.ruleLoadingEvent.subscribe(value => this.pageLoading = value);
   }
-
 
   handleNewBaseRules (rules : IBaseRule[]) {
     this.baseRules = rules;
@@ -60,6 +62,11 @@ export class RuleSetterPageComponent implements OnInit {
     });
   }
 
+  setSelectedRules (rules: IRules) {
+    this.baseRules = rules.baseRules.length ? rules.baseRules : [];
+    this.overrideRules = rules.overrideRules.length ? rules.overrideRules : [];
+    this.efficiency = rules.efficiency;
+  }
 
   checkRules () {
     const flag = this.overrideRules.reduce((flag, rule) => rule.maxTime <= 0 ? false : flag, true);
