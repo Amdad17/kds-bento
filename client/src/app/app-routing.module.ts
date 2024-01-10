@@ -9,7 +9,7 @@ import { authGuard } from './guards/auth/auth.guard';
 
 const routes: Routes = [
   { path: 'auth-redirect', component: AuthRedirectPageComponent },
-  { path: '', component: PageContainerComponent, canActivate: [authGuard], children: [
+  { path: '', component: PageContainerComponent, canActivate: [], children: [
     { path: 'dashboard', component: DashboardPageComponent },
     { path: 'display', component: DisplayPageComponent },
     { path: 'rule-setter', component: RuleSetterPageComponent },

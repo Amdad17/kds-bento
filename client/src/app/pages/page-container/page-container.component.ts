@@ -5,6 +5,7 @@ import { IUser } from '../../interfaces/user.interface';
 import { RuleService } from '../../services/rule/rule.service';
 import { LoadingService } from '../../services/loading/loading.service';
 import { OrdersService } from '../../services/orders/orders.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-page-container',
@@ -21,7 +22,8 @@ export class PageContainerComponent implements OnInit {
     private api: ApiService,
     private rule: RuleService,
     private ordersService: OrdersService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private socket: Socket
     ){
 
   }
@@ -31,7 +33,11 @@ export class PageContainerComponent implements OnInit {
   ngOnInit(): void {
     this.currentPath = this.route.routerState.snapshot.url;
     this.route.events.subscribe(event => event instanceof NavigationStart ? this.currentPath=event.url : null);
-    this.api.getUser().subscribe(data => this.user = data.user);
+    this.api.getUser().subscribe(data => {
+      this.user = data.user;
+      this.socket.connect();
+      this.socket.emit('join', { restaurantId: data.user.employeeInformation.restaurantId});
+    });
     this.fetchRules();
     this.fetchOrders();
   }

@@ -9,6 +9,11 @@ export async function createOrder(req: Request, res: Response) {
     data.createdAt = new Date();
     data.status = "pending";
     const newOrder = await Orders.create(data);
+
+    // Emit new order with Socket IO.
+    const io = res.locals.io;
+    io.to(newOrder.restaurantId.toString()).emit('new-order', newOrder);
+
     res.status(201).json(newOrder);
   } catch (error) {
     console.error(error);
