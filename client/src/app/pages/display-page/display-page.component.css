@@ -14,7 +14,7 @@ h1 {
 
 .drag-drop-column {
   width: 23%;
-  background:green;
+  background: #038851;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -92,7 +92,7 @@ app-order-card:hover {
   font-weight: bold; 
 }
 
-app-order-card {
+/* app-order-card {
   background-color: #fff;
   border: 1px solid #ddd; 
   border-radius: 4px; 
@@ -101,11 +101,11 @@ app-order-card {
   padding: 10px; 
   cursor: pointer; 
   position: relative; 
-}
+} */
 app-order-card .status-bar {
   height: 4px; 
   width: 100%; 
-  background-color: #4CAF50; 
+  background-color: #038851; 
   position: absolute; 
   top: 0; 
   left: 0; 
