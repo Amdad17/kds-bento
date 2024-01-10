@@ -1,1 +1,41 @@
-<p>dashboard-page works!</p>
+
+<h1>Current Day Stats</h1>
+
+<div class="stats-container">
+  <div class="stat-item">
+    <i class="fas fa-clipboard-list stat-icon"></i> 
+    <div class="label">Total Orders</div>
+    <div class="value">{{ totalOrders }}</div>
+  </div>
+
+  <div class="stat-item">
+    <i class="fas fa-hourglass-half stat-icon"></i> 
+    <div class="label">Pending Orders</div>
+    <div class="value">{{ pendingOrders }}</div>
+  </div>
+
+  <div class="stat-item">
+    <i class="fas fa-utensils stat-icon"></i> 
+    <div class="label">Orders Being Prepared</div>
+    <div class="value">{{ preparingOrders }}</div>
+  </div>
+
+  <div class="stat-item">
+    <i class="fas fa-concierge-bell stat-icon"></i> 
+    <div class="label">Orders Served</div>
+    <div class="value">{{ servedOrders }}</div>
+  </div>
+
+  <div class="stat-item">
+    <i class="fas fa-clock stat-icon"></i> 
+    <div class="label">Served On Time</div>
+    <div class="value">{{ servedOnTime }}</div>
+  </div>
+
+  <div class="stat-item">
+    <div class="label">Served Out of Time</div>
+    <i class="fas fa-history stat-icon"></i>
+    <div class="value">{{ servedOutOfTime }}</div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">

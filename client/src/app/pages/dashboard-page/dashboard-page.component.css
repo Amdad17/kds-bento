@@ -1,0 +1,43 @@
+h1 {
+  text-align: center;
+  color: black;
+  margin-bottom: 20px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  color: green;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: bold;
+  color: green;
+}
+
+.value {
+  font-size: 20px;
+  color: black;
+  align-self: flex-end; 
+  margin-left: auto;
+}
+
+.stat-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 24px;
+}

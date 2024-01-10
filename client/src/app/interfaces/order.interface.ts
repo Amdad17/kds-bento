@@ -2,6 +2,7 @@ import { CategoriesInterface } from "./categories.interface";
 import { ItemInterface } from "./item.interface";
 
 export interface OrderItemInterface {
+    deliveryTimestamp: string | number | Date;
     _id: string;
     restaurantId: number;
     orderId: number;
