@@ -38,17 +38,6 @@ h1 {
   overflow-y: auto;
 }
 
-/* app-order-card {
-  width: 100%;
-  margin-bottom: 15px;
-  cursor: grab;
-  color:red;;
-}
-
-app-order-card:hover {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  color:#800080;
-} */
 
 .loading-overlay {
   position: fixed;
@@ -65,34 +54,7 @@ app-order-card:hover {
   font-size: 1.5rem;
 }
 
-.cdk-drag-placeholder {
-  opacity: 0;
-}
-
-.cdk-drag-preview {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color:#808000;
-}
-
-.cdk-drag-animating {
-  transition: transform 0.3s ease-out;
-}
-
-.center-text {
-  text-align: center; 
-  color:white;
-  font-size: 1.5em; 
-  margin-top: 20px; 
-  margin-bottom: 20px; 
-  padding-bottom: 10px; 
-  border-bottom: 2px solid #4CAF50;
-  width: 80%; 
-  margin-left: auto; 
-  margin-right: auto; 
-  font-weight: bold; 
-}
-
-/* app-order-card {
+app-order-card {
   background-color: #fff;
   border: 1px solid #ddd; 
   border-radius: 4px; 
@@ -134,3 +96,32 @@ app-order-card button {
 app-order-card button:hover {
   background-color: #9C27B0; 
 }
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color:#808000;
+}
+
+.cdk-drag-animating {
+  transition: transform 0.3s ease-out;
+}
+
+.center-text {
+  text-align: center; 
+  color:white;
+  font-size: 1.5em; 
+  margin-top: 20px; 
+  margin-bottom: 20px; 
+  padding-bottom: 10px; 
+  border-bottom: 2px solid #4CAF50;
+  width: 80%; 
+  margin-left: auto; 
+  margin-right: auto; 
+  font-weight: bold; 
+}
+
+
