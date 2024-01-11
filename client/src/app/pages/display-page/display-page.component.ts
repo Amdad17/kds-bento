@@ -10,7 +10,6 @@ import { LoadingService } from '../../services/loading/loading.service';
 import { RuleService } from '../../services/rule/rule.service';
 import { sortOrdersByRules } from '../../utils/sorting.helper';
 import { ApiService } from '../../services/api/api.service';
-import { SocketService } from '../../services/socket/socket.service';
 
 @Component({
   selector: 'app-display-page',
@@ -29,8 +28,7 @@ export class DisplayPageComponent implements OnInit {
     private orderService: OrdersService,
     private loadingService: LoadingService,
     private ruleService: RuleService,
-    private api: ApiService,
-    private socket: SocketService
+    private api: ApiService
     ) {}
 
   ngOnInit(): void {
@@ -41,10 +39,13 @@ export class DisplayPageComponent implements OnInit {
       if (!value) this.setOrders(this.orderService.orders);
     })
 
-    this.socket.getNewOrder().subscribe(data => {
+    this.orderService.newOrder.subscribe(data => {
       this.pending = sortOrdersByRules([...this.pending, data], this.ruleService.rule);
-      this.orderService.emitNewOrder(data);
-    })
+    });
+
+    setInterval(() => {
+      this.pending = sortOrdersByRules(this.pending, this.ruleService.rule);
+    }, 1000 * 60);
   }
 
   setOrders(orders: OrderItemInterface[]) {
@@ -54,8 +55,7 @@ export class DisplayPageComponent implements OnInit {
     this.served = orders.filter((item) => item.status === 'complete');
   }
 
-  onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: string) {
-    console.log(event);
+  onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready" | "complete") {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -70,24 +70,11 @@ export class DisplayPageComponent implements OnInit {
         event.currentIndex
       );
 
-      event.container.data[event.currentIndex].status =
-        this.getNewStatus(targetList);
+      event.container.data[event.currentIndex].status = targetList
 
-      console.log(event.container.data[event.currentIndex]);
-      this.api.updateOrderStatus(event.container.data[event.currentIndex], this.getNewStatus(targetList)).subscribe(() => console.log("done"));
-    }
-  }
-
-  getNewStatus(targetList: string) {
-    switch (targetList) {
-      case 'BeingPreparing':
-        return 'preparing';
-      case 'ReadyToServe':
-        return 'ready';
-      case 'ServedDelivered':
-        return 'complete';
-      default:
-        return 'pending';
+      this.api.updateOrderStatus(event.container.data[event.currentIndex], targetList).subscribe((order) => {
+        this.orderService.emitOrderStatusChange(order);
+      });
     }
   }
 }

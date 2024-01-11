@@ -6,6 +6,7 @@ import { RuleService } from '../../services/rule/rule.service';
 import { LoadingService } from '../../services/loading/loading.service';
 import { OrdersService } from '../../services/orders/orders.service';
 import { Socket } from 'ngx-socket-io';
+import { SocketService } from '../../services/socket/socket.service';
 
 @Component({
   selector: 'app-page-container',
@@ -23,7 +24,7 @@ export class PageContainerComponent implements OnInit {
     private rule: RuleService,
     private ordersService: OrdersService,
     private loadingService: LoadingService,
-    private socket: Socket
+    private socket: SocketService
     ){
 
   }
@@ -36,10 +37,14 @@ export class PageContainerComponent implements OnInit {
     this.api.getUser().subscribe(data => {
       this.user = data.user;
       this.socket.connect();
-      this.socket.emit('join', { restaurantId: data.user.employeeInformation.restaurantId});
+      this.socket.joinRestaurantRoom(data.user.employeeInformation.restaurantId);
     });
     this.fetchRules();
     this.fetchOrders();
+
+    this.socket.getNewOrder().subscribe(data => {
+      this.ordersService.emitNewOrder(data);
+    })
   }
 
   fetchOrders () {

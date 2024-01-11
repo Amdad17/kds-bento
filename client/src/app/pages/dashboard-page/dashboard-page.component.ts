@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { OrdersService } from '../../services/orders/orders.service';
+import { OrderItemInterface } from '../../interfaces/order.interface';
+import { LoadingService } from '../../services/loading/loading.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -15,11 +17,22 @@ export class DashboardPageComponent implements OnInit {
   servedOnTime: number = 0;
   servedOutOfTime: number = 0;
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(
+    private ordersService: OrdersService, 
+    private loadingService: LoadingService,
+    ) {}
 
   ngOnInit(): void {
-    const orders = this.ordersService.orders;
+    this.setOrders(this.ordersService.orders);
+    this.loadingService.orderLoadingEvent.subscribe(() => 
+      this.setOrders(this.ordersService.orders)
+    );
 
+    this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
+  }
+
+
+  setOrders (orders: OrderItemInterface[]) {
     this.totalOrders = orders.length;
     this.pendingOrders = orders.filter((order) => order.status === 'pending').length;
     this.preparingOrders = orders.filter((order) => order.status === 'preparing').length;
