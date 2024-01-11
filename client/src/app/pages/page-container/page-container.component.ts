@@ -5,7 +5,6 @@ import { IUser } from '../../interfaces/user.interface';
 import { RuleService } from '../../services/rule/rule.service';
 import { LoadingService } from '../../services/loading/loading.service';
 import { OrdersService } from '../../services/orders/orders.service';
-import { Socket } from 'ngx-socket-io';
 import { SocketService } from '../../services/socket/socket.service';
 
 @Component({

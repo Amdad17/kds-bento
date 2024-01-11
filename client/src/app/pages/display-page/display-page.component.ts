@@ -10,6 +10,8 @@ import { LoadingService } from '../../services/loading/loading.service';
 import { RuleService } from '../../services/rule/rule.service';
 import { sortOrdersByRules } from '../../utils/sorting.helper';
 import { ApiService } from '../../services/api/api.service';
+import { IUser } from '../../interfaces/user.interface';
+import { ChefService } from '../../services/chef/chef.service';
 
 @Component({
   selector: 'app-display-page',
@@ -22,13 +24,16 @@ export class DisplayPageComponent implements OnInit {
   ready: OrderItemInterface[] = [];
   served: OrderItemInterface[] = [];
 
+  chefs: IUser[] = [];
+
   loading: boolean = false;
 
   constructor(
     private orderService: OrdersService,
     private loadingService: LoadingService,
     private ruleService: RuleService,
-    private api: ApiService
+    private api: ApiService,
+    private chefService: ChefService
     ) {}
 
   ngOnInit(): void {
@@ -38,6 +43,8 @@ export class DisplayPageComponent implements OnInit {
       this.loading = value;
       if (!value) this.setOrders(this.orderService.orders);
     })
+
+    this.chefs = this.chefService.chefs;
 
     this.orderService.newOrder.subscribe(data => {
       this.pending = sortOrdersByRules([...this.pending, data], this.ruleService.rule);

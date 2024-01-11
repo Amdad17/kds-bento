@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { OrdersService } from '../../services/orders/orders.service';
 import { OrderItemInterface } from '../../interfaces/order.interface';
 import { LoadingService } from '../../services/loading/loading.service';
+import { ChefService } from '../../services/chef/chef.service';
+import { IUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -17,9 +19,12 @@ export class DashboardPageComponent implements OnInit {
   servedOnTime: number = 0;
   servedOutOfTime: number = 0;
 
+  chefs: IUser[] = [];
+
   constructor(
     private ordersService: OrdersService, 
     private loadingService: LoadingService,
+    private chefService: ChefService
     ) {}
 
   ngOnInit(): void {
@@ -29,6 +34,7 @@ export class DashboardPageComponent implements OnInit {
     );
 
     this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
+    this.chefs = this.chefService.chefs;
   }
 
 
