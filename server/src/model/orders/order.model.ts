@@ -8,7 +8,7 @@ const orderItemSchema = new Schema<OrderItemInterface>({
     orderType: { type: String, required: true },
     vipCustomer: { type: Boolean, required: true },
     tableId: { type: Number },
-    deliveryServiceArriveTime: { type: Number },
+    deliveryServiceArriveTime: { type: Date },
     items: [{type: Object }],
     createdAt: { type: Date, required: true },
     preparingTimestamp: { type: Date },

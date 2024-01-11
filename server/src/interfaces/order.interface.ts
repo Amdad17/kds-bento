@@ -9,7 +9,7 @@ export interface OrderItemInterface {
     orderType: string;
     vipCustomer: boolean;
     tableId: number;
-    deliveryServiceArriveTime?: number;
+    deliveryServiceArriveTime?: Date;
     items: ItemInterface[];
     status: "pending" | "preparing" | "ready" | "complete";
     createdAt: Date;
