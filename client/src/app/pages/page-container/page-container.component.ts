@@ -35,6 +35,7 @@ export class PageContainerComponent implements OnInit {
     this.currentPath = this.route.routerState.snapshot.url;
     this.route.events.subscribe(event => event instanceof NavigationStart ? this.currentPath=event.url : null);
     this.api.getUser().subscribe(data => {
+      console.log(data.user);
       this.user = data.user;
       this.socket.connect();
       this.socket.joinRestaurantRoom(data.user.employeeInformation.restaurantId);
