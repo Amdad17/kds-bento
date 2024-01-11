@@ -96,16 +96,13 @@ app-order-card button {
 app-order-card button:hover {
   background-color: #9C27B0; 
 }
-
 .cdk-drag-placeholder {
   opacity: 0;
 }
-
 .cdk-drag-preview {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color:#808000;
 }
-
 .cdk-drag-animating {
   transition: transform 0.3s ease-out;
 }

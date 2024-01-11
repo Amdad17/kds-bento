@@ -14,10 +14,13 @@ h1 {
 
 .stat-item {
   text-align: center;
-  padding: 40px;
+  padding-bottom: 80px;
+  padding-left: 20px;
+  padding-right: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  margin: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,13 +29,15 @@ h1 {
 .label {
   font-weight: bold;
   color: green;
+
 }
 
 .value {
   font-size: 20px;
-  color: black;
-  align-self: flex-end; 
-  margin-left: auto;
+  color:black;
+  align-self:self-end; 
+  margin-top: 10px; 
+
 }
 
 .stat-icon {
@@ -40,4 +45,10 @@ h1 {
   bottom: 10px;
   left: 10px;
   font-size: 24px;
+}
+
+.value {
+ position: absolute;
+ right: 10px;
+ bottom: 10px;
 }

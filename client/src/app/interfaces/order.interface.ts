@@ -2,6 +2,8 @@ import { CategoriesInterface } from "./categories.interface";
 import { ItemInterface } from "./item.interface";
 
 export interface OrderItemInterface {
+    endTime: string | number | Date;
+    startTime: string | number | Date;
     deliveryTimestamp: string | number | Date;
     _id: string;
     restaurantId: number;
