@@ -14,7 +14,7 @@ h1 {
 
 .drag-drop-column {
   width: 23%;
-  background:green;
+  background: #038851;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -55,19 +55,13 @@ h1 {
 }
 
 app-order-card {
-  background-color: #fff;
-  border: 1px solid #ddd; 
-  border-radius: 4px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  margin-bottom: 15px;
-  padding: 10px; 
-  cursor: pointer; 
-  position: relative; 
+  cursor: grab;
 }
+
 app-order-card .status-bar {
   height: 4px; 
   width: 100%; 
-  background-color: #4CAF50; 
+  background-color: #038851; 
   position: absolute; 
   top: 0; 
   left: 0; 
@@ -90,18 +84,18 @@ app-order-card button {
   padding:  10px; 
   margin-top: 10px; 
   border-radius: 2px; 
-  cursor: pointer; 
 }
 
 app-order-card button:hover {
   background-color: #9C27B0; 
 }
 .cdk-drag-placeholder {
-  opacity: 0;
+  opacity: 0.5;
 }
 .cdk-drag-preview {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color:#808000;
+  cursor: grabbing;
 }
 .cdk-drag-animating {
   transition: transform 0.3s ease-out;

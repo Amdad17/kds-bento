@@ -14,5 +14,6 @@ export class OrdersService {
 
   emitNewOrder (order: OrderItemInterface) {
     this.newOrder.next(order);
+    this.orders.push(order);
   }
 }

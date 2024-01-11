@@ -35,6 +35,11 @@ import { FilterOrdersPipe } from './components/filter/filter.order';
 import { OrderCardComponent } from './components/order-card/order-card.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from '../environments/environment';
+
+const config: SocketIoConfig = { url: environment.API_URL, options: {} };
+
 registerLocaleData(en);
 
 @NgModule({
@@ -69,7 +74,8 @@ registerLocaleData(en);
     NzSwitchModule,
     NzInputNumberModule,
     NzSpinModule,
-    NzIconModule
+    NzIconModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

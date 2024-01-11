@@ -10,6 +10,7 @@ import { LoadingService } from '../../services/loading/loading.service';
 import { RuleService } from '../../services/rule/rule.service';
 import { sortOrdersByRules } from '../../utils/sorting.helper';
 import { ApiService } from '../../services/api/api.service';
+import { SocketService } from '../../services/socket/socket.service';
 
 @Component({
   selector: 'app-display-page',
@@ -28,7 +29,8 @@ export class DisplayPageComponent implements OnInit {
     private orderService: OrdersService,
     private loadingService: LoadingService,
     private ruleService: RuleService,
-    private api: ApiService
+    private api: ApiService,
+    private socket: SocketService
     ) {}
 
   ngOnInit(): void {
@@ -37,6 +39,11 @@ export class DisplayPageComponent implements OnInit {
     this.loadingService.orderLoadingEvent.subscribe(value => {
       this.loading = value;
       if (!value) this.setOrders(this.orderService.orders);
+    })
+
+    this.socket.getNewOrder().subscribe(data => {
+      this.pending = sortOrdersByRules([...this.pending, data], this.ruleService.rule);
+      this.orderService.emitNewOrder(data);
     })
   }
 
