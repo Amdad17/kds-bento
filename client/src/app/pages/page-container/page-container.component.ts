@@ -6,6 +6,7 @@ import { RuleService } from '../../services/rule/rule.service';
 import { LoadingService } from '../../services/loading/loading.service';
 import { OrdersService } from '../../services/orders/orders.service';
 import { SocketService } from '../../services/socket/socket.service';
+import { ChefService } from '../../services/chef/chef.service';
 
 @Component({
   selector: 'app-page-container',
@@ -18,12 +19,13 @@ export class PageContainerComponent implements OnInit {
   currentPath:string = '/dashboard'
 
   constructor(
-    private route:Router, 
+    private route: Router, 
     private api: ApiService,
     private rule: RuleService,
     private ordersService: OrdersService,
     private loadingService: LoadingService,
-    private socket: SocketService
+    private chefService: ChefService,
+    private socket: SocketService,
     ){
 
   }
@@ -44,7 +46,10 @@ export class PageContainerComponent implements OnInit {
 
     this.socket.getNewOrder().subscribe(data => {
       this.ordersService.emitNewOrder(data);
-    })
+    });
+
+    this.socket.getChefCheckIn().subscribe(data => this.chefService.checkIn(data.chef));
+    this.socket.getChefCheckOut().subscribe(data => this.chefService.checkOut(data.chef));
   }
 
   fetchOrders () {

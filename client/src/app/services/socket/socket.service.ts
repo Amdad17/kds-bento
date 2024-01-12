@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { OrderItemInterface } from '../../interfaces/order.interface';
+import { IUser } from '../../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,13 @@ export class SocketService {
 
   getNewOrder() {
     return this.socket.fromEvent<OrderItemInterface>('new-order');
+  }
+
+  getChefCheckIn () {
+    return this.socket.fromEvent<{ chef: IUser}>('chef-check-in');
+  }
+
+  getChefCheckOut () {
+    return this.socket.fromEvent<{ chef: IUser}>('chef-check-out');
   }
 }

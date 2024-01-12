@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IUser } from '../../interfaces/user.interface';
+import { Subject } from 'rxjs';
+import { ToastMessageService } from '../toast-message/toast-message.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChefService {
-  constructor() {}
+  constructor(private toast: ToastMessageService) {}
 
   chefs: IUser[] = [
     {
@@ -90,4 +92,18 @@ export class ChefService {
       },
     },
   ];
+
+  chefChange = new Subject<IUser[]>();
+
+  checkIn (chef: IUser) {
+    this.chefs.push(chef);
+    this.chefChange.next(this.chefs);
+    this.toast.setMessage(chef.employeeInformation.name + ' checked in.', "info");
+  }
+  
+  checkOut (chef: IUser) {
+    this.chefs = this.chefs.filter(current => current.employeeInformation.id !== chef.employeeInformation.id);
+    this.chefChange.next(this.chefs);
+    this.toast.setMessage(chef.employeeInformation.name + ' checked out.', "info");
+  }
 }

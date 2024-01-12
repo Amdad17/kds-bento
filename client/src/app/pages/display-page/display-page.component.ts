@@ -46,6 +46,12 @@ export class DisplayPageComponent implements OnInit {
       if (!value) this.setOrders(this.orderService.orders);
     })
 
+    this.chefService.chefChange.subscribe(data => {
+      console.log(data);
+      this.chefs = data;
+      this.sortAndAssignPendingOrders(this.pending);
+    });
+
 
     this.orderService.newOrder.subscribe(data => {
       this.pending.push(data);

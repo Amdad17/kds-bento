@@ -8,6 +8,7 @@ import rulerouter from "./routers/ruleRouter";
 import authrouter from "./routers/auth.router";
 import { config } from "./config";
 import { authMiddleware } from "./middleware/auth.middleware";
+import chefRouter from "./routers/chef.router";
 
 const app: Express = express();
 
@@ -36,6 +37,7 @@ app.use(
 app.use(express.json());
 app.use("/auth", authrouter);
 app.use("/orders", orderRouter);
+app.use("/chef", chefRouter);
 app.use(authMiddleware);
 app.use("/rules", rulerouter);
 
