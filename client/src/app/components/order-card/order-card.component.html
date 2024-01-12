@@ -16,6 +16,12 @@
         </div>
       }
 
+      @if (order.chef) {
+        <p class="chef-name" [ngStyle]="{ backgroundColor: getChefColor() }">
+          {{order.chef.employeeInformation.name}}
+        </p>
+      }
+
     </div>
     <div class="status-btn">{{order.status.toUpperCase()}}</div>
   </div>

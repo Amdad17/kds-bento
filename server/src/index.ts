@@ -55,7 +55,6 @@ main();
 io.on("connection", (socket) => {
   socket.emit("me", socket.id);
   socket.on("join", (data: { restaurantId: number }) => {
-    console.log("Joining room:", data);
     socket.join(data.restaurantId.toString());
   });
 });

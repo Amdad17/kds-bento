@@ -12,6 +12,7 @@ import { sortOrdersByRules } from '../../utils/sorting.helper';
 import { ApiService } from '../../services/api/api.service';
 import { IUser } from '../../interfaces/user.interface';
 import { ChefService } from '../../services/chef/chef.service';
+import { assignChefToPendingOrders } from '../../utils/assign.helper';
 
 @Component({
   selector: 'app-display-page',
@@ -37,6 +38,7 @@ export class DisplayPageComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+    this.chefs = this.chefService.chefs;
     this.setOrders(this.orderService.orders);
     this.loading = this.loadingService.orderLoading;
     this.loadingService.orderLoadingEvent.subscribe(value => {
@@ -44,22 +46,27 @@ export class DisplayPageComponent implements OnInit {
       if (!value) this.setOrders(this.orderService.orders);
     })
 
-    this.chefs = this.chefService.chefs;
 
     this.orderService.newOrder.subscribe(data => {
-      this.pending = sortOrdersByRules([...this.pending, data], this.ruleService.rule);
+      this.pending.push(data);
+      this.sortAndAssignPendingOrders(this.pending);
     });
 
     setInterval(() => {
-      this.pending = sortOrdersByRules(this.pending, this.ruleService.rule);
+      this.sortAndAssignPendingOrders(this.pending);
     }, 1000 * 60);
   }
 
   setOrders(orders: OrderItemInterface[]) {
-    this.pending = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
     this.preparing = orders.filter((item) => item.status === 'preparing');
+    this.sortAndAssignPendingOrders(orders);
     this.ready = orders.filter((item) => item.status === 'ready');
     this.served = orders.filter((item) => item.status === 'complete');
+  }
+
+  sortAndAssignPendingOrders(orders: OrderItemInterface[]) {
+    const sortedOrders = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
+    this.pending = assignChefToPendingOrders(sortedOrders, this.preparing, this.chefs);
   }
 
   onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready" | "complete") {
@@ -77,9 +84,20 @@ export class DisplayPageComponent implements OnInit {
         event.currentIndex
       );
 
-      event.container.data[event.currentIndex].status = targetList
+      
+      const order = event.container.data[event.currentIndex];
+      console.log(order)
+      order.status = targetList;
 
-      this.api.updateOrderStatus(event.container.data[event.currentIndex], targetList).subscribe((order) => {
+      if(targetList === "pending" || event.previousContainer.id === "cdk-drop-list-0") {
+        this.sortAndAssignPendingOrders(this.pending);
+      }
+
+      if(event.previousContainer.id === "cdk-drop-list-0" && order.chef) {
+        this.api.addChefToOrder(order._id, order.chef).subscribe(() =>{});
+      }
+
+      this.api.updateOrderStatus(order, targetList).subscribe((order) => {
         this.orderService.emitOrderStatusChange(order);
       });
     }

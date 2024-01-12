@@ -18,7 +18,8 @@ const orderItemSchema = new Schema<OrderItemInterface>({
       type: String,
       required: true,
       enum: ["pending", "preparing", "ready", "complete"]
-    }
+    },
+    chef: {type: Object}
   })
   const Orders = model('orders', orderItemSchema );
 

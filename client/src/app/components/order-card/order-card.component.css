@@ -18,12 +18,11 @@
 }
 
 .chef-name {
-  align-self: flex-end;
-  background-color: #6a329f;
-  color: #fff;
+  align-self: flex-start;
+  width: fit-content;
   padding: 5px 10px;
+  margin-bottom: 5px;
   border-radius: 5px;
-  font-size: 1.2em;
 }
 
 .notes {

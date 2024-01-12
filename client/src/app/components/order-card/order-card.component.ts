@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { OrderItemInterface } from '../../interfaces/order.interface';
+import { stringToHexColor } from '../../utils/color.helper';
 
 @Component({
   selector: 'app-order-card',
@@ -17,5 +18,9 @@ export class OrderCardComponent {
   
   getDisplayTitle() {
     return this.order.orderId;
+  }
+
+  getChefColor () {
+    return this.order.chef ? stringToHexColor(this.order.chef.employeeInformation.name) : '#FFFFFF';
   }
 }

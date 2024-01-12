@@ -40,6 +40,28 @@ export async function findOrderById(req: AuthRequest, res: Response) {
   }
 }
 
+export async function addChefToOrder (req: AuthRequest, res: Response) {
+  try {
+    const user = req.user;
+    if (!user) return res.status(401).send({ message: "Unauthorized." });
+
+    const orderId = req.params.orderId;
+    const chef = req.body.chef;
+
+    const order = await Orders.findById(orderId);
+    if (!order) return res.status(404).send({ message: 'Order not found.'});
+    if (order.restaurantId !== user.employeeInformation.restaurantId) 
+      return res.status(403).json({ error: "Order not from your restaurant." });
+
+    order.chef = chef;
+    await order.save();
+    res.send(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error in setting chef for order." });
+  }
+}
+
 export async function updateOrderById(req: AuthRequest, res: Response) {
   try {
     const user = req.user;
@@ -128,7 +150,6 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
     if (!user) return res.status(401).send({ message: "Unauthorized." });
 
     const { orderId, status } = req.body;
-    console.log({ orderId, status })
 
     if (
       !orderId ||
