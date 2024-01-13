@@ -34,8 +34,8 @@ export class ChefService {
           services: ['INVENTORY', 'KDS'],
           createdAt: new Date('2024-01-07T06:37:43.889Z'),
           updatedAt: new Date('2024-01-07T06:46:34.855Z'),
-        },
-      },
+        }
+      }
     },
     {
       positionId: 2,
@@ -61,8 +61,8 @@ export class ChefService {
           services: ['INVENTORY', 'KDS'],
           createdAt: new Date('2024-01-07T06:37:43.889Z'),
           updatedAt: new Date('2024-01-07T06:46:34.855Z'),
-        },
-      },
+        }
+      }
     },
     {
       positionId: 4,
@@ -88,8 +88,8 @@ export class ChefService {
           services: ['INVENTORY', 'KDS'],
           createdAt: new Date('2024-01-07T06:37:43.889Z'),
           updatedAt: new Date('2024-01-07T06:46:34.855Z'),
-        },
-      },
+        }
+      }
     },
   ];
 
