@@ -53,7 +53,7 @@
         <div class="value">Total Served: {{ stat.totalServed }}</div>
         <div class="value">Served On Time: {{ stat.servedOnTime }}</div>
         <div class="value">Served Late: {{ stat.servedOutOfTime }}</div>
-        <div class="value">Chef-Efficiency: {{ (stat.servedOnTime / stat.totalServed ) * 100 }}%</div>
+        <div class="value">Chef-Efficiency: {{ ((stat.servedOnTime / stat.totalServed ) * 100).toFixed(2)}}%</div>
       </div>
   </div>
 </nz-spin>

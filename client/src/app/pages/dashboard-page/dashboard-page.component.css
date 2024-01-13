@@ -14,7 +14,7 @@ h1 {
 
 .stat-item {
   text-align: center;
-  padding-bottom: 80px;
+  padding-bottom: 40px;
   padding-left: 20px;
   padding-right: 20px;
   border: 1px solid #ccc;
@@ -28,7 +28,7 @@ h1 {
 
 .label {
   font-weight: bold;
-  color: green;
+  color:green;
   
 
 }
@@ -37,7 +37,8 @@ h1 {
   font-size: 15px;
   color:black;
   align-self:self-end; 
-  margin-top: 8px; 
+  
+ 
 }
 
 .stat-icon {
@@ -83,5 +84,5 @@ h2 {
 .online-text {
   margin-left: 2px; 
   font-weight: bold;
-  color:lawngreen;  ;
+  color:lawngreen;
 }
