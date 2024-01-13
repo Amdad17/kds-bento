@@ -12,6 +12,9 @@ import { ChefService } from '../../services/chef/chef.service';
   styleUrl: './dashboard-page.component.css',
 })
 export class DashboardPageComponent implements OnInit {
+Number(arg0: number) {
+throw new Error('Method not implemented.');
+}
   totalOrders: number = 0;
   pendingOrders: number = 0;
   preparingOrders: number = 0;
@@ -20,8 +23,9 @@ export class DashboardPageComponent implements OnInit {
   servedOutOfTime: number = 0;
   loading: boolean = false;
 
-  chefs: IUser[] = [];
+  currentChefs: IUser[] = [];
   chefStats: { chef: IUser, totalServed: number, servedOnTime: number, servedOutOfTime: number }[] = [];
+totalServed: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -31,8 +35,6 @@ export class DashboardPageComponent implements OnInit {
 
   ngOnInit(): void {
     const orders = this.ordersService.orders;
-    const chefs = this.getChefsFromOrders(orders);
-    console.log(chefs);
 
     this.setOrders(this.ordersService.orders);
     this.loading = this.loadingService.orderLoading;
@@ -40,6 +42,9 @@ export class DashboardPageComponent implements OnInit {
       this.loading = value;
       this.setOrders(this.ordersService.orders);
     });
+
+    this.currentChefs = this.chefService.chefs;
+    this.chefService.chefChange.subscribe(data => this.currentChefs = data);
 
     this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
   }
@@ -53,7 +58,7 @@ export class DashboardPageComponent implements OnInit {
       (order) => order.status === 'preparing'
     ).length;
     this.servedOrders = orders.filter(
-      (order) => order.status === 'complete'
+      (order) => (order.status === 'complete' || order.status === 'ready')
     ).length;
     const targetDeliveryTime = new Date();
 
@@ -66,6 +71,7 @@ export class DashboardPageComponent implements OnInit {
     }).length;
 
     this.servedOutOfTime = this.servedOrders - this.servedOnTime;
+    this.chefStats = this.getChefsFromOrders(orders);
   }
 
 
@@ -74,7 +80,7 @@ export class DashboardPageComponent implements OnInit {
       chef: IUser,
       totalServed: number,
       servedOnTime: number,
-      servedLate: number
+      servedOutOfTime: number
     }[] = [];
 
     for (let i = 0; i < orders.length; i++) {
@@ -84,7 +90,6 @@ export class DashboardPageComponent implements OnInit {
         if (index === -1) {
           const chef = order.chef!;
           const totalServedOrders = orders.filter(order => ((order.status === "ready" || order.status === "complete") && order.chef && order.chef.employeeInformation.id === chef.employeeInformation.id));
-          console.log(orders)
 
           const totalServed = totalServedOrders.length;
           const servedOnTime = totalServedOrders.filter(order => {
@@ -95,14 +100,19 @@ export class DashboardPageComponent implements OnInit {
             return serviceTime < totalPrepTime;
           }).length;
 
-          const servedLate = totalServed - servedOnTime;
+          const servedOutOfTime = totalServed - servedOnTime;
 
-          chefs.push({ chef, totalServed, servedLate, servedOnTime })
+          chefs.push({ chef, totalServed, servedOutOfTime, servedOnTime })
         }
       }      
     }
 
     return chefs;
+  }
+
+
+  getChefIsOnline (chef: IUser) {
+    return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }
 }
 

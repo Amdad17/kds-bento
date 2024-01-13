@@ -5,7 +5,6 @@ import { getDataFromStatus } from "../utils/status.helper";
 
 export async function createOrder(req: Request, res: Response) {
   try {
-    console.log('Req ashche');
     const data = req.body;
     data.createdAt = new Date();
     data.status = "pending";

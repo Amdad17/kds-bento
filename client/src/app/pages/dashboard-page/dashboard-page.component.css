@@ -29,15 +29,15 @@ h1 {
 .label {
   font-weight: bold;
   color: green;
+  
 
 }
 
 .value {
-  font-size: 20px;
+  font-size: 15px;
   color:black;
   align-self:self-end; 
-  margin-top: 10px; 
-
+  margin-top: 8px; 
 }
 
 .stat-icon {
@@ -47,26 +47,41 @@ h1 {
   font-size: 24px;
 }
 
-.value {
- position: absolute;
- right: 10px;
- bottom: 10px;
-}
-/* h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.chef-container {
+ .chef-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  color: green;
+} 
+
+h2 {
+  text-align: left;
+  color: black;
+  font-size: 30px;
 }
 
 .chef-stat-item {
+  background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 8px;
+  box-shadow: green;
   margin: 10px;
-  text-align: center;
-} */
+  padding: 20px;
+  text-align: left;
+}
+
+.online-container {
+  display: flex;
+  align-items: center;
+  margin-left: 5px; 
+}
+
+.online-icon {
+  font-size: 9px; 
+  color: lawngreen; 
+}
+
+.online-text {
+  margin-left: 2px; 
+  font-weight: bold;
+  color:lawngreen;  ;
+}

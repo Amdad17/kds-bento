@@ -41,16 +41,20 @@
     </div>
   </div>
 
-
-<!-- <h2>Chef Statistics</h2>
-<div class="chef-container">
-  <div *ngFor="let chef of chefs" class="chef-stat-item">
-    <i class="fas fa-chef stat-icon"></i>
-    <div class="label">Chef: {{ chef.chef.name }}</div>
-    <div class="value">Total Served: {{ chef.totalServed }}</div>
-    <div class="value">Served On Time: {{ chef.servedOnTime }}</div>
-    <div class="value">Served Late: {{ chef.servedLate }}</div>
+  <h2>Chef Statistics</h2>
+  <div class="chef-container">
+    <div *ngFor="let stat of chefStats" class="chef-stat-item">
+      <i class="fas fa-chef stat-icon"></i>
+      <div *ngIf="getChefIsOnline(stat.chef)" class="online-container">
+          <i class="fas fa-circle online-icon"></i>
+          <span class="online-text">Online</span>
+      </div>
+        <div class="label">Chef: {{ stat.chef.employeeInformation.name}}</div>
+        <div class="value">Total Served: {{ stat.totalServed }}</div>
+        <div class="value">Served On Time: {{ stat.servedOnTime }}</div>
+        <div class="value">Served Late: {{ stat.servedOutOfTime }}</div>
+        <div class="value">Chef-Efficiency: {{ (stat.servedOnTime / stat.totalServed ) * 100 }}%</div>
+      </div>
   </div>
-</div> -->
 </nz-spin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
