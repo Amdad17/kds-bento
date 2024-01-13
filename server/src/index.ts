@@ -12,7 +12,6 @@ import chefRouter from "./routers/chef.router";
 
 const app: Express = express();
 
-
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
@@ -40,8 +39,6 @@ app.use("/orders", orderRouter);
 app.use("/chef", chefRouter);
 app.use(authMiddleware);
 app.use("/rules", rulerouter);
-
-
 
 
 async function main() {

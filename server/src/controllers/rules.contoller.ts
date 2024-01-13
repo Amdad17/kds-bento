@@ -9,8 +9,9 @@ import { IOverrideRule } from '../interfaces/overrideRule.interface';
 export async function setRulesRestaurant(req: AuthRequest, res: Response) {
   try {
     const user = req.user;
-
+    console.log("add")
     if (!user) return res.status(401).send({ message: 'Unauthorized' });
+   
 
     const restaurantId = user.employeeInformation.restaurantId;
     const data: { baseRules: IBaseRule[], overrideRules: IOverrideRule[], efficiency: boolean } = req.body;

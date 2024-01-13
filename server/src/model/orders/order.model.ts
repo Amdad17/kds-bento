@@ -2,12 +2,11 @@ import { model, Schema } from 'mongoose';
 import { OrderItemInterface } from '../../interfaces/order.interface';
 const orderItemSchema = new Schema<OrderItemInterface>({
     restaurantId: { type: Number, required: true },
-    orderId: { type: Number, required: true },
+    orderId: { type: String, required: true },
     categories: [{ type: Object }],
-    orderTime: { type: Number, required: true },
     orderType: { type: String, required: true },
     vipCustomer: { type: Boolean, required: true },
-    tableId: { type: Number },
+    tableId: { type: String },
     deliveryServiceArriveTime: { type: Date },
     items: [{type: Object }],
     createdAt: { type: Date, required: true },

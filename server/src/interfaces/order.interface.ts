@@ -4,12 +4,12 @@ import { IUser } from "./user.interface";
 
 export interface OrderItemInterface {
     restaurantId: number;
-    orderId: number;
+    orderId: string;
     categories: CategoriesInterface[];
     orderTime: number;
     orderType: string;
     vipCustomer: boolean;
-    tableId: number;
+    tableId: string;
     deliveryServiceArriveTime?: Date;
     items: ItemInterface[];
     status: "pending" | "preparing" | "ready" | "complete";
