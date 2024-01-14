@@ -49,17 +49,17 @@ export class DisplayPageComponent implements OnInit {
     this.chefService.chefChange.subscribe(data => {
       console.log(data);
       this.chefs = data;
-      this.sortAndAssignPendingOrders(this.pending);
+      this.sortAndAssignPendingOrders(this.orderService.orders);
     });
 
 
     this.orderService.newOrder.subscribe(data => {
       this.pending.push(data);
-      this.sortAndAssignPendingOrders(this.pending);
+      this.sortAndAssignPendingOrders(this.orderService.orders);
     });
 
     setInterval(() => {
-      this.sortAndAssignPendingOrders(this.pending);
+      this.sortAndAssignPendingOrders(this.orderService.orders);
     }, 1000 * 60);
   }
 
@@ -72,7 +72,8 @@ export class DisplayPageComponent implements OnInit {
 
   sortAndAssignPendingOrders(orders: OrderItemInterface[]) {
     const sortedOrders = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
-    this.pending = assignChefToPendingOrders(sortedOrders, this.preparing, this.chefs);
+    const preparingOrders = orders.filter((item) => item.status === 'preparing');
+    this.pending = assignChefToPendingOrders([...sortedOrders], [...preparingOrders], this.chefs);
   }
 
   onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready" | "complete") {
@@ -96,7 +97,7 @@ export class DisplayPageComponent implements OnInit {
       order.status = targetList;
 
       if(targetList === "pending" || event.previousContainer.id === "cdk-drop-list-0") {
-        this.sortAndAssignPendingOrders(this.pending);
+        this.sortAndAssignPendingOrders(this.orderService.orders);
       }
 
       if(event.previousContainer.id === "cdk-drop-list-0" && order.chef) {

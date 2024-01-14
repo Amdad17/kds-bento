@@ -14,8 +14,8 @@ export class OrdersService {
   orderStatusChange = new Subject<OrderItemInterface>();
 
   emitNewOrder (order: OrderItemInterface) {
-    this.newOrder.next(order);
     this.orders.push(order);
+    this.newOrder.next(order);
   }
 
   emitOrderStatusChange (order: OrderItemInterface) {
