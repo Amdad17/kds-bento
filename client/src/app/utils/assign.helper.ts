@@ -20,7 +20,7 @@ function generateChefQueues (chefs: IUser[], preparingOrders: OrderItemInterface
       const remainingPrepTime = order.preparingTimestamp ? (totalPrepTime - ((Date.now() - (new Date(order.preparingTimestamp)).getTime()) / (1000 * 60))) : totalPrepTime;
       return {
         order,
-        prepTime: remainingPrepTime
+        prepTime: remainingPrepTime > 0 ? remainingPrepTime : 0
       }
     });
 
