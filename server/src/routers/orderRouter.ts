@@ -5,7 +5,7 @@ import { authMiddleware } from '../middleware/auth.middleware';
 
 const orderrouter = express.Router();
 
-orderrouter.post('/create', createOrder);
+orderrouter.post('/create', authMiddleware, createOrder);
 orderrouter.get('/id/:orderId', authMiddleware, findOrderById);
 orderrouter.put('/id/:orderId', authMiddleware, updateOrderById);
 orderrouter.put('/status', authMiddleware, changeOrderStatus);
@@ -15,4 +15,3 @@ orderrouter.get('/restaurant', authMiddleware, findOrdersByRestaurantId);
 orderrouter.get('/type/:orderType', authMiddleware, findOrdersByOrderType);
 
 export default orderrouter;
-
