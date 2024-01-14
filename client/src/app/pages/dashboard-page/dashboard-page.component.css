@@ -67,6 +67,7 @@ h2 {
   color: black;
   font-size: 30px;
   margin-top: 8PX;
+  font-weight: bold;
 }
 
 .chef-stat-item {
@@ -101,6 +102,7 @@ h3 {
   color: black;
   font-size: 30px;
   margin-top: 2px;
+  font-weight: bold;
 }
 
 .item-statistics-container {

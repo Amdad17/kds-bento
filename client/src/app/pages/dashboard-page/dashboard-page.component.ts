@@ -14,7 +14,7 @@ import { ItemInterface } from '../../interfaces/item.interface';
 })
 export class DashboardPageComponent implements OnInit {
   itemDetails: { item: ItemInterface, count: number }[] = [];
-  // totalItemsServed: number = 0; 
+  
 Number(arg0: number) {
 throw new Error('Method not implemented.');
 }
@@ -51,7 +51,6 @@ totalServed: any;
     this.chefService.chefChange.subscribe(data => this.currentChefs = data);
 
     this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
-    // this.calculateItemCount(orders.map(order => order.items).flat());
     
   }
 
@@ -122,17 +121,19 @@ totalServed: any;
     return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }
 
-  calculateItemCount(items: ItemInterface[]) {
-    this.itemDetails = [];
+calculateItemCount(items: ItemInterface[]) {
+  this.itemDetails = [];
 
-    items.forEach(item => {
-      const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
+  items.forEach(item => {
+    const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
 
-      if (existingItemIndex !== -1) {
-        this.itemDetails[existingItemIndex].count += 1;
-      } else {
-        this.itemDetails.push({ item: item, count: 1 });
-      }
-    });
+    if (existingItemIndex !== -1) {
+
+      this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
+    } else {
+      
+      this.itemDetails.push({ item: item, count: item.item.itemQuantity });
+    }
+  });
 }
 }
