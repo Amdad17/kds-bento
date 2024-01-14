@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { validateChef } from "../utils/validate.helper";
+import { AuthRequest } from "../interfaces/authRequest.interface";
 
-export async function chefCheckIn (req: Request, res: Response) {
+export async function chefCheckIn (req: AuthRequest, res: Response) {
   try {
-    const restaurantId = req.params.restaurantId;
-    const chef = req.body.chef;
-
-    if (!restaurantId || !validateChef(chef)) return res.status(400).send({ message: 'Invalid data.' });
+    const { user } = req;
+    if (!user) return res.status(401).send({ message: 'Unauthorized.' });
     const io = res.locals.io;
-    io.to(restaurantId).emit('chef-check-in', { chef });
+    io.to(user.employeeInformation.restaurantId).emit('chef-check-in', { chef: user });
     res.send({ status: "success" });
   } catch (error) {
     console.log(error);
@@ -17,14 +16,12 @@ export async function chefCheckIn (req: Request, res: Response) {
 }
 
 
-export async function chefCheckOut (req: Request, res: Response) {
+export async function chefCheckOut (req: AuthRequest, res: Response) {
   try {
-    const restaurantId = req.params.restaurantId;
-    const chef = req.body.chef;
-
-    if (!restaurantId || !validateChef(chef)) return res.status(400).send({ message: 'Invalid data.' });
+    const { user } = req;
+    if (!user) return res.status(401).send({ message: 'Unauthorized.' });
     const io = res.locals.io;
-    io.to(restaurantId).emit('chef-check-out', { chef });
+    io.to(user.employeeInformation.restaurantId).emit('chef-check-out', { chef: user });
     res.send({ status: "success" });
   } catch (error) {
     console.log(error);

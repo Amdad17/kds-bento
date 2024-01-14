@@ -35,8 +35,8 @@ app.use(
 );
 app.use(express.json());
 app.use("/auth", authrouter);
-app.use("/chef", chefRouter);
 app.use(authMiddleware);
+app.use("/chef", chefRouter);
 app.use("/orders", orderRouter);
 app.use("/rules", rulerouter);
 

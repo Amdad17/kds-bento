@@ -1,7 +1,6 @@
 import express from 'express';
 import { addChefToOrder, changeOrderStatus, createOrder, deleteOrderById, findOrderById, findOrdersByOrderType, findOrdersByRestaurantId,
      updateOrderById } from '../controllers/order.contoller';
-import { authMiddleware } from '../middleware/auth.middleware';
 
 const orderrouter = express.Router();
 
