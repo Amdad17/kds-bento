@@ -4,15 +4,18 @@
 
       @for (item of order.items; track $index) {
         <div class="my-5">
-          <p><strong>{{item.itemQuantity}} x {{item.itemName}}</strong></p>
-          @for (option of item.options.add; track $index) {
-            <p class="ml-3">Add: {{option.ingredientName}}</p>
+          <p><strong>{{item.item.itemQuantity}} x {{item.item.itemName}}</strong></p>
+
+          @if (item.item.chosenOptions) {
+            @for (option of item.item.chosenOptions.add; track $index) {
+              <p class="ml-3">Add: {{option.ingredientName}}</p>
+            }
+    
+            @for (option of item.item.chosenOptions.no; track $index) {
+              <p class="ml-3">No: {{option.ingredientName}}</p>
+            }
           }
-  
-          @for (option of item.options.no; track $index) {
-            <p class="ml-3">No: {{option.ingredientName}}</p>
-          }
-          <p class="notes ml-3">Notes: {{item.optionalNotes}}</p>
+          <p class="notes ml-3">Notes: {{item.item.optionalNotes}}</p>
         </div>
       }
 

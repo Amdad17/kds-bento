@@ -1,4 +1,4 @@
-import { OrderItemInterface } from '../../interfaces/order.interface';
+import { OrderItemInterface } from '../../interfaces/order/order.interface';
 import Orders from './order.model';
 
 export async function createOrder(data:OrderItemInterface ) {

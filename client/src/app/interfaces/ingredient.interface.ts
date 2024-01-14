@@ -2,7 +2,7 @@ export interface IngredientInterface {
   id: number;
   restaurantId: number;
   ingredientName: string;
-  unit: string;
+  unitOfStock: string;
   quantity: number;
   costPerUnit: number;
   caloriePerUnit: number;

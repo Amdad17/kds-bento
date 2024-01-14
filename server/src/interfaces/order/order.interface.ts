@@ -1,6 +1,6 @@
 import { CategoriesInterface } from "./categories.interface";
 import { ItemInterface } from "./item.interface";
-import { IUser } from "./user.interface";
+import { IUser } from "../user.interface";
 
 export interface OrderItemInterface {
     restaurantId: number;
@@ -18,4 +18,5 @@ export interface OrderItemInterface {
     readyTimestamp?: Date;
     servedTimestamp?: Date;
     chef?: IUser;
+    deliveryTimestamp?: string | number | Date;
   }

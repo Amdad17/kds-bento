@@ -4,18 +4,31 @@ import { NoOptionInterface } from "./nooption.interface";
 import { PackingInterface } from "./packing.interface";
 
 export interface ItemInterface{
+  restaurantId: number;
+  categoryId: number;
+  item: {
     itemId: number;
     itemName: string;
-    itemImage: string; 
-    categoryId: number;
+    itemImage: string;
     itemQuantity: number; 
     itemPreparationTime: number; 
     itemPackingType: string;
     itemPackingDimension: PackingInterface; 
     itemServingTemperature: string;
     itemLastingTime?: number; //needed for marketplace
-    itemPortionSize: number; 
+    itemPortionSize: string;
     ingredients: IngredientInterface[]; 
     options: { add: AddOptionInterface[]; no: NoOptionInterface[] }; 
-    optionalNotes: string;
+    chosenOptions?: { add: AddOptionInterface[]; no: NoOptionInterface[] }; 
+    optionalNotes?: string;
+    discount: number;
+    isDisabled: boolean;
+    itemPrice: number;
+    itemCalories: number;
+    timeOfDay: string[];
+    itemProfileTastyTags: string[];
+    typeOfFoods: string[];
+    servingTemperature: number;
+    itemDietaryRestrictions: string[];
   }
+}
