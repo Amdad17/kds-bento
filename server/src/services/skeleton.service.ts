@@ -19,4 +19,14 @@ export async function getUserFromToken (token: string) {
   } catch (error) {
     throw new Error("Error getting user from token.")
   }
-} 
+}
+
+
+export async function getActiveChefsFromHR (token: string) {
+  try {
+    const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    throw new Error("Error getting user from token.")
+  }
+}
