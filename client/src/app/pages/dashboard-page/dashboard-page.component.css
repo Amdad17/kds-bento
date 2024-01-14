@@ -40,6 +40,15 @@ h1 {
   
  
 }
+.orderNumber{
+  font-size: 15px;
+  color:black;
+  align-self:self-end; 
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 24px;
+}
 
 .stat-icon {
   position: absolute;

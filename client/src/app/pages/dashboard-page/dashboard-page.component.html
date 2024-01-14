@@ -6,38 +6,38 @@
     <div class="stat-item">
       <i class="fas fa-clipboard-list stat-icon"></i> 
       <div class="label">Total Orders</div>
-      <div class="value">{{ totalOrders }}</div>
+      <div class="orderNumber">{{ totalOrders }}</div>
     </div>
   
     <div class="stat-item">
       <i class="fas fa-hourglass-half stat-icon"></i> 
       <div class="label"> Current number of Pending Orders</div>
-      <div class="value">{{ pendingOrders }}</div>
+      <div class="orderNumber">{{ pendingOrders }}</div>
     </div>
   
      
     <div class="stat-item">
       <i class="fas fa-utensils stat-icon"></i> 
       <div class="label"> Current number of Orders Being Prepared</div>
-      <div class="value">{{ preparingOrders }}</div>
+      <div class="orderNumber">{{ preparingOrders }}</div>
     </div>
   
     <div class="stat-item">
       <i class="fas fa-concierge-bell stat-icon"></i> 
       <div class="label">Current number of Orders Served</div>
-      <div class="value">{{ servedOrders }}</div>
+      <div class="orderNumber">{{ servedOrders }}</div>
     </div>
   
     <div class="stat-item">
       <i class="fas fa-clock stat-icon"></i> 
       <div class="label"> Number of orders Served On Time</div>
-      <div class="value">{{ servedOnTime }}</div>
+      <div class="orderNumber">{{ servedOnTime }}</div>
     </div>
   
     <div class="stat-item">
       <div class="label"> Number of orders Served Out of Time</div>
       <i class="fas fa-history stat-icon"></i>
-      <div class="value">{{ servedOutOfTime }}</div>
+      <div class="orderNumber">{{ servedOutOfTime }}</div>
     </div>
   </div>
   <h2>Chef Statistics</h2>
@@ -52,7 +52,8 @@
         <div class="value">Total Served: {{ stat.totalServed }}</div>
         <div class="value">Served On Time: {{ stat.servedOnTime }}</div>
         <div class="value">Served Late: {{ stat.servedOutOfTime }}</div>
-        <div class="value">Chef-Efficiency: {{ ((stat.servedOnTime / stat.totalServed ) * 100).toFixed(2)}}%</div>
+        <div class="value">Chef-Efficiency: {{ ((stat.servedOnTime === 0 && stat.totalServed === 0) ? 0 : ((stat.servedOnTime / stat.totalServed) * 100).toFixed(2)) }}%</div>
+
       </div>
   </div>
 </nz-spin>

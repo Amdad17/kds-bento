@@ -15,7 +15,10 @@
               <p class="ml-3">No: {{option.ingredientName}}</p>
             }
           }
-          <p class="notes ml-3">Notes: {{item.item.optionalNotes}}</p>
+
+          @if (item.item.optionalNotes) {
+            <p class="notes ml-3">Notes: {{item.item.optionalNotes}}</p>
+          }
         </div>
       }
 
