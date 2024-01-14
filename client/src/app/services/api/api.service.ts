@@ -40,4 +40,8 @@ export class ApiService {
   addChefToOrder (orderId: string, chef: IUser) {
     return this.http.put<OrderItemInterface>(environment.API_URL + "/orders/chef/" + orderId , { chef });
   }
+
+  getActiveChefs () : Observable<IUser[]> {
+    return this.http.get<IUser[]>(environment.API_URL + '/chef/active');
+  }
 }

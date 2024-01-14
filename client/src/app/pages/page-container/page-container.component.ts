@@ -44,6 +44,8 @@ export class PageContainerComponent implements OnInit {
     this.fetchRules();
     this.fetchOrders();
 
+    this.api.getActiveChefs().subscribe(data => console.log(data));
+
     this.socket.getNewOrder().subscribe(data => {
       this.ordersService.emitNewOrder(data);
     });

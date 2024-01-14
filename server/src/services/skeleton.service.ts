@@ -24,9 +24,10 @@ export async function getUserFromToken (token: string) {
 
 export async function getActiveChefsFromHR (token: string) {
   try {
-    const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization': token }});
+    const res = await axios.get<any>(config.SKELETON_BE_URL + '/employee/position/chef/active', { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
-    throw new Error("Error getting user from token.")
+    console.log(error);
+    throw new Error("Error getting active chefs.")
   }
 }

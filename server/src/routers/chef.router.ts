@@ -4,6 +4,6 @@ import { chefCheckIn, chefCheckOut, getActiveChefs } from "../controllers/chef.c
 const chefRouter = Router();
 chefRouter.post('/check-in', chefCheckIn);
 chefRouter.post('/check-out', chefCheckOut);
-chefRouter.post('/active', getActiveChefs);
+chefRouter.get('/active', getActiveChefs);
 
 export default  chefRouter;
