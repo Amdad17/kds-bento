@@ -1,7 +1,7 @@
 import { IngredientInterface } from "./ingredient.interface";
 
 export interface AddOptionInterface {
-  ingredientId: number;
+  quantity: number;
   ingredientName: string;
   ingredient: IngredientInterface;
 }

@@ -5,5 +5,5 @@ export interface IngredientInterface {
   unitOfStock: string;
   quantity: number;
   costPerUnit: number;
-  caloriePerUnit: number;
+  caloriesPerUnit: number;
 }

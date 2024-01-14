@@ -12,7 +12,7 @@ const ingredientSchema = new Schema<IngredientInterface>({
   unitOfStock: { type: String, required: true },
   quantity: { type: Number, required: true },
   costPerUnit: { type: Number, required: true },
-  caloriePerUnit: { type: Number, required: true },
+  caloriesPerUnit: { type: Number, required: true },
 });
 
 const categorySchema = new Schema<CategoriesInterface>({
@@ -37,7 +37,6 @@ const itemSchema = new Schema<ItemInterface>({
     itemPreparationTime: { type: Number, required: true },
     itemPackingType: { type: String, required: true },
     itemPackingDimension: packingSchema,
-    itemServingTemperature: { type: String, required: true },
     itemLastingTime: { type: Number, required: true }, //needed for marketplace
     itemPortionSize: { type: String, required: true },
     ingredients: [ingredientSchema],
@@ -45,14 +44,14 @@ const itemSchema = new Schema<ItemInterface>({
       type: {
         add: [
           {
-            ingredientId: { type: Number, required: true },
+            quantity: { type: Number, required: true },
             ingredientName: { type: String, required: true },
             ingredient: ingredientSchema,
           },
         ],
         no: [
           {
-            ingredientId: { type: Number, required: true },
+            quantity: { type: Number, required: true },
             ingredientName: { type: String, required: true },
             ingredient: ingredientSchema,
           },
@@ -64,14 +63,14 @@ const itemSchema = new Schema<ItemInterface>({
       type: {
         add: [
           {
-            ingredientId: { type: Number, required: true },
+            quantity: { type: Number, required: true },
             ingredientName: { type: String, required: true },
             ingredient: ingredientSchema,
           },
         ],
         no: [
           {
-            ingredientId: { type: Number, required: true },
+            quantity: { type: Number, required: true },
             ingredientName: { type: String, required: true },
             ingredient: ingredientSchema,
           },

@@ -13,7 +13,7 @@ export interface ItemInterface{
     itemQuantity: number; 
     itemPreparationTime: number; 
     itemPackingType: string;
-    itemPackingDimension: PackingInterface; 
+    itemPackingDimension?: PackingInterface; 
     itemServingTemperature: string;
     itemLastingTime?: number; //needed for marketplace
     itemPortionSize: string;
