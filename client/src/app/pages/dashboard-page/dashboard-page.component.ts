@@ -5,6 +5,7 @@ import { OrderItemInterface } from '../../interfaces/order.interface';
 import { IUser } from '../../interfaces/user.interface';
 import { LoadingService } from '../../services/loading/loading.service';
 import { ChefService } from '../../services/chef/chef.service';
+import { ItemInterface } from '../../interfaces/item.interface';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -12,6 +13,8 @@ import { ChefService } from '../../services/chef/chef.service';
   styleUrl: './dashboard-page.component.css',
 })
 export class DashboardPageComponent implements OnInit {
+  itemDetails: { item: ItemInterface, count: number }[] = [];
+  
 Number(arg0: number) {
 throw new Error('Method not implemented.');
 }
@@ -35,6 +38,7 @@ totalServed: any;
 
   ngOnInit(): void {
     const orders = this.ordersService.orders;
+    
 
     this.setOrders(this.ordersService.orders);
     this.loading = this.loadingService.orderLoading;
@@ -47,6 +51,7 @@ totalServed: any;
     this.chefService.chefChange.subscribe(data => this.currentChefs = data);
 
     this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
+    
   }
 
   setOrders(orders: OrderItemInterface[]) {
@@ -72,6 +77,7 @@ totalServed: any;
 
     this.servedOutOfTime = this.servedOrders - this.servedOnTime;
     this.chefStats = this.getChefsFromOrders(orders);
+    this.calculateItemCount(orders.map(order => order.items).flat());
   }
 
 
@@ -114,6 +120,20 @@ totalServed: any;
   getChefIsOnline (chef: IUser) {
     return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }
-}
 
-  
+calculateItemCount(items: ItemInterface[]) {
+  this.itemDetails = [];
+
+  items.forEach(item => {
+    const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
+
+    if (existingItemIndex !== -1) {
+
+      this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
+    } else {
+      
+      this.itemDetails.push({ item: item, count: item.item.itemQuantity });
+    }
+  });
+}
+}
