@@ -5,13 +5,13 @@ import { authMiddleware } from '../middleware/auth.middleware';
 
 const orderrouter = express.Router();
 
-orderrouter.post('/create', authMiddleware, createOrder);
-orderrouter.get('/id/:orderId', authMiddleware, findOrderById);
-orderrouter.put('/id/:orderId', authMiddleware, updateOrderById);
-orderrouter.put('/status', authMiddleware, changeOrderStatus);
-orderrouter.put('/chef/:orderId', authMiddleware, addChefToOrder);
-orderrouter.delete('/id/:orderId', authMiddleware, deleteOrderById);
-orderrouter.get('/restaurant', authMiddleware, findOrdersByRestaurantId);
-orderrouter.get('/type/:orderType', authMiddleware, findOrdersByOrderType);
+orderrouter.post('/create', createOrder);
+orderrouter.get('/id/:orderId', findOrderById);
+orderrouter.put('/id/:orderId', updateOrderById);
+orderrouter.put('/status', changeOrderStatus);
+orderrouter.put('/chef/:orderId', addChefToOrder);
+orderrouter.delete('/id/:orderId', deleteOrderById);
+orderrouter.get('/restaurant', findOrdersByRestaurantId);
+orderrouter.get('/type/:orderType', findOrdersByOrderType);
 
 export default orderrouter;
