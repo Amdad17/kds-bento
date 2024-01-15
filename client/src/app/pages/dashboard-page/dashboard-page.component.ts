@@ -115,8 +115,6 @@ totalServed: any;
 
     return chefs;
   }
-
-
   getChefIsOnline (chef: IUser) {
     return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }

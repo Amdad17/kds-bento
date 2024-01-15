@@ -31,3 +31,14 @@ export async function getActiveChefsFromHR (token: string) {
     throw new Error("Error getting active chefs.")
   }
 }
+
+
+export async function postChefEfficiencyToHR (token: string, data: { chefId: number, orderId: string, servedOnTime: boolean }) {
+  try {
+    const res = await axios.post<any>(config.SKELETON_BE_URL + '/hr/chef-efficiency', data, { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting active chefs.")
+  }
+}

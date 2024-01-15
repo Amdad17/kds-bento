@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Orders from "../model/orders/order.model";
 import { AuthRequest } from "../interfaces/authRequest.interface";
 import { getDataFromStatus } from "../utils/status.helper";
+import { postChefEfficiencyToHR } from "../services/skeleton.service";
+
 
 export async function createOrder(req: Request, res: Response) {
   try {
@@ -147,7 +149,8 @@ export async function findOrdersByOrderType(req: AuthRequest, res: Response) {
 export async function changeOrderStatus(req: AuthRequest, res: Response) {
   try {
     const user = req.user;
-    if (!user) return res.status(401).send({ message: "Unauthorized." });
+    const token = req.token;
+    if (!user || !token) return res.status(401).send({ message: "Unauthorized." });
 
     const { orderId, status } = req.body;
 
@@ -168,6 +171,18 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
     else {
       const newData = getDataFromStatus(status);
       const updatedOrder = await Orders.findByIdAndUpdate(order._id, { $set: newData }, { new: true });
+
+      if (status === 'ready' || status === 'complete') {
+        if (order.chef) {
+          const chefId = order.chef.employeeInformation.id;
+          const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
+          const actualPrepTime = (new Date(order.readyTimestamp!).getTime() - new Date(order.preparingTimestamp!).getTime()) / 60000;
+          const servedOnTime = totalPrepTime <= actualPrepTime;
+
+          postChefEfficiencyToHR(token, { chefId, orderId: order.orderId, servedOnTime });
+        }
+      }
+
       res.status(200).json(updatedOrder);
     }
   } catch (error) {
