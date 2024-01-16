@@ -1,6 +1,7 @@
 import axios from "axios";
 import { config } from "../config";
 import { IUser } from "../interfaces/user.interface";
+import { OrderItemInterface } from "../interfaces/order/order.interface";
 
 export async function getTokenFromCode (code: string) {
   try {
@@ -25,6 +26,17 @@ export async function getUserFromToken (token: string) {
 export async function getActiveChefsFromHR (token: string) {
   try {
     const res = await axios.get<any>(config.SKELETON_BE_URL + '/employee/position/chef/active', { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting active chefs.")
+  }
+}
+
+
+export async function getAllOrders (token: string) {
+  try {
+    const res = await axios.get<{ data: OrderItemInterface[] }>(config.SKELETON_BE_URL + '/orders/all', { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);

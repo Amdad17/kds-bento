@@ -29,8 +29,8 @@ export class ApiService {
     return this.http.post<{ rules: (IRules & { restaurantId: string })}>(environment.API_URL + '/rules/add', rules);
   }
 
-  getOrders () : Observable<OrderItemInterface[]> {
-    return this.http.get<OrderItemInterface[]>(environment.API_URL + '/orders/restaurant');
+  getOrders () : Observable<{ data: OrderItemInterface[] }> {
+    return this.http.get<{ data: OrderItemInterface[] }>(environment.API_URL + '/orders/restaurant');
   }
 
   updateOrderStatus (order: OrderItemInterface, status: "pending" | "preparing" | "ready" | "complete") : Observable<OrderItemInterface> {

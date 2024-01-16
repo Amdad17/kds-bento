@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Orders from "../model/orders/order.model";
 import { AuthRequest } from "../interfaces/authRequest.interface";
 import { getDataFromStatus } from "../utils/status.helper";
-import { postChefEfficiencyToHR } from "../services/skeleton.service";
+import { getAllOrders, postChefEfficiencyToHR } from "../services/skeleton.service";
 
 
 export async function createOrder(req: Request, res: Response) {
@@ -116,12 +116,10 @@ export async function findOrdersByRestaurantId(
   res: Response
 ) {
   try {
-    const user = req.user;
-    if (!user) return res.status(401).send({ message: "Unauthorized." });
+    const token = req.token;
+    if (!token) return res.status(401).send({ message: "Unauthorized." });
 
-    const orders = await Orders.find({
-      restaurantId: user.employeeInformation.restaurantId,
-    });
+    const orders = await getAllOrders(token);
     res.status(200).json(orders);
   } catch (error) {
     console.error(error);
