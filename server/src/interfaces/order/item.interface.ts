@@ -9,7 +9,7 @@ export interface ItemInterface{
   item: {
     itemId: number;
     itemName: string;
-    itemImage: string;
+    itemImage?: string;
     itemQuantity: number; 
     itemPreparationTime: number; 
     itemPackingType: string;

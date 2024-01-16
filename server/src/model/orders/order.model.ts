@@ -32,7 +32,7 @@ const itemSchema = new Schema<ItemInterface>({
   item: {
     itemId: { type: Number, required: true },
     itemName: { type: String, required: true },
-    itemImage: { type: String, required: true },
+    itemImage: { type: String },
     itemQuantity: { type: Number, required: true },
     itemPreparationTime: { type: Number, required: true },
     itemPackingType: { type: String, required: true },
