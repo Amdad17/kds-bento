@@ -44,6 +44,16 @@ export async function getAllOrders (token: string) {
   }
 }
 
+export async function sendOrderUpdateToPOS (token: string, orderId: string, status: string) {
+  try {
+    const res = await axios.put<OrderItemInterface>(config.SKELETON_BE_URL + '/orders/status', { orderId, status }, { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting active chefs.")
+  }
+}
+
 
 export async function postChefEfficiencyToHR (token: string, data: { chefId: number, orderId: string, servedOnTime: boolean }) {
   try {

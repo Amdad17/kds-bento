@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import Orders from "../model/orders/order.model";
 import { AuthRequest } from "../interfaces/authRequest.interface";
-import { getDataFromStatus } from "../utils/status.helper";
-import { getAllOrders, postChefEfficiencyToHR } from "../services/skeleton.service";
+import { getAllOrders, postChefEfficiencyToHR, sendOrderUpdateToPOS } from "../services/skeleton.service";
 
 
 export async function createOrder(req: Request, res: Response) {
@@ -158,31 +157,22 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
       status !== "preparing" &&
       status !== "ready" &&
       status !== "complete")
-    )
-      return res.status(400).send({ message: "Invalid fields." });
+    ) return res.status(400).send({ message: "Invalid fields." });
 
-    const order = await Orders.findById(orderId);
+    const order = await sendOrderUpdateToPOS(token, orderId, status);
 
-    if (!order) return res.status(404).json({ error: "Order not found." });
-    else if (order.restaurantId !== user.employeeInformation.restaurantId)
-      return res.status(403).json({ error: "Order not from your restaurant." });
-    else {
-      const newData = getDataFromStatus(status);
-      const updatedOrder = await Orders.findByIdAndUpdate(order._id, { $set: newData }, { new: true });
+    if (status === 'ready' || status === 'complete') {
+      if (order.chef) {
+        const chefId = order.chef.employeeInformation.id;
+        const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
+        const actualPrepTime = (new Date(order.readyTimestamp!).getTime() - new Date(order.preparingTimestamp!).getTime()) / 60000;
+        const servedOnTime = totalPrepTime <= actualPrepTime;
 
-      if (status === 'ready' || status === 'complete') {
-        if (order.chef) {
-          const chefId = order.chef.employeeInformation.id;
-          const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
-          const actualPrepTime = (new Date(order.readyTimestamp!).getTime() - new Date(order.preparingTimestamp!).getTime()) / 60000;
-          const servedOnTime = totalPrepTime <= actualPrepTime;
-
-          postChefEfficiencyToHR(token, { chefId, orderId: order.orderId, servedOnTime });
-        }
+        postChefEfficiencyToHR(token, { chefId, orderId: order.orderId, servedOnTime });
       }
-
-      res.status(200).json(updatedOrder);
     }
+
+    res.status(200).json(order);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error in updating order status." });
