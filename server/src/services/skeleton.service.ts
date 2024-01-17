@@ -46,7 +46,17 @@ export async function getAllOrders (token: string) {
 
 export async function sendOrderUpdateToPOS (token: string, orderId: string, status: string) {
   try {
-    const res = await axios.put<IOrder>(config.SKELETON_BE_URL + '/orders/status', { orderId, status }, { headers: { 'Authorization': token }});
+    const res = await axios.put<IOrder>(config.SKELETON_BE_URL + '/orders/status/' + orderId, { status }, { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting active chefs.")
+  }
+}
+
+export async function sendOrderChefToPOS (token: string, orderId: string, chef: IUser) {
+  try {
+    const res = await axios.put<IOrder>(config.SKELETON_BE_URL + '/orders/chef/' + orderId, { chef }, { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);

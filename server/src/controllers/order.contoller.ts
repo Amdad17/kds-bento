@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface";
-import { getAllOrders, postChefEfficiencyToHR, sendOrderUpdateToPOS } from "../services/skeleton.service";
+import { getAllOrders, postChefEfficiencyToHR, sendOrderChefToPOS, sendOrderUpdateToPOS } from "../services/skeleton.service";
 
 export async function incomingOrder(req: AuthRequest, res: Response) {
   try {
@@ -10,7 +10,7 @@ export async function incomingOrder(req: AuthRequest, res: Response) {
 
     // Emit new order with Socket IO.
     const io = res.locals.io;
-    io.to().emit('new-order', data);
+    io.to().emit('incoming-order', data);
 
     res.status(201).json(data);
   } catch (error) {
@@ -19,42 +19,22 @@ export async function incomingOrder(req: AuthRequest, res: Response) {
   }
 }
 
-export async function createOrder(req: AuthRequest, res: Response) {
+export async function addChefToOrder (req: AuthRequest, res: Response) {
   try {
-    const data = req.body;
+    const user = req.user;
+    const token = req.token;
+    if (!user || !token) return res.status(401).send({ message: "Unauthorized." });
 
-    // Emit new order with Socket IO.
-    const io = res.locals.io;
-    io.to().emit('new-order', data);
+    const orderId = req.params.orderId;
+    const chef = req.body.chef;
 
-    res.status(201).json(data);
+    const order = await sendOrderChefToPOS(token, orderId, chef);
+    res.send(order);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error in creating a new order." });
+    res.status(500).json({ message: "Error in setting chef for order." });
   }
 }
-
-// export async function addChefToOrder (req: AuthRequest, res: Response) {
-//   try {
-//     const user = req.user;
-//     if (!user) return res.status(401).send({ message: "Unauthorized." });
-
-//     const orderId = req.params.orderId;
-//     const chef = req.body.chef;
-
-//     const order = await Orders.findById(orderId);
-//     if (!order) return res.status(404).send({ message: 'Order not found.'});
-//     if (order.restaurantId !== user.employeeInformation.restaurantId) 
-//       return res.status(403).json({ error: "Order not from your restaurant." });
-
-//     order.chef = chef;
-//     await order.save();
-//     res.send(order);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Error in setting chef for order." });
-//   }
-// }
 
 export async function findOrdersByRestaurantId(
   req: AuthRequest,
