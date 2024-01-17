@@ -58,16 +58,14 @@ export class DisplayPageComponent implements OnInit {
     });
 
     this.orderService.updatedItemsOrder.subscribe(data => {
+      console.log(data);
       if (data.status === 'preparing') {
-        this.preparing.map(item => item._id === data._id ? data : item)
+        this.preparing = this.preparing.map(item => item._id === data._id ? data : item)
       } else if (data.status === 'ready') {
-        this.ready.map(item => item._id === data._id ? data : item)
-      
-      } else {
-        this.pending.map(item => item._id === data._id ? data : item)
+        this.ready = this.ready.map(item => item._id === data._id ? data : item)
+      } else if (data.status === 'pending') {
+        this.pending = this.pending.map(item => item._id === data._id ? data : item)
       }
-
-      this.sortAndAssignPendingOrders(this.orderService.orders);
     });
 
     setInterval(() => {
