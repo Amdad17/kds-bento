@@ -12,7 +12,7 @@ export async function incomingOrder(req: AuthRequest, res: Response) {
 
     // Emit new order with Socket IO.
     const io = res.locals.io;
-    io.to().emit('incoming-order', data);
+    io.to(user.employeeInformation.restaurantId.toString()).emit('incoming-order', data);
 
     res.status(201).json(data);
   } catch (error) {
