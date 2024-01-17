@@ -1,22 +1,24 @@
-import { CategoriesInterface } from "./categories.interface";
-import { ItemInterface } from "./item.interface";
-import { IUser } from "../user.interface";
+import { ItemInterface } from './item.interface';
+import { IUser } from '../user.interface';
 
-export interface OrderItemInterface {
+export interface IOrder {
+    _id: string;
     restaurantId: number;
-    orderId: string;
-    categories: CategoriesInterface[];
-    orderTime: number;
-    orderType: string;
+    type: string;
+    customerId?: number;
+    waiterId?: number;
+    bill: number;
+    unit: string;
+    status: string;
     vipCustomer: boolean;
-    tableId: string;
-    deliveryServiceArriveTime?: Date;
     items: ItemInterface[];
-    status: "pending" | "preparing" | "ready" | "complete"; 
     createdAt: Date;
+    orderPosted?: Date;
+    orderUpdatedAt?: Date;
     preparingTimestamp?: Date;
     readyTimestamp?: Date;
     servedTimestamp?: Date;
     chef?: IUser;
-    deliveryTimestamp?: string | number | Date;
-  }
+    deliveryTimestamp?: Date;
+    cancelTimestamp?: Date;
+}

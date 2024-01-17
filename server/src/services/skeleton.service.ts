@@ -1,7 +1,7 @@
 import axios from "axios";
 import { config } from "../config";
 import { IUser } from "../interfaces/user.interface";
-import { OrderItemInterface } from "../interfaces/order/order.interface";
+import { IOrder } from "../interfaces/order/order.interface";
 
 export async function getTokenFromCode (code: string) {
   try {
@@ -36,7 +36,7 @@ export async function getActiveChefsFromHR (token: string) {
 
 export async function getAllOrders (token: string) {
   try {
-    const res = await axios.get<{ data: OrderItemInterface[] }>(config.SKELETON_BE_URL + '/orders/all', { headers: { 'Authorization': token }});
+    const res = await axios.get<{ data: IOrder[] }>(config.SKELETON_BE_URL + '/orders/all', { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);
@@ -46,7 +46,7 @@ export async function getAllOrders (token: string) {
 
 export async function sendOrderUpdateToPOS (token: string, orderId: string, status: string) {
   try {
-    const res = await axios.put<OrderItemInterface>(config.SKELETON_BE_URL + '/orders/status', { orderId, status }, { headers: { 'Authorization': token }});
+    const res = await axios.put<IOrder>(config.SKELETON_BE_URL + '/orders/status', { orderId, status }, { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);
