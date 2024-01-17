@@ -11,11 +11,18 @@ export class OrdersService {
 
   orders : OrderItemInterface[] = [];
   newOrder = new Subject<OrderItemInterface>();
+  updatedItemsOrder = new Subject<OrderItemInterface>();
   orderStatusChange = new Subject<OrderItemInterface>();
 
-  emitNewOrder (order: OrderItemInterface) {
-    this.orders.push(order);
-    this.newOrder.next(order);
+  emitIncomingOrder (order: OrderItemInterface) {
+    const index = this.orders.findIndex(item => item._id === order._id);
+    if (index === -1) {
+      this.orders.push(order);
+      this.newOrder.next(order);
+    } else {
+      this.orders[index] = {...order};
+      this.updatedItemsOrder.next(order);
+    }
   }
 
   emitOrderStatusChange (order: OrderItemInterface) {

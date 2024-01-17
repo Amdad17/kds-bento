@@ -17,7 +17,7 @@ export class OrderCardComponent {
   }
   
   getDisplayTitle() {
-    return this.order.orderId;
+    return this.order._id;
   }
 
   getChefColor () {

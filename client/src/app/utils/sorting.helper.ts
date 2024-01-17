@@ -38,7 +38,7 @@ function sortOrdersByBaseRules(
       if (rule.ruleType === 'vip')
         (order.vipCustomer ? filtered : unfiltered).push(order);
       else
-        (order.orderType === rule.ruleType ? filtered : unfiltered).push(order);
+        (order.type === rule.ruleType ? filtered : unfiltered).push(order);
     }
 
     newOrders.push(...applyHiddenRulesForOrder(filtered));
@@ -54,7 +54,7 @@ function applyHiddenRulesForOrder(orders: OrderItemInterface[]) {
   const urgentOrders: OrderItemInterface[] = [];
   const normalOrders: OrderItemInterface[] = [];
 
-  for (const order of orders) {
+  for (const order of orders) { 
     if (!order.deliveryServiceArriveTime) {
       normalOrders.push(order);
       continue;

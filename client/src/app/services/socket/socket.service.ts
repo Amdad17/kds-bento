@@ -19,12 +19,8 @@ export class SocketService {
     return true;
   }
 
-  getNewOrder() {
-    return this.socket.fromEvent<OrderItemInterface>('new-order');
-  }
-
   getIncomingOrders() {
-    return this.socket.fromEvent<OrderItemInterface>('incoming-order');
+    return this.socket.fromEvent<{order: OrderItemInterface}>('incoming-order');
   }
 
   getChefCheckIn () {
