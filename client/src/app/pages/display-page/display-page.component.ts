@@ -23,7 +23,6 @@ export class DisplayPageComponent implements OnInit {
   pending: OrderItemInterface[] = [];
   preparing: OrderItemInterface[] = [];
   ready: OrderItemInterface[] = [];
-  served: OrderItemInterface[] = [];
 
   chefs: IUser[] = [];
 
@@ -63,8 +62,7 @@ export class DisplayPageComponent implements OnInit {
         this.preparing.map(item => item._id === data._id ? data : item)
       } else if (data.status === 'ready') {
         this.ready.map(item => item._id === data._id ? data : item)
-      } else if (data.status === 'served') {
-        this.served.map(item => item._id === data._id ? data : item)
+      
       } else {
         this.pending.map(item => item._id === data._id ? data : item)
       }
@@ -81,7 +79,7 @@ export class DisplayPageComponent implements OnInit {
     this.preparing = orders.filter((item) => item.status === 'preparing');
     this.sortAndAssignPendingOrders(orders);
     this.ready = orders.filter((item) => item.status === 'ready');
-    this.served = orders.filter((item) => item.status === 'complete');
+    
   }
 
   sortAndAssignPendingOrders(orders: OrderItemInterface[]) {
@@ -90,7 +88,7 @@ export class DisplayPageComponent implements OnInit {
     this.pending = assignChefToPendingOrders([...sortedOrders], [...preparingOrders], this.chefs);
   }
 
-  onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready" | "complete") {
+  onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready") {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
