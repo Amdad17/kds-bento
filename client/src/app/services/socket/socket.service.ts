@@ -23,6 +23,10 @@ export class SocketService {
     return this.socket.fromEvent<OrderItemInterface>('new-order');
   }
 
+  getIncomingOrders() {
+    return this.socket.fromEvent<OrderItemInterface>('incoming-order');
+  }
+
   getChefCheckIn () {
     return this.socket.fromEvent<{ chef: IUser}>('chef-check-in');
   }
