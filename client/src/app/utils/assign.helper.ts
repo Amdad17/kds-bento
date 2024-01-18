@@ -16,7 +16,7 @@ function generateChefQueues (chefs: IUser[], preparingOrders: OrderItemInterface
     const currentOrders = preparingOrders.filter(order => order.chef && order.chef.employeeInformation.id === chef.employeeInformation.id);
 
     const currentOrdersWithRemainingPrepTime = currentOrders.map(order => {
-      const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
+      const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationtime + total, 0);
       const remainingPrepTime = order.preparingTimestamp ? (totalPrepTime - ((Date.now() - (new Date(order.preparingTimestamp)).getTime()) / (1000 * 60))) : totalPrepTime;
       return {
         order,
@@ -46,7 +46,7 @@ function assignOrdersBasedOnWorkload (pendingOrders: OrderItemInterface[], chefQ
 
     smallest.queue.push({
       order,
-      prepTime: order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0)
+      prepTime: order.items.reduce((total, item) => item.item.itemPreparationtime + total, 0)
     });
 
     order.chef = smallest.chef;

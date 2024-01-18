@@ -1,7 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface";
 import { getAllOrders, postChefEfficiencyToHR, sendOrderChefToPOS, sendOrderUpdateToPOS } from "../services/skeleton.service";
-import { getDataFromStatus } from "../utils/status.helper";
 
 
 export async function incomingOrder(req: AuthRequest, res: Response) {
@@ -76,7 +75,7 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
     if (status === 'ready' || status === 'complete') {
       if (order.chef) {
         const chefId = order.chef.employeeInformation.id;
-        const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
+        const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationtime + total, 0);
         const actualPrepTime = (new Date(order.readyTimestamp!).getTime() - new Date(order.preparingTimestamp!).getTime()) / 60000;
         const servedOnTime = totalPrepTime <= actualPrepTime;
 

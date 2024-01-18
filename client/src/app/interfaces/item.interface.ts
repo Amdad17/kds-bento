@@ -1,28 +1,31 @@
-import { IngredientInterface } from "./ingredient.interface";
-import { AddOptionInterface } from "./addoption.interface";
-import { NoOptionInterface } from "./nooption.interface";
-import { PackingInterface } from "./packing.interface";
+import { IngredientInterface } from './ingredient.interface';
+import { PackingInterface } from './packing.interface';
+import { IRecipe } from './recipe.interface';
+import { OptionInterface } from './option.interface';
 
-export interface ItemInterface{
+export interface ItemInterface {
+  _id: string;
   restaurantId: number;
-  categoryId: number;
+  categoryId: string;
+  mealTimeId: number;
   item: {
+    _id: string;
     itemId: number;
     itemName: string;
     itemImage: string;
-    itemQuantity: number; 
-    itemPreparationTime: number; 
-    itemPackingType: string;
-    itemPackingDimension?: PackingInterface; 
-    itemServingTemperature: string;
+    itemDescription: string;
+    itemQuantity: number;
+    itemPreparationtime: number;
+    itemPackingType: string[];
+    itemPackingDimension?: PackingInterface;
     itemLastingTime?: number; //needed for marketplace
-    itemPortionSize: string;
-    ingredients: IngredientInterface[]; 
-    options: { add: AddOptionInterface[]; no: NoOptionInterface[] }; 
-    chosenOptions?: { add: AddOptionInterface[]; no: NoOptionInterface[] }; 
+    itemPortionsize: string;
+    ingredients: { rawIngredients: IngredientInterface[]; recipes: IRecipe[] };
+    options: { add: OptionInterface[]; no: OptionInterface[] };
+    chosenOptions?: { add: OptionInterface[]; no: OptionInterface[] };
     optionalNotes?: string;
-    discount: number;
-    isDisabled: boolean;
+    discount?: number;
+    isDisabled?: boolean;
     itemPrice: number;
     itemCalories: number;
     timeOfDay: string[];
@@ -30,5 +33,5 @@ export interface ItemInterface{
     typeOfFoods: string[];
     servingTemperature: number;
     itemDietaryRestrictions: string[];
-  }
+  };
 }

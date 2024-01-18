@@ -63,7 +63,7 @@ function applyHiddenRulesForOrder(orders: OrderItemInterface[]) {
       getDeliveryTimeDifferenceInMinutes(order.deliveryServiceArriveTime) <=
       order.items.reduce(
         (totalTime, item) =>
-          totalTime + item.item.itemPreparationTime * item.item.itemQuantity,
+          totalTime + item.item.itemPreparationtime * item.item.itemQuantity,
         0
       );
     (flag ? urgentOrders : normalOrders).push(order);
@@ -73,13 +73,13 @@ function applyHiddenRulesForOrder(orders: OrderItemInterface[]) {
     const aDiff =
       a.items.reduce(
         (totalTime, item) =>
-          totalTime + item.item.itemPreparationTime * item.item.itemQuantity,
+          totalTime + item.item.itemPreparationtime * item.item.itemQuantity,
         0
       ) - getDeliveryTimeDifferenceInMinutes(a.deliveryServiceArriveTime!);
     const bDiff =
       b.items.reduce(
         (totalTime, item) =>
-          totalTime + item.item.itemPreparationTime * item.item.itemQuantity,
+          totalTime + item.item.itemPreparationtime * item.item.itemQuantity,
         0
       ) - getDeliveryTimeDifferenceInMinutes(b.deliveryServiceArriveTime!);
     return bDiff - aDiff;

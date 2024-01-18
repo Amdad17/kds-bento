@@ -70,7 +70,7 @@ totalServed: any;
     this.servedOnTime = orders.filter((order) => {
       if (!order.preparingTimestamp || !order.readyTimestamp) return false;
       if (order.status !== "complete" && order.status !== "ready") return false;
-      const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
+      const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationtime + total, 0);
       const prepTime = ((new Date(order.readyTimestamp)).getTime() - (new Date(order.preparingTimestamp)).getTime()) / 60000;
       return prepTime < totalPrepTime;
     }).length;
@@ -101,7 +101,7 @@ totalServed: any;
           const servedOnTime = totalServedOrders.filter(order => {
             if (!order.preparingTimestamp || !order.readyTimestamp) return true;
             const serviceTime = ((new Date(order.readyTimestamp).getTime()) - (new Date(order.preparingTimestamp)).getTime()) /  60000;
-            const totalPrepTime = order.items.reduce((total, item) => total + item.item.itemPreparationTime, 0);
+            const totalPrepTime = order.items.reduce((total, item) => total + item.item.itemPreparationtime, 0);
 
             return serviceTime < totalPrepTime;
           }).length;
