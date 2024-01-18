@@ -103,7 +103,6 @@ export class DisplayPageComponent implements OnInit {
         event.currentIndex
       );
 
-      
       const order = event.container.data[event.currentIndex];
       console.log(order)
       order.status = targetList;
