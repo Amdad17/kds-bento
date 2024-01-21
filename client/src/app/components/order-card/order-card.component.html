@@ -1,34 +1,36 @@
-<div class="order-card">
-    <div class="order-info">
-      <h2 class="text-sm"><strong>Order ID #{{ order._id }}</strong></h2>
-
-      @for (item of order.items; track $index) {
-        <div class="my-5">
-          <p><strong>{{item.item.itemQuantity}} x {{item.item.itemName}}</strong></p>
-
-          @if (item.item.chosenOptions) {
-            @for (option of item.item.chosenOptions.add; track $index) {
-              <p class="ml-3">Add: {{option.ingredientName}}</p>
+<nz-spin [nzSpinning]="loading">
+  <div class="order-card">
+      <div class="order-info">
+        <h2 class="text-sm"><strong>Order ID #{{ order._id }}</strong></h2>
+  
+        @for (item of order.items; track $index) {
+          <div class="my-5">
+            <p><strong>{{item.item.itemQuantity}} x {{item.item.itemName}}</strong></p>
+  
+            @if (item.item.chosenOptions) {
+              @for (option of item.item.chosenOptions.add; track $index) {
+                <p class="ml-3">Add: {{option.ingredientName}}</p>
+              }
+      
+              @for (option of item.item.chosenOptions.no; track $index) {
+                <p class="ml-3">No: {{option.ingredientName}}</p>
+              }
             }
-    
-            @for (option of item.item.chosenOptions.no; track $index) {
-              <p class="ml-3">No: {{option.ingredientName}}</p>
+  
+            @if (item.item.optionalNotes) {
+              <p class="notes ml-3">Notes: {{item.item.optionalNotes}}</p>
             }
-          }
-
-          @if (item.item.optionalNotes) {
-            <p class="notes ml-3">Notes: {{item.item.optionalNotes}}</p>
-          }
-        </div>
-      }
-
-      @if (order.chef) {
-        <p class="chef-name" [ngStyle]="{ backgroundColor: getChefColor() }">
-          {{order.chef.employeeInformation.name}}
-        </p>
-      }
-
+          </div>
+        }
+  
+        @if (order.chef) {
+          <p class="chef-name" [ngStyle]="{ backgroundColor: getChefColor() }">
+            {{order.chef.employeeInformation.name}}
+          </p>
+        }
+  
+      </div>
+      <div class="status-btn">{{order.status.toUpperCase()}}</div>
     </div>
-    <div class="status-btn">{{order.status.toUpperCase()}}</div>
-  </div>
+</nz-spin>
   

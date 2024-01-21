@@ -15,11 +15,11 @@ export interface ItemInterface {
     itemImage: string;
     itemDescription: string;
     itemQuantity: number;
-    itemPreparationtime: number;
+    itemPreparationTime: number;
     itemPackingType: string[];
     itemPackingDimension?: PackingInterface;
     itemLastingTime?: number; //needed for marketplace
-    itemPortionsize: string;
+    itemPortionSize: string;
     ingredients: { rawIngredients: IngredientInterface[]; recipes: IRecipe[] };
     options: { add: OptionInterface[]; no: OptionInterface[] };
     chosenOptions?: { add: OptionInterface[]; no: OptionInterface[] };

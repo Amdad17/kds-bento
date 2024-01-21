@@ -16,7 +16,7 @@ function generateChefQueues (chefs: IUser[], preparingOrders: OrderItemInterface
     const currentOrders = preparingOrders.filter(order => order.chef && order.chef.employeeInformation.id === chef.employeeInformation.id);
 
     const currentOrdersWithRemainingPrepTime = currentOrders.map(order => {
-      const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationtime + total, 0);
+      const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
       const remainingPrepTime = order.preparingTimestamp ? (totalPrepTime - ((Date.now() - (new Date(order.preparingTimestamp)).getTime()) / (1000 * 60))) : totalPrepTime;
       return {
         order,
@@ -34,19 +34,25 @@ function generateChefQueues (chefs: IUser[], preparingOrders: OrderItemInterface
 }
 
 function assignOrdersBasedOnWorkload (pendingOrders: OrderItemInterface[], chefQueues: IChefQueue[]) {
+  console.log(chefQueues);
   const chefQueueDeepCopy : IChefQueue[] = JSON.parse(JSON.stringify(chefQueues));
+
+  console.log(chefQueueDeepCopy);
   const assignedOrders = pendingOrders.map(order => {
     let smallest = chefQueueDeepCopy[0];
 
     chefQueueDeepCopy.forEach(chefQueue => {
       const totalWorkTime = chefQueue.queue.reduce((total, item) => item.prepTime + total, 0);
+      console.log('Total TIme', totalWorkTime)
       const currentSmallestWorkTime = smallest.queue.reduce((total, item) => item.prepTime + total, 0);
       if (totalWorkTime < currentSmallestWorkTime) smallest = chefQueue;
     });
 
+    console.log(order.items);
+
     smallest.queue.push({
       order,
-      prepTime: order.items.reduce((total, item) => item.item.itemPreparationtime + total, 0)
+      prepTime: order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0)
     });
 
     order.chef = smallest.chef;

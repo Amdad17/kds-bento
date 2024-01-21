@@ -10,6 +10,7 @@ import { stringToHexColor } from '../../utils/color.helper';
 export class OrderCardComponent {
   @Input() order!: OrderItemInterface;
   @Input() index?: number;
+  @Input() loading!: boolean;
 
   
   getListIndex() {

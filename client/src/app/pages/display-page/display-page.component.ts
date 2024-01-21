@@ -23,6 +23,7 @@ export class DisplayPageComponent implements OnInit {
   pending: OrderItemInterface[] = [];
   preparing: OrderItemInterface[] = [];
   ready: OrderItemInterface[] = [];
+  loadingOrders: OrderItemInterface[] = [];
 
   chefs: IUser[] = [];
 
@@ -113,9 +114,15 @@ export class DisplayPageComponent implements OnInit {
         this.api.addChefToOrder(order._id, order.chef).subscribe(() =>{});
       }
 
+      this.loadingOrders.push(order);
       this.api.updateOrderStatus(order, targetList).subscribe((order) => {
         this.orderService.emitOrderStatusChange(order);
+        this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
       });
     }
+  }
+
+  isOrderLoading (order: OrderItemInterface) {
+    return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
   }
 }
