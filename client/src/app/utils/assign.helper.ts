@@ -34,15 +34,21 @@ function generateChefQueues (chefs: IUser[], preparingOrders: OrderItemInterface
 }
 
 function assignOrdersBasedOnWorkload (pendingOrders: OrderItemInterface[], chefQueues: IChefQueue[]) {
+  console.log(chefQueues);
   const chefQueueDeepCopy : IChefQueue[] = JSON.parse(JSON.stringify(chefQueues));
+
+  console.log(chefQueueDeepCopy);
   const assignedOrders = pendingOrders.map(order => {
     let smallest = chefQueueDeepCopy[0];
 
     chefQueueDeepCopy.forEach(chefQueue => {
       const totalWorkTime = chefQueue.queue.reduce((total, item) => item.prepTime + total, 0);
+      console.log('Total TIme', totalWorkTime)
       const currentSmallestWorkTime = smallest.queue.reduce((total, item) => item.prepTime + total, 0);
       if (totalWorkTime < currentSmallestWorkTime) smallest = chefQueue;
     });
+
+    console.log(order.items);
 
     smallest.queue.push({
       order,
