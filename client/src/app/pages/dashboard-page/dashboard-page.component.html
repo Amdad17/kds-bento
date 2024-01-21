@@ -1,11 +1,11 @@
 
-<nz-spin [nzSpinning]="loading" nzTip="Loading orders...">
+<nz-spin [nzSpinning]="loading" nzTip="Loading orders..." style="width: 1100px !important;  ">
   <h1>Current Day Stats</h1>
   
   <div class="stats-container">
     <div class="stat-item">
       <i class="fas fa-clipboard-list stat-icon"></i> 
-      <div class="label">Total Orders</div>
+      <div class="label" style="margin-right: 50px;">Total Orders</div>
       <div class="orderNumber">{{ totalOrders }}</div>
     </div>
   
@@ -40,21 +40,32 @@
       <div class="orderNumber">{{ servedOutOfTime }}</div>
     </div>
   </div>
-  <h2 class ="ml-3">Chef Statistics</h2>
-  <div class="chef-container">
-    <div *ngFor="let stat of chefStats" class="chef-stat-item">
-      <i class="fas fa-chef stat-icon"></i>
-      <div *ngIf="getChefIsOnline(stat.chef)" class="online-container">
+  <div style="margin-top: 240px;">
+    <h2 class="ml-3">Chef Statistics</h2>
+    <div class="chef-container">
+      <div *ngFor="let stat of chefStats" class="chef-stat-item">
+        <img class="chef-image" [src]="'assets/photos and logos/chef1.jpg'" alt="Chef Image">
+        <i class="fas fa-chef stat-icon"></i>
+        
+        <div *ngIf="getChefIsOnline(stat.chef)" class="online-container">
           <i class="fas fa-circle online-icon"></i>
           <span class="online-text">Online</span>
-      </div>
-        <div class="label">Chef: {{ stat.chef.employeeInformation.name}}</div>
+        </div>
+        
+        <div *ngIf="!getChefIsOnline(stat.chef)" class="offline-container">
+          <i class="fas fa-circle offline-icon"></i>
+          <span class="offline-text">Offline</span>
+        </div>
+        
+        <div class="label1">Chef: {{ stat.chef.employeeInformation.name }}</div>
         <div class="value">Total Served: {{ stat.totalServed }}</div>
         <div class="value">Served On Time: {{ stat.servedOnTime }}</div>
         <div class="value">Served Late: {{ stat.servedOutOfTime }}</div>
         <div class="value">Chef-Efficiency: {{ ((stat.servedOnTime === 0 && stat.totalServed === 0) ? 0 : ((stat.servedOnTime / stat.totalServed) * 100).toFixed(2)) }}%</div>
       </div>
+    </div>
   </div>
+  
   <h3 class ="ml-3">Item Statistics</h3>
   <div class="item-statistics-container">
     <div *ngFor="let itemDetail of itemDetails" class="item-statistic">

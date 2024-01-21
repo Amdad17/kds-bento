@@ -5,12 +5,27 @@ h1 {
   font-size: 40px;
   font-weight: bold;
 }
-.stats-container {
-  display: flex;
-  justify-content: space-around;
-  color: green;
+.widthClass{
+  width: 75% !important;
+  /* border: 1px solid red; */
+  position: relative;
 }
-.stat-item {
+.stats-container {
+  /* display: flex; */
+  position: absolute;
+  display: grid;
+  grid-template-columns: auto auto auto auto ;
+  grid-row-gap: 15px;
+  grid-column-gap: 10px;
+  justify-content: space-between;
+  color: green;
+  size: 30px;
+  width:50%;
+  margin-left: 10px;
+  /* border: 1px solid black; */
+ 
+}
+/* .stat-item {
   text-align: center;
   padding-bottom: 40px;
   padding-left: 20px;
@@ -22,20 +37,46 @@ h1 {
   position: relative;
   display: flex;
   flex-direction: column;
+} */
+
+.stat-item {
+  text-align: center;
+  padding: 30px ;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  /* margin: 0 20px; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 200px; 
+  height: 100px;
+
+
 }
 
 .label {
+  /* margin: 0 auto; */
   font-weight: bold;
   color:green;
-  
+  position: absolute;
+  top: 0;  
+  right: 10px;
+  /* text-align: center; */
 
 }
+.label1 {
+  font-weight: bold;
+  color:green;
+
+}
+
 
 .value {
   font-size: 13px;
   color:black;
   align-self:self-end; 
   font-weight: bold;
+  
   
  
 }
@@ -44,7 +85,7 @@ h1 {
   color:black;
   align-self:self-end; 
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   right: 10px;
   font-size: 24px;
 }
@@ -60,6 +101,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   color: green;
+  width: 100%;
 } 
 
 h2 {
@@ -79,7 +121,9 @@ h2 {
   margin: 10px;
   padding: 15px;
   text-align: left;
+  width: 200px; 
 }
+
 
 .online-container {
   display: flex;
@@ -110,14 +154,17 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   margin-left: 5px;
+  width: 75%;
+  
 }
 
 .item-statistic {
   border: 1px solid #ccc;
   padding: 10px;
   margin: 5px;
-  width: 200px;
+  width: 150px;
   border-radius: 10px;
+
 }
 
 .item-name {
@@ -132,3 +179,23 @@ h3 {
   /* font-size: 13px; */
 
 }
+.offline-container {
+  display: flex;
+  align-items: center;
+  color: #dc3545; 
+}
+
+.offline-icon {
+  margin-right: 5px;
+}
+
+.offline-text {
+  font-weight: bold;
+}
+.chef-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px; 
+}
+

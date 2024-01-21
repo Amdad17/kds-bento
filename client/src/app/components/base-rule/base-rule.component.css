@@ -45,3 +45,19 @@
 .switch-container > p {
   width: 50%;
 }
+
+  /* .list-container {
+    position: relative;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    border: 1px solid red;
+    left: 100%;
+    width: 230px;
+    
+    transform: translate(98%) scale(1, 1.5); 
+    font-size: 30px;
+    color: green;
+  } */

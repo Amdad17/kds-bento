@@ -9,6 +9,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
@@ -36,6 +37,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
+import { GraphComponent } from './pages/dashboard-page/graph/graph.component';
 
 const config: SocketIoConfig = { url: environment.API_URL, options: {} };
 
@@ -56,6 +58,7 @@ registerLocaleData(en);
     BaseOptionCardComponent,
     OverrideOptionCardComponent,
     OrderCardComponent,
+    GraphComponent,
   ],
   imports: [
     BrowserModule,
