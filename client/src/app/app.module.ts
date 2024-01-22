@@ -37,7 +37,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
-import { GraphComponent } from './pages/dashboard-page/graph/graph.component';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 const config: SocketIoConfig = { url: environment.API_URL, options: {} };
 
@@ -58,7 +58,9 @@ registerLocaleData(en);
     BaseOptionCardComponent,
     OverrideOptionCardComponent,
     OrderCardComponent,
-    GraphComponent,
+   
+    
+   
   ],
   imports: [
     BrowserModule,
@@ -76,6 +78,7 @@ registerLocaleData(en);
     NzInputNumberModule,
     NzSpinModule,
     NzIconModule,
+    NzDrawerModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [

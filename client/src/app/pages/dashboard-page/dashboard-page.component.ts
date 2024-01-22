@@ -14,6 +14,7 @@ import { ItemInterface } from '../../interfaces/item.interface';
 })
 export class DashboardPageComponent implements OnInit {
   itemDetails: { item: ItemInterface, count: number }[] = [];
+
   
 Number(arg0: number) {
 throw new Error('Method not implemented.');
@@ -134,4 +135,14 @@ calculateItemCount(items: ItemInterface[]) {
     }
   });
 }
+visible = false;
+
+open(): void {
+  this.visible = true;
+}
+
+close(): void {
+  this.visible = false;
+}
+
 }

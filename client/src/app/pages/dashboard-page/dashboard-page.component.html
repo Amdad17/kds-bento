@@ -1,6 +1,9 @@
 
 <nz-spin [nzSpinning]="loading" nzTip="Loading orders..." style="width: 1100px !important;  ">
+  <div style="display: flex;"> 
+  <div class="total container">
   <h1>Current Day Stats</h1>
+  <button nz-button nzType="primary" (click)="open()">+</button>
   
   <div class="stats-container">
     <div class="stat-item">
@@ -73,5 +76,23 @@
       <div class="item-count">Total-Item: {{ itemDetail.count }}</div>
     </div>
   </div>
+  </div>
+  </div>
 </nz-spin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<nz-drawer
+      
+      [nzVisible]="visible"
+      [nzWidth] ="1370"
+      nzPlacement="right"
+      nzTitle="Grap-Display"
+      [nzExtra]="extra"
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+        <p>Some contents...</p>
+        
+      </ng-container>
+    </nz-drawer>
+    <ng-template #extra>
+    </ng-template>

@@ -3,6 +3,7 @@ import { ItemInterface } from './item.interface';
 import { IUser } from './user.interface';
 
 export interface OrderItemInterface {
+  timestamp: string | number | Date;
 orderType: any;
   _id: string;
   restaurantId: number;

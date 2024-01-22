@@ -6,6 +6,9 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class OrdersService {
+  static orders(): OrderItemInterface[] {
+    throw new Error('Method not implemented.');
+  }
 
   constructor() { }
 

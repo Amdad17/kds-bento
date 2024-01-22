@@ -125,7 +125,7 @@ h2 {
 }
 
 
-.online-container {
+/* .online-container {
   display: flex;
   align-items: center;
   margin-left: 5px; 
@@ -140,7 +140,7 @@ h2 {
   margin-left: 2px; 
   font-weight: bold;
   color:lawngreen;
-}
+} */
 
 h3 {
   text-align: left;
@@ -178,8 +178,8 @@ h3 {
   font-weight: bold;
   /* font-size: 13px; */
 
-}
-.offline-container {
+ }
+/* .offline-container {
   display: flex;
   align-items: center;
   color: #dc3545; 
@@ -191,7 +191,7 @@ h3 {
 
 .offline-text {
   font-weight: bold;
-}
+} */ 
 .chef-image {
   width: 40px;
   height: 40px;
@@ -199,3 +199,43 @@ h3 {
   margin-right: 10px; 
 }
 
+/* chef.component.css */
+.online-container,
+.offline-container {
+  display: flex;
+  align-items: center;
+}
+
+.online-icon,
+.offline-icon {
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.online-icon {
+  color: green; 
+}
+
+.offline-icon {
+  color: black; 
+}
+
+.online-text,
+.offline-text {
+  font-size: 14px;
+}
+
+.online-text {
+  color: green;
+}
+
+.offline-text {
+  color: black; 
+}
+button {
+  position: fixed;
+  top: 50%; 
+  transform: translateY(-50%); 
+  right: 0;
+  z-index: 900;
+}
