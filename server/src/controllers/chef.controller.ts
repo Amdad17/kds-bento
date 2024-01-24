@@ -41,3 +41,23 @@ export async function chefCheckOut (req: AuthRequest, res: Response) {
     res.status(500).send({ message: (error as Error).message });
   }
 }
+
+
+export async function updateChefEfficiency(req: AuthRequest, res: Response) {
+  try {
+    const { user } = req;
+    if (!user) return res.status(401).send({ message: 'Unauthorized' });
+
+    const { chefId, orderId, servedOnTime } = req.body;
+
+    // Emit order served event with Socket IO.
+    const io = res.locals.io;
+    io.to(user.employeeInformation.restaurantId.toString()).emit('chef-efficiency', { chefId, order: servedOnTime });
+
+    res.status(200).json({ message: 'Order served successfully, and chef efficiency updated.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error in marking the order as served and updating chef efficiency.' });
+  }
+}
+

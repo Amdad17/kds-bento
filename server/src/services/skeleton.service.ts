@@ -11,8 +11,6 @@ export async function getTokenFromCode (code: string) {
     throw new Error("Error getting token from code.");
   }
 }
-
-
 export async function getUserFromToken (token: string) {
   try {
     const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization': token }});
@@ -21,7 +19,6 @@ export async function getUserFromToken (token: string) {
     throw new Error("Error getting user from token.")
   }
 }
-
 
 export async function getActiveChefsFromHR (token: string) {
   try {
@@ -40,7 +37,7 @@ export async function getAllOrders (token: string) {
     return res.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Error getting active chefs.")
+    throw new Error("Error getting orders.")
   }
 }
 
@@ -50,7 +47,7 @@ export async function sendOrderUpdateToPOS (token: string, orderId: string, stat
     return res.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Error getting active chefs.")
+    throw new Error("Error getting orderUpdate.")
   }
 }
 
@@ -60,7 +57,7 @@ export async function sendOrderChefToPOS (token: string, orderId: string, chef: 
     return res.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Error getting active chefs.")
+    throw new Error("Error getting  post to ChefToPOS .")
   }
 }
 
@@ -71,6 +68,34 @@ export async function postChefEfficiencyToHR (token: string, data: { chefId: num
     return res.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Error getting active chefs.")
+    throw new Error("Error getting to post chef efficiency.")
+  }
+
+}
+export async function getAllOrdersByHourly(token:string){
+  try {
+    const res = await axios.get<{ data: { count: number, hour: number }[] }>(config.SKELETON_BE_URL + '/pos/order-stats/hourly', { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting ordersBYHourly.")
+  }
+}
+export async function getAllOrdersByWeekly(token:string){
+  try {
+    const res = await axios.get<{ data:{ count: number, week: number }[] }>(config.SKELETON_BE_URL + '/pos/order-stats/weekday', { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting ordersByWeekly.")
+  }
+}
+export async function getAllOrdersByMonthly(token:string){
+  try {
+    const res = await axios.get<{ data:{ count: number, month: number }[] }>(config.SKELETON_BE_URL + 'pos/order-stats/monthly', { headers: { 'Authorization': token }});
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting ordersByMonthly.")
   }
 }

@@ -9,6 +9,9 @@ import authrouter from "./routers/auth.router";
 import { config } from "./config";
 import { authMiddleware } from "./middleware/auth.middleware";
 import chefRouter from "./routers/chef.router";
+import ordersBYHourlyRouter from "./routers/ordersByHourlyRouter";
+import ordersBYWeeklyRouter from "./routers/ordersByWeeklyRouter";
+import ordersBYMonthlyRouter from "./routers/ordersByMonthlyRouter";
 
 const app: Express = express();
 
@@ -39,6 +42,9 @@ app.use(authMiddleware);
 app.use("/chef", chefRouter);
 app.use("/orders", orderRouter);
 app.use("/rules", rulerouter);
+app.use('/orders-hourly', ordersBYHourlyRouter);
+app.use('/orders-weekly',ordersBYWeeklyRouter);
+app.use('/orders-monthly',ordersBYMonthlyRouter)
 
 
 

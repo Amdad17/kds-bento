@@ -8,6 +8,10 @@ import { stringToHexColor } from '../../utils/color.helper';
   styleUrls: ['./order-card.component.css']
 })
 export class OrderCardComponent {
+formatETA(arg0: any) {
+throw new Error('Method not implemented.');
+}
+  
   @Input() order!: OrderItemInterface;
   @Input() index?: number;
   @Input() loading!: boolean;

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgChartsModule } from 'ng2-charts';
 import { BrowserModule } from '@angular/platform-browser';
 import { NzButtonModule} from 'ng-zorro-antd/button';
 import { NzMessageModule } from 'ng-zorro-antd/message';
@@ -38,6 +39,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { GraphComponent } from './pages/graph/graph.component';
 
 const config: SocketIoConfig = { url: environment.API_URL, options: {} };
 
@@ -58,6 +60,9 @@ registerLocaleData(en);
     BaseOptionCardComponent,
     OverrideOptionCardComponent,
     OrderCardComponent,
+    GraphComponent,
+    
+  
    
     
    
@@ -79,6 +84,8 @@ registerLocaleData(en);
     NzSpinModule,
     NzIconModule,
     NzDrawerModule,
+    NgChartsModule,
+    
     SocketIoModule.forRoot(config)
   ],
   providers: [

@@ -3,6 +3,9 @@ import { ItemInterface } from './item.interface';
 import { IUser } from './user.interface';
 
 export interface OrderItemInterface {
+deliveryETA: any;
+  destinationLocation(sourceLocation: (sourceLocation: any, destinationLocation: any) => unknown, destinationLocation: any): unknown;
+  sourceLocation(sourceLocation: any, destinationLocation: any): unknown;
   timestamp: string | number | Date;
 orderType: any;
   _id: string;

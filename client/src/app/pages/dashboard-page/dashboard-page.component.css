@@ -239,3 +239,10 @@ button {
   right: 0;
   z-index: 900;
 }
+
+.nzTitle{
+  text-align: center;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}

@@ -68,7 +68,8 @@
       </div>
     </div>
   </div>
-  
+
+<div> </div>
   <h3 class ="ml-3">Item Statistics</h3>
   <div class="item-statistics-container">
     <div *ngFor="let itemDetail of itemDetails" class="item-statistic">
@@ -81,18 +82,18 @@
 </nz-spin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <nz-drawer
-      
-      [nzVisible]="visible"
-      [nzWidth] ="1370"
-      nzPlacement="right"
-      nzTitle="Grap-Display"
-      [nzExtra]="extra"
-      (nzOnClose)="close()"
-    >
-      <ng-container *nzDrawerContent>
-        <p>Some contents...</p>
-        
-      </ng-container>
-    </nz-drawer>
+  [nzVisible]="visible"
+  [nzWidth]="1370"
+  nzPlacement="right"
+  nzTitle=""
+  [nzExtra]="extra"
+  (nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <div class ="nzTitle"> Graph- Display</div>
+    <app-graph></app-graph>
+   
+  </ng-container>
+</nz-drawer>
     <ng-template #extra>
     </ng-template>

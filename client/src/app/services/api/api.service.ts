@@ -44,4 +44,13 @@ export class ApiService {
   getActiveChefs () : Observable<IUser[]> {
     return this.http.get<IUser[]>(environment.API_URL + '/chef/active');
   }
+  getOrdersByHourly (): Observable<{ data:{ count: number, hour: number }[] }>{
+    return this.http.get<{ data:{ count: number, hour: number }[] }>(environment.API_URL + '/orders-hourly/ordersHourly');
+  }
+  getOrdersByWeekly (): Observable<{ data:{ count: number, day: number }[] }>{
+    return this.http.get<{ data:{ count: number, day: number }[] }>(environment.API_URL + '/orders-weekly/ordersWeekly');
+}
+getOrdersByMonthly (): Observable<{ data:{ count: number, month: number }[] }>{
+  return this.http.get<{ data:{ count: number, month: number }[] }>(environment.API_URL + '/orders-monthly/ordersMonthly');
+}
 }

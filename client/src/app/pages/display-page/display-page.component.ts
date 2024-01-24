@@ -29,6 +29,10 @@ export class DisplayPageComponent implements OnInit {
 
   loading: boolean = false;
 
+  orderItems: OrderItemInterface[] = [];
+  deliveryETA:number | undefined;
+  deliveryETAInterval: any;
+
   constructor(
     private orderService: OrdersService,
     private loadingService: LoadingService,
@@ -38,6 +42,15 @@ export class DisplayPageComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+
+
+    this.calculateETA();
+    this.deliveryETAInterval=setInterval(()=>{
+      this.calculateETA();
+    },1000)
+  
+
+
     this.chefs = this.chefService.chefs;
     this.setOrders(this.orderService.orders);
     this.loading = this.loadingService.orderLoading;
@@ -72,6 +85,21 @@ export class DisplayPageComponent implements OnInit {
     setInterval(() => {
       this.sortAndAssignPendingOrders(this.orderService.orders);
     }, 1000 * 60);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.deliveryETAInterval);
+  }
+  calculateETA(): void {
+    this.orderItems.forEach((orderItem:OrderItemInterface)=>{
+      if (orderItem.deliveryTimestamp){
+        const currentTime= new Date ().getTime();
+        const deliveryTime= new Date(orderItem.deliveryTimestamp).getTime();
+        const remainingTimeInSeconds = Math.max(0, Math.floor((deliveryTime - currentTime) / 1000));
+        this.deliveryETA=remainingTimeInSeconds;
+      }
+    })
+  
   }
 
   setOrders(orders: OrderItemInterface[]) {
@@ -124,5 +152,15 @@ export class DisplayPageComponent implements OnInit {
 
   isOrderLoading (order: OrderItemInterface) {
     return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
+  }
+
+  formatETA(): string {
+    if (this.deliveryETA !== undefined) {
+      const minutes = Math.floor(this.deliveryETA / 60);
+      const seconds = this.deliveryETA % 60;
+      return `${minutes} min ${seconds} sec`;
+    } else {
+      return 'N/A';
+    }
   }
 }

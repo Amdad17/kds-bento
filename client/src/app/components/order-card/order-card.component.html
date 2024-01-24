@@ -2,6 +2,8 @@
     <div class="order-info">
       <h2 class="text-sm"><strong>Order ID #{{ order._id }}</strong></h2>
       <h3 class="text-sm">Order Type: {{ order.type }}</h3>
+      <p *ngIf="order.deliveryETA !== undefined">Delivery ETA: {{ formatETA(order.deliveryETA) }}</p>
+
 
       @for (item of order.items; track $index) {
         <div class="my-5">

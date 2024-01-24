@@ -6,12 +6,14 @@ import { IUser } from '../../interfaces/user.interface';
 import { LoadingService } from '../../services/loading/loading.service';
 import { ChefService } from '../../services/chef/chef.service';
 import { ItemInterface } from '../../interfaces/item.interface';
+import { ApiService } from '../../services/api/api.service';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.css',
 })
+
 export class DashboardPageComponent implements OnInit {
   itemDetails: { item: ItemInterface, count: number }[] = [];
 
@@ -34,10 +36,28 @@ totalServed: any;
   constructor(
     private ordersService: OrdersService,
     private loadingService: LoadingService,
-    private chefService: ChefService
+    private chefService: ChefService,
+    private  apiService: ApiService,
   ) {}
 
   ngOnInit(): void {
+    
+    this.apiService.getOrdersByHourly().subscribe(data => {
+      console.log('hourly', data)
+    })
+
+    this.apiService.getOrdersByWeekly().subscribe(data => {
+      console.log('Weekly:', data);
+    })
+
+    this.apiService.getOrdersByMonthly().subscribe(data => {
+      console.log('MonthgetOrdersByMonthly:', data);
+    })
+  
+    
+    
+    
+    
     const orders = this.ordersService.orders;
     
 
