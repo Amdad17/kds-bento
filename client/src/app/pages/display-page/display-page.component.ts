@@ -49,8 +49,6 @@ export class DisplayPageComponent implements OnInit {
       this.calculateETA();
     },1000)
   
-
-
     this.chefs = this.chefService.chefs;
     this.setOrders(this.orderService.orders);
     this.loading = this.loadingService.orderLoading;

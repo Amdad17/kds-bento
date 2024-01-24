@@ -33,12 +33,12 @@ export class GraphComponent {
 
   public lineChartColors: Array<any> = [
     { 
-      backgroundColor: 'red',
-    borderColor: 'red',      
-    pointBackgroundColor: 'red', 
-    pointBorderColor: 'red',               
-    pointHoverBackgroundColor: 'red',      
-    pointHoverBorderColor: 'red'
+      backgroundColor: 'green',
+      borderColor: 'green',
+      pointBackgroundColor: 'green',
+      pointBorderColor: 'green',
+      pointHoverBackgroundColor: 'green',
+      pointHoverBorderColor: 'green'
     }
   ];
 
