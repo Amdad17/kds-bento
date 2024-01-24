@@ -13,8 +13,8 @@ export async function getTokenFromCode (code: string) {
 }
 export async function getUserFromToken (token: string) {
   try {
-    const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization': 'Bearer '+ token }});
-    return res.data;
+    const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization':  token }});
+    return res.data.user;
   } catch (error) {
     throw new Error("Error getting user from token.")
   }
