@@ -14,6 +14,7 @@ export async function getTokenFromCode (code: string) {
 export async function getUserFromToken (token: string) {
   try {
     const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization':  token }});
+    console.log('res from get user token' , res);
     return res.data;
   } catch (error) {
     console.log(error);
