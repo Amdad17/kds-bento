@@ -60,7 +60,7 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
     const token = req.token;
     if (!user || !token) return res.status(401).send({ message: "Unauthorized." });
 
-    const { orderId, status } = req.body;
+    const { orderId, status , type } = req.body;
 
     if (
       !orderId ||
@@ -70,7 +70,7 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
       status !== "complete")
     ) return res.status(400).send({ message: "Invalid fields." });
 
-    const order = await sendOrderUpdateToPOS(token, orderId, status);
+    const order = await sendOrderUpdateToPOS(token, orderId, status , type);
 
     if (status === 'ready' || status === 'complete') {
       if (order.chef) {

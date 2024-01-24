@@ -16,9 +16,9 @@ export class AuthRedirectPageComponent implements OnInit {
     if (code) {
       this.api.authenticate(code).subscribe({
         next: () => this.router.navigateByUrl('/dashboard'),
-        error: () => window.location.href = 'https://bento-client.vercel.app/login'
+        error: () => window.location.href = 'https://getbento.vercel.app/login'
       })
-    } else window.location.href = 'https://bento-client.vercel.app/login';
+    } else window.location.href = 'https://getbento.vercel.app/login';
   }
 
 }

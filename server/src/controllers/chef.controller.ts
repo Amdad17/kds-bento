@@ -43,7 +43,7 @@ export async function chefCheckOut (req: AuthRequest, res: Response) {
 }
 
 
-export async function updateChefEfficiency(req: AuthRequest, res: Response) {
+export async function postChefEfficiency(req: AuthRequest, res: Response) {
   try {
     const { user } = req;
     if (!user) return res.status(401).send({ message: 'Unauthorized' });

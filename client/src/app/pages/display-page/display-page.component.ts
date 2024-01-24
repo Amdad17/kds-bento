@@ -32,7 +32,7 @@ export class DisplayPageComponent implements OnInit {
   orderItems: OrderItemInterface[] = [];
   deliveryETA:number | undefined;
   deliveryETAInterval: any;
-
+ 
   constructor(
     private orderService: OrdersService,
     private loadingService: LoadingService,

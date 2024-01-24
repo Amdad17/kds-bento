@@ -10,6 +10,9 @@ import { OrderItemInterface } from '../../interfaces/order.interface';
   providedIn: 'root'
 })
 export class ApiService {
+  updateQuickService(_id: string, quickService: boolean) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -34,7 +37,7 @@ export class ApiService {
   }
 
   updateOrderStatus (order: OrderItemInterface, status: "pending" | "preparing" | "ready" | "complete") : Observable<OrderItemInterface> {
-    return this.http.put<OrderItemInterface>(environment.API_URL + "/orders/status", { orderId: order._id, status });
+    return this.http.put<OrderItemInterface>(environment.API_URL + "/orders/status", { orderId: order._id, status , type: order.type});
   }
 
   addChefToOrder (orderId: string, chef: IUser) {

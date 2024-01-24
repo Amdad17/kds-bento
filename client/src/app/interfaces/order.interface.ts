@@ -28,4 +28,5 @@ orderType: any;
   deliveryTimestamp?: Date;
   deliveryServiceArriveTime?: Date;
   cancelTimestamp?: Date;
+  quickService?: boolean;
 }

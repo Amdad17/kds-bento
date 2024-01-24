@@ -41,9 +41,9 @@ export async function getAllOrders (token: string) {
   }
 }
 
-export async function sendOrderUpdateToPOS (token: string, orderId: string, status: string) {
+export async function sendOrderUpdateToPOS (token: string, orderId: string, status: string , type:string) {
   try {
-    const res = await axios.put<IOrder>(config.SKELETON_BE_URL + '/orders/status/' + orderId, { status }, { headers: { 'Authorization': token }});
+    const res = await axios.put<IOrder>(config.SKELETON_BE_URL + '/orders/status/' + orderId, { status , type }, { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);
