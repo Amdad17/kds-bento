@@ -5,6 +5,7 @@ import { IUser } from '../../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import { IRules } from '../../interfaces/rules.interface';
 import { OrderItemInterface } from '../../interfaces/order.interface';
+import { IEmployeeInfo } from '../../interfaces/employeeInfo.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -44,8 +45,8 @@ export class ApiService {
     return this.http.put<OrderItemInterface>(environment.API_URL + "/orders/chef/" + orderId , { chef });
   }
 
-  getActiveChefs () : Observable<IUser[]> {
-    return this.http.get<IUser[]>(environment.API_URL + '/chef/active');
+  getActiveChefs () : Observable<{ data: { employee: IEmployeeInfo }[]}> {
+    return this.http.get<{ data: { employee: IEmployeeInfo }[]}>(environment.API_URL + '/chef/active');
   }
   getOrdersByHourly (): Observable<{ data:{ count: number, hour: number }[] }>{
     return this.http.get<{ data:{ count: number, hour: number }[] }>(environment.API_URL + '/orders-hourly/ordersHourly');

@@ -44,7 +44,12 @@ export class PageContainerComponent implements OnInit {
     this.fetchRules();
     this.fetchOrders();
 
-    this.api.getActiveChefs().subscribe(data => console.log(data));
+    this.api.getActiveChefs().subscribe(res => {
+      console.log('Active chefs:', res);
+      const chefs = res.data.map(chef => ({ employeeInformation: chef.employee}));
+      this.chefService.chefs = chefs;
+      console.log(chefs);
+    });
 
     this.socket.getIncomingOrders().subscribe(data => {
       this.ordersService.emitIncomingOrder(data);
@@ -58,12 +63,21 @@ export class PageContainerComponent implements OnInit {
   }
 
   fetchOrders () {
+
     this.loadingService.setOrderLoading(true);
-    this.api.getOrders().subscribe(data => {
-      console.log(data)
-      this.ordersService.orders = data.data;
-      this.loadingService.setOrderLoading(false);
-    })
+    this.api.getActiveChefs().subscribe(res => {
+      console.log('Active chefs:', res);
+      const chefs = res.data.map(chef => ({ employeeInformation: chef.employee}));
+      this.chefService.chefs = chefs;
+      console.log(chefs);
+      
+      this.api.getOrders().subscribe(data => {
+        console.log(data)
+        this.ordersService.orders = data.data;
+        this.loadingService.setOrderLoading(false);
+      })
+    });
+    
   }
 
   fetchRules () {

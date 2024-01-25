@@ -1,6 +1,6 @@
 import { IEmployeeInfo } from "./employeeInfo.interface";
 
 export interface IUser {
-  positionId: number;
+  positionId?: number;
   employeeInformation: IEmployeeInfo;
 }

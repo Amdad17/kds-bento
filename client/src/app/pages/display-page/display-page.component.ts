@@ -54,7 +54,10 @@ export class DisplayPageComponent implements OnInit {
     this.loading = this.loadingService.orderLoading;
     this.loadingService.orderLoadingEvent.subscribe(value => {
       this.loading = value;
-      if (!value) this.setOrders(this.orderService.orders);
+      if (!value) {
+        this.chefs = this.chefService.chefs;
+        this.setOrders(this.orderService.orders);
+      }
     })
 
     this.chefService.chefChange.subscribe(data => {
