@@ -14,6 +14,7 @@ export class OrdersService {
 
   orders : OrderItemInterface[] = [];
   newOrder = new Subject<OrderItemInterface>();
+  servedOrder = new Subject<OrderItemInterface>();
   updatedItemsOrder = new Subject<OrderItemInterface>();
   orderStatusChange = new Subject<OrderItemInterface>();
 
@@ -30,6 +31,11 @@ export class OrdersService {
 
   emitOrderStatusChange (order: OrderItemInterface) {
     this.orderStatusChange.next(order);
+    this.orders = this.orders.map(item => item._id === order._id ? order : item);
+  }
+
+  emitServedOrder (order: OrderItemInterface) {
+    this.servedOrder.next(order);
     this.orders = this.orders.map(item => item._id === order._id ? order : item);
   }
 }

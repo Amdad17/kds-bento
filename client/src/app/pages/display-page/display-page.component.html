@@ -12,7 +12,7 @@
   
     
     <div class="drag-drop-column">
-      <h3 class="center-text">Being Preparing</h3>
+      <h3 class="center-text">Being Prepared</h3>
       <div cdkDropList #preparingList="cdkDropList" [cdkDropListData]="preparing" [cdkDropListConnectedTo]="[pendingList, readyList]" class="drop-list" (cdkDropListDropped)="onDrop($event, 'preparing')">
         <app-order-card [order]="order" *ngFor="let order of preparing order" cdkDrag [cdkDragDisabled]="isOrderLoading(order)" [loading]="isOrderLoading(order)"></app-order-card>
       </div>
@@ -29,6 +29,9 @@
     
     <div class="drag-drop-column">
       <h3 class="center-text">Served/Delivered</h3>
+      <div class="drop-list">
+        <app-order-card [order]="order" *ngFor="let order of served order" [loading]="false"></app-order-card>
       </div>
     </div>
+  </div>
 </nz-spin>

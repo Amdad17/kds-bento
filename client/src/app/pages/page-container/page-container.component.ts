@@ -53,11 +53,15 @@ export class PageContainerComponent implements OnInit {
 
     this.socket.getIncomingOrders().subscribe(data => {
       this.ordersService.emitIncomingOrder(data);
+    });
 
-    })
+
     this.socket.getservedOeders().subscribe(data => {
       console.log('Served order:', data);
+      this.ordersService.emitServedOrder(data.order);
     });
+
+
     this.socket.getChefCheckIn().subscribe(data => this.chefService.checkIn(data.chef));
     this.socket.getChefCheckOut().subscribe(data => this.chefService.checkOut(data.chef));
   }

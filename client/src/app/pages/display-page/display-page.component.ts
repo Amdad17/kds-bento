@@ -23,6 +23,7 @@ export class DisplayPageComponent implements OnInit {
   pending: OrderItemInterface[] = [];
   preparing: OrderItemInterface[] = [];
   ready: OrderItemInterface[] = [];
+  served: OrderItemInterface[] = [];
   loadingOrders: OrderItemInterface[] = [];
 
   chefs: IUser[] = [];
@@ -73,6 +74,10 @@ export class DisplayPageComponent implements OnInit {
       }
     });
 
+    this.orderService.servedOrder.subscribe(data => {
+      this.handleServedOrder(data);
+    })
+
     setInterval(() => {
       this.sortAndAssignPendingOrders(this.orderService.orders);
     }, 1000 * 60);
@@ -82,13 +87,20 @@ export class DisplayPageComponent implements OnInit {
     this.preparing = orders.filter((item) => item.status === 'preparing');
     this.sortAndAssignPendingOrders(orders);
     this.ready = orders.filter((item) => item.status === 'ready');
-    
+    this.served = orders.filter((item) => item.status === 'served');
   }
 
   sortAndAssignPendingOrders(orders: OrderItemInterface[]) {
     const sortedOrders = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
     const preparingOrders = orders.filter((item) => item.status === 'preparing');
     this.pending = assignChefToPendingOrders([...sortedOrders], [...preparingOrders], this.chefs);
+  }
+
+  handleServedOrder (order: OrderItemInterface) {
+    this.pending = this.pending.filter(item => item._id !== order._id);
+    this.preparing = this.preparing.filter(item => item._id !== order._id);
+    this.ready = this.ready.filter(item => item._id !== order._id);
+    this.served.push(order);
   }
 
   onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready") {
