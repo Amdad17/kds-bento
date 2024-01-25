@@ -47,7 +47,7 @@ export class PageContainerComponent implements OnInit {
     this.api.getActiveChefs().subscribe(data => console.log(data));
 
     this.socket.getIncomingOrders().subscribe(data => {
-      this.ordersService.emitIncomingOrder(data.order);
+      this.ordersService.emitIncomingOrder(data);
 
     })
     this.socket.getservedOeders().subscribe(data => {
