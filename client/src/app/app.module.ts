@@ -8,6 +8,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
 
@@ -85,6 +86,7 @@ registerLocaleData(en);
     NzIconModule,
     NzDrawerModule,
     NgChartsModule,
+    NzBadgeModule,
     
     SocketIoModule.forRoot(config)
   ],

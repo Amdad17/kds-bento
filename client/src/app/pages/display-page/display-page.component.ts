@@ -29,10 +29,6 @@ export class DisplayPageComponent implements OnInit {
 
   loading: boolean = false;
 
-  // orderItems: OrderItemInterface[] = [];
-  // deliveryETA:number | undefined;
-  // deliveryETAInterval: any;
- 
   constructor(
     private orderService: OrdersService,
     private loadingService: LoadingService,
@@ -42,12 +38,6 @@ export class DisplayPageComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-
-
-    // this.calculateETA();
-    // this.deliveryETAInterval=setInterval(()=>{
-    //   this.calculateETA();
-    // },1000)
   
     this.chefs = this.chefService.chefs;
     this.setOrders(this.orderService.orders);
@@ -87,21 +77,6 @@ export class DisplayPageComponent implements OnInit {
       this.sortAndAssignPendingOrders(this.orderService.orders);
     }, 1000 * 60);
   }
-
-  // ngOnDestroy(): void {
-  //   clearInterval(this.deliveryETAInterval);
-  // }
-  // calculateETA(): void {
-  //   this.orderItems.forEach((orderItem:OrderItemInterface)=>{
-  //     if (orderItem.deliveryTimestamp){
-  //       const currentTime= new Date ().getTime();
-  //       const deliveryTime= new Date(orderItem.deliveryTimestamp).getTime();
-  //       const remainingTimeInSeconds = Math.max(0, Math.floor((deliveryTime - currentTime) / 1000));
-  //       this.deliveryETA=remainingTimeInSeconds;
-  //     }
-  //   })
-  
-  // }
 
   setOrders(orders: OrderItemInterface[]) {
     this.preparing = orders.filter((item) => item.status === 'preparing');
@@ -144,9 +119,22 @@ export class DisplayPageComponent implements OnInit {
       }
 
       this.loadingOrders.push(order);
-      this.api.updateOrderStatus(order, targetList).subscribe(() => {
-        this.orderService.emitOrderStatusChange(order);
-        this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
+      this.api.updateOrderStatus(order, targetList).subscribe({
+        next: () => {
+          this.orderService.emitOrderStatusChange(order);
+          this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
+        },
+        error: (error) => {
+          this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
+          console.log(error)
+
+          transferArrayItem(
+            event.container.data,
+            event.previousContainer.data,
+            event.currentIndex,
+            event.previousIndex
+          );
+        }
       });
     }
   }
@@ -155,13 +143,4 @@ export class DisplayPageComponent implements OnInit {
     return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
   }
 
-  // formatETA(): string {
-  //   if (this.deliveryETA !== undefined) {
-  //     const minutes = Math.floor(this.deliveryETA / 60);
-  //     const seconds = this.deliveryETA % 60;
-  //     return `${minutes} min ${seconds} sec`;
-  //   } else {
-  //     return 'N/A';
-  //   }
-  // }
 }
