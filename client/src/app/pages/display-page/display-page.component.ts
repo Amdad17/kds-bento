@@ -141,7 +141,7 @@ export class DisplayPageComponent implements OnInit {
       }
 
       this.loadingOrders.push(order);
-      this.api.updateOrderStatus(order, targetList).subscribe((order) => {
+      this.api.updateOrderStatus(order, targetList).subscribe(() => {
         this.orderService.emitOrderStatusChange(order);
         this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
       });
