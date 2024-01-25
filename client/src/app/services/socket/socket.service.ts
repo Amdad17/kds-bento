@@ -20,7 +20,7 @@ export class SocketService {
   }
 
   getIncomingOrders() {
-    return this.socket.fromEvent<{order: OrderItemInterface}>('incoming-order');
+    return this.socket.fromEvent<OrderItemInterface>('incoming-order');
   }
 
   getChefCheckIn () {
