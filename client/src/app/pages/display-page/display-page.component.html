@@ -21,7 +21,7 @@
     
     <div class="drag-drop-column">
       <h3 class="center-text">Ready To Serve</h3>
-      <div cdkDropList #readyList="cdkDropList" [cdkDropListData]="ready" [cdkDropListConnectedTo]="[preparingList, readyList]" class="drop-list" (cdkDropListDropped)="onDrop($event, 'ready')">
+      <div cdkDropList #readyList="cdkDropList" [cdkDropListData]="ready" [cdkDropListConnectedTo]="[preparingList]" class="drop-list" (cdkDropListDropped)="onDrop($event, 'ready')">
         <app-order-card [order]="order" *ngFor="let order of ready order" cdkDrag [cdkDragDisabled]="isOrderLoading(order)" [loading]="isOrderLoading(order)"></app-order-card>
       </div>
     </div>
@@ -31,10 +31,4 @@
       <h3 class="center-text">Served/Delivered</h3>
       </div>
     </div>
-    <!-- <div> -->
-      <!-- <p>
-        Delivery ETA: {{ formatETA() }}
-      </p>
-    </div> -->
- 
 </nz-spin>
