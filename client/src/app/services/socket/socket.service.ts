@@ -31,6 +31,6 @@ export class SocketService {
     return this.socket.fromEvent<{ chef: IUser}>('chef-check-out');
   }
   getservedOeders(){
-    return this.socket.fromEvent<{order:  OrderItemInterface}>('orderServed');
+    return this.socket.fromEvent<{order:  OrderItemInterface}>('order-served');
   }
 }
