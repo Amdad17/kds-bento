@@ -30,7 +30,7 @@ export class SocketService {
   getChefCheckOut () {
     return this.socket.fromEvent<{ chef: IUser}>('chef-check-out');
   }
-  getservedOeders(){
+  getServedOrders () {
     return this.socket.fromEvent<{order:  OrderItemInterface}>('order-served');
   }
 }

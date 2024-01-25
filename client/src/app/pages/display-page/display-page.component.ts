@@ -52,7 +52,6 @@ export class DisplayPageComponent implements OnInit {
     })
 
     this.chefService.chefChange.subscribe(data => {
-      console.log(data);
       this.chefs = data;
       this.sortAndAssignPendingOrders(this.orderService.orders);
     });
@@ -64,7 +63,6 @@ export class DisplayPageComponent implements OnInit {
     });
 
     this.orderService.updatedItemsOrder.subscribe(data => {
-      console.log(data);
       if (data.status === 'preparing') {
         this.preparing = this.preparing.map(item => item._id === data._id ? data : item)
       } else if (data.status === 'ready') {
@@ -119,7 +117,6 @@ export class DisplayPageComponent implements OnInit {
       );
 
       const order = event.container.data[event.currentIndex];
-      console.log(order)
       order.status = targetList;
 
       if(targetList === "pending" || event.previousContainer.id === "cdk-drop-list-0") {
@@ -138,7 +135,6 @@ export class DisplayPageComponent implements OnInit {
         },
         error: (error) => {
           this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
-          console.log(error)
 
           transferArrayItem(
             event.container.data,

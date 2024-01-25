@@ -45,10 +45,8 @@ export class PageContainerComponent implements OnInit {
     this.fetchOrders();
 
     this.api.getActiveChefs().subscribe(res => {
-      console.log('Active chefs:', res);
       const chefs = res.data.map(chef => ({ employeeInformation: chef.employee}));
-      this.chefService.chefs = chefs;
-      console.log(chefs);
+      this.chefService.emitActiveChefs(chefs);
     });
 
     this.socket.getIncomingOrders().subscribe(data => {
@@ -56,7 +54,7 @@ export class PageContainerComponent implements OnInit {
     });
 
 
-    this.socket.getservedOeders().subscribe(data => {
+    this.socket.getServedOrders().subscribe(data => {
       console.log('Served order:', data);
       this.ordersService.emitServedOrder(data.order);
     });
@@ -67,21 +65,12 @@ export class PageContainerComponent implements OnInit {
   }
 
   fetchOrders () {
-
     this.loadingService.setOrderLoading(true);
-    this.api.getActiveChefs().subscribe(res => {
-      console.log('Active chefs:', res);
-      const chefs = res.data.map(chef => ({ employeeInformation: chef.employee}));
-      this.chefService.chefs = chefs;
-      console.log(chefs);
-      
-      this.api.getOrders().subscribe(data => {
-        console.log(data)
-        this.ordersService.orders = data.data;
-        this.loadingService.setOrderLoading(false);
-      })
+    this.api.getOrders().subscribe(data => {
+      console.log(data)
+      this.ordersService.orders = data.data;
+      this.loadingService.setOrderLoading(false);
     });
-    
   }
 
   fetchRules () {

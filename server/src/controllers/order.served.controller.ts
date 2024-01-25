@@ -10,7 +10,7 @@ export async function orderServed(req: AuthRequest, res: Response) {
   
       // Emit order served event with Socket IO.
       const io = res.locals.io;
-      io.to(user.employeeInformation.restaurantId.toString()).emit('order-served', { orderId, ...{ orderServed }});
+      io.to(user.employeeInformation.restaurantId.toString()).emit('order-served', { orderId, ...orderServed });
   
       res.status(200).json({ message: 'Order served successfully.' });
     } catch (error) {

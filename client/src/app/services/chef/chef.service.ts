@@ -108,4 +108,9 @@ export class ChefService {
     this.chefChange.next(this.chefs);
     this.toast.setMessage(chef.employeeInformation.name + ' checked out.', "info");
   }
+
+  emitActiveChefs (chefs: IUser[]) {
+    this.chefs = chefs;
+    this.chefChange.next(chefs);
+  }
 }
