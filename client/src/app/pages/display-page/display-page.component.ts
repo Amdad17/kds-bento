@@ -29,6 +29,7 @@ export class DisplayPageComponent implements OnInit {
   chefs: IUser[] = [];
 
   loading: boolean = false;
+  dragging: boolean = false;
 
   constructor(
     private orderService: OrdersService,
@@ -77,7 +78,8 @@ export class DisplayPageComponent implements OnInit {
     })
 
     setInterval(() => {
-      this.sortAndAssignPendingOrders(this.orderService.orders);
+      if (!this.loadingOrders.length && !this.dragging)
+        this.sortAndAssignPendingOrders(this.orderService.orders);
     }, 1000 * 60);
   }
 
@@ -146,6 +148,9 @@ export class DisplayPageComponent implements OnInit {
       });
     }
   }
+
+  onDragStart () { this.dragging = true }
+  onDragEnd () { this.dragging = false }
 
   isOrderLoading (order: OrderItemInterface) {
     return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
