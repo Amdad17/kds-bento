@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface";
-import { getActiveChefsFromHR } from "../services/skeleton.service";
+import { getActiveChefsFromHR, postChefEfficiencyToHR } from "../services/skeleton.service";
 
 export async function getActiveChefs (req: AuthRequest, res: Response) {
   try {
@@ -45,16 +45,18 @@ export async function chefCheckOut (req: AuthRequest, res: Response) {
 
 export async function postChefEfficiency(req: AuthRequest, res: Response) {
   try {
-    const { user } = req;
-    if (!user) return res.status(401).send({ message: 'Unauthorized' });
+    const { user, token } = req;
+    if (!user || !token) return res.status(401).send({ message: 'Unauthorized' });
 
     const { chefId, orderId, servedOnTime } = req.body;
 
-    // Emit order served event with Socket IO.
-    const io = res.locals.io;
-    io.to(user.employeeInformation.restaurantId.toString()).emit('chef-efficiency', { chefId, order: servedOnTime });
+    // // Emit order served event with Socket IO.
+    // const io = res.locals.io;
+    // io.to(user.employeeInformation.restaurantId.toString()).emit('chef-efficiency', { chefId, order: servedOnTime });
 
+    await postChefEfficiencyToHR(token, { chefId, orderId, servedOnTime });
     res.status(200).json({ message: 'Order served successfully, and chef efficiency updated.' });
+    console.log("effhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error in marking the order as served and updating chef efficiency.' });

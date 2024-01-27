@@ -23,8 +23,8 @@ export class DisplayPageComponent implements OnInit {
   pending: OrderItemInterface[] = [];
   preparing: OrderItemInterface[] = [];
   ready: OrderItemInterface[] = [];
-  served: OrderItemInterface[] = [];
   loadingOrders: OrderItemInterface[] = [];
+  served:any;
 
   chefs: IUser[] = [];
 
@@ -52,6 +52,7 @@ export class DisplayPageComponent implements OnInit {
     })
 
     this.chefService.chefChange.subscribe(data => {
+      console.log(data);
       this.chefs = data;
       this.sortAndAssignPendingOrders(this.orderService.orders);
     });
@@ -63,6 +64,7 @@ export class DisplayPageComponent implements OnInit {
     });
 
     this.orderService.updatedItemsOrder.subscribe(data => {
+      console.log(data);
       if (data.status === 'preparing') {
         this.preparing = this.preparing.map(item => item._id === data._id ? data : item)
       } else if (data.status === 'ready') {
@@ -71,10 +73,6 @@ export class DisplayPageComponent implements OnInit {
         this.pending = this.pending.map(item => item._id === data._id ? data : item)
       }
     });
-
-    this.orderService.servedOrder.subscribe(data => {
-      this.handleServedOrder(data);
-    })
 
     setInterval(() => {
       this.sortAndAssignPendingOrders(this.orderService.orders);
@@ -85,20 +83,13 @@ export class DisplayPageComponent implements OnInit {
     this.preparing = orders.filter((item) => item.status === 'preparing');
     this.sortAndAssignPendingOrders(orders);
     this.ready = orders.filter((item) => item.status === 'ready');
-    this.served = orders.filter((item) => item.status === 'served');
+    
   }
 
   sortAndAssignPendingOrders(orders: OrderItemInterface[]) {
     const sortedOrders = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
     const preparingOrders = orders.filter((item) => item.status === 'preparing');
     this.pending = assignChefToPendingOrders([...sortedOrders], [...preparingOrders], this.chefs);
-  }
-
-  handleServedOrder (order: OrderItemInterface) {
-    this.pending = this.pending.filter(item => item._id !== order._id);
-    this.preparing = this.preparing.filter(item => item._id !== order._id);
-    this.ready = this.ready.filter(item => item._id !== order._id);
-    this.served.push(order);
   }
 
   onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready") {
@@ -117,6 +108,7 @@ export class DisplayPageComponent implements OnInit {
       );
 
       const order = event.container.data[event.currentIndex];
+      console.log(order)
       order.status = targetList;
 
       if(targetList === "pending" || event.previousContainer.id === "cdk-drop-list-0") {
@@ -132,9 +124,11 @@ export class DisplayPageComponent implements OnInit {
         next: () => {
           this.orderService.emitOrderStatusChange(order);
           this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
+          if (targetList === "ready") this.checkServedOnTime(order);
         },
         error: (error) => {
           this.loadingOrders = this.loadingOrders.filter(item => item._id !== order._id);
+          console.log(error)
 
           transferArrayItem(
             event.container.data,
@@ -146,6 +140,41 @@ export class DisplayPageComponent implements OnInit {
       });
     }
   }
+
+
+  /////////////////////////////////////////////////////////////////////
+  calculateTotalPreparationTime(order: OrderItemInterface): number {
+    return order.items.reduce((totalTime, item) => {
+      return totalTime + item.item.itemPreparationTime * item.item.itemQuantity;
+    }, 0);
+  }
+
+
+  checkServedOnTime(order: OrderItemInterface): void {
+    const totalPreparationTime = this.calculateTotalPreparationTime(order);
+    let servedOnTime: boolean = false;
+    if (order.readyTimestamp && order.preparingTimestamp) {
+      const actualPrepTime = ((new Date(order.readyTimestamp).getTime()) - (new Date(order.preparingTimestamp)).getTime()) /  60000;
+      servedOnTime = actualPrepTime < totalPreparationTime;
+    } else {
+      // Handle the case where either readyTimestamp or preparingTimestamp is missing.
+      servedOnTime = false;
+    }
+
+    const chefData = {
+      chefId: order.chef?.employeeInformation.id,
+      orderId: order._id,
+      servedOnTime: servedOnTime
+    }
+
+    console.log('Sending efficiency data to HR');
+    this.api.postChefEffiiciency(chefData).subscribe(data => {
+      console.log('Chef data to HR is: ', data);
+    })
+  }
+
+  //////////////////////////////////////////////////////////////////////
+
 
   isOrderLoading (order: OrderItemInterface) {
     return this.loadingOrders.findIndex(item => item._id === order._id) > -1;

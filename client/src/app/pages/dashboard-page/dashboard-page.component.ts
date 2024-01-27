@@ -31,7 +31,7 @@ throw new Error('Method not implemented.');
 
   currentChefs: IUser[] = [];
   chefStats: { chef: IUser, totalServed: number, servedOnTime: number, servedOutOfTime: number }[] = [];
-totalServed: any;
+  totalServed: any;
 
   constructor(
     private ordersService: OrdersService,
@@ -43,7 +43,7 @@ totalServed: any;
   ngOnInit(): void {
     
     this.apiService.getOrdersByHourly().subscribe(data => {
-      console.log('hourly', data)
+      console.log('hourly', data);
     })
 
     this.apiService.getOrdersByWeekly().subscribe(data => {
@@ -96,11 +96,48 @@ totalServed: any;
       return prepTime < totalPrepTime;
     }).length;
 
+    
+
+
+
+    ///////////////////////////////////////////
     this.servedOutOfTime = this.servedOrders - this.servedOnTime;
     this.chefStats = this.getChefsFromOrders(orders);
     this.calculateItemCount(orders.map(order => order.items).flat());
   }
 
+
+  /////////////////////////////////////////////////////////////////////
+  calculateTotalPreparationTime(order: OrderItemInterface): number {
+    return order.items.reduce((totalTime, item) => {
+      return totalTime + item.item.itemPreparationTime * item.item.itemQuantity;
+    }, 0);
+  }
+
+
+  checkServedOnTime(order: OrderItemInterface): void {
+    const totalPreparationTime = this.calculateTotalPreparationTime(order);
+    let servedOnTime: boolean = false;
+    if (order.readyTimestamp && order.preparingTimestamp) {
+      const actualPrepTime = ((new Date(order.readyTimestamp).getTime()) - (new Date(order.preparingTimestamp)).getTime()) /  60000;
+      servedOnTime = actualPrepTime < totalPreparationTime;
+    } else {
+      // Handle the case where either readyTimestamp or preparingTimestamp is missing.
+      servedOnTime = false;
+    }
+
+    const chefData = {
+      chefId: order.chef?.employeeInformation.id,
+      orderId: order._id,
+      servedOnTime: servedOnTime
+    }
+
+    this.apiService.postChefEffiiciency(chefData).subscribe(data => {
+      console.log('Chef data to HR is: ', data);
+    })
+  }
+
+  //////////////////////////////////////////////////////////////////////
 
   getChefsFromOrders (orders: OrderItemInterface[]) {
     const chefs : {

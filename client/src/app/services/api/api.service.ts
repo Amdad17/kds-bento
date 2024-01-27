@@ -11,9 +11,10 @@ import { IEmployeeInfo } from '../../interfaces/employeeInfo.interface';
   providedIn: 'root'
 })
 export class ApiService {
-  updateQuickService(_id: string, quickService: boolean) {
-    throw new Error('Method not implemented.');
-  }
+  // postChefEffiiciency: any;
+  // // updateQuickService(_id: string, quickService: boolean) {
+  // //   throw new Error('Method not implemented.');
+  // // }
 
   constructor(private http: HttpClient) { }
 
@@ -57,4 +58,8 @@ export class ApiService {
 getOrdersByMonthly (): Observable<{ data:{ count: number, month: number }[] }>{
   return this.http.get<{ data:{ count: number, month: number }[] }>(environment.API_URL + '/orders-monthly/ordersMonthly');
 }
+postChefEffiiciency(chefData: any):Observable<any>{
+  return this.http.post<any>(environment.API_URL +'/chef/efficiency', chefData);
 }
+}
+
