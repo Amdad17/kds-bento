@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit } from '@angular/core';
 
 import { OrdersService } from '../../services/orders/orders.service';
@@ -13,10 +11,16 @@ import { ApiService } from '../../services/api/api.service';
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.css'],
+  styleUrl: './dashboard-page.component.css',
 })
+
 export class DashboardPageComponent implements OnInit {
   itemDetails: { item: ItemInterface, count: number }[] = [];
+
+  
+Number(arg0: number) {
+throw new Error('Method not implemented.');
+}
   totalOrders: number = 0;
   pendingOrders: number = 0;
   preparingOrders: number = 0;
@@ -24,7 +28,6 @@ export class DashboardPageComponent implements OnInit {
   servedOnTime: number = 0;
   servedOutOfTime: number = 0;
   loading: boolean = false;
-  activeChefs: IUser[] = [];
 
   currentChefs: IUser[] = [];
   chefStats: { chef: IUser, totalServed: number, servedOnTime: number, servedOutOfTime: number }[] = [];
@@ -34,23 +37,29 @@ export class DashboardPageComponent implements OnInit {
     private ordersService: OrdersService,
     private loadingService: LoadingService,
     private chefService: ChefService,
-    private apiService: ApiService,
+    private  apiService: ApiService,
   ) {}
 
   ngOnInit(): void {
+    
     this.apiService.getOrdersByHourly().subscribe(data => {
       console.log('hourly', data);
-    });
+    })
 
     this.apiService.getOrdersByWeekly().subscribe(data => {
       console.log('Weekly:', data);
-    });
+    })
 
     this.apiService.getOrdersByMonthly().subscribe(data => {
       console.log('MonthgetOrdersByMonthly:', data);
-    });
-
+    })
+  
+    
+    
+    
+    
     const orders = this.ordersService.orders;
+    
 
     this.setOrders(this.ordersService.orders);
     this.loading = this.loadingService.orderLoading;
@@ -60,38 +69,36 @@ export class DashboardPageComponent implements OnInit {
     });
 
     this.currentChefs = this.chefService.chefs;
-    this.chefService.chefChange.subscribe(data => {
-      this.currentChefs = data;
-      this.getActiveChefs();
-      console.log("chefffffffffffffffffffffffffffffffffffffffffffffffffffffff")
-    });
-
-    this.getActiveChefs();
+    this.chefService.chefChange.subscribe(data => this.currentChefs = data);
 
     this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
+    
   }
 
   setOrders(orders: OrderItemInterface[]) {
     this.totalOrders = orders.length;
-    this.pendingOrders = orders.filter((order) => order.status === 'pending').length;
-    this.preparingOrders = orders.filter((order) => order.status === 'preparing').length;
-    this.servedOrders = orders.filter((order) => (order.status === 'complete' || order.status === 'ready')).length;
-
+    this.pendingOrders = orders.filter(
+      (order) => order.status === 'pending'
+    ).length;
+    this.preparingOrders = orders.filter(
+      (order) => order.status === 'preparing'
+    ).length;
+    this.servedOrders = orders.filter(
+      (order) => (order.status === 'complete' || order.status === 'ready')
+    ).length;
     const targetDeliveryTime = new Date();
 
     this.servedOnTime = orders.filter((order) => {
       if (!order.preparingTimestamp || !order.readyTimestamp) return false;
       if (order.status !== "complete" && order.status !== "ready") return false;
-
       const totalPrepTime = order.items.reduce((total, item) => item.item.itemPreparationTime + total, 0);
       const prepTime = ((new Date(order.readyTimestamp)).getTime() - (new Date(order.preparingTimestamp)).getTime()) / 60000;
-
       return prepTime < totalPrepTime;
     }).length;
   }
-
-  getChefsFromOrders(orders: OrderItemInterface[]) {
-    const chefs: {
+  
+  getChefsFromOrders (orders: OrderItemInterface[]) {
+    const chefs : {
       chef: IUser,
       totalServed: number,
       servedOnTime: number,
@@ -117,43 +124,40 @@ export class DashboardPageComponent implements OnInit {
 
           const servedOutOfTime = totalServed - servedOnTime;
 
-          chefs.push({ chef, totalServed, servedOutOfTime, servedOnTime });
+          chefs.push({ chef, totalServed, servedOutOfTime, servedOnTime })
         }
-      }
+      }      
     }
 
     return chefs;
   }
-
-  getChefIsOnline(chef: IUser) {
+  getChefIsOnline (chef: IUser) {
     return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }
 
-  calculateItemCount(items: ItemInterface[]) {
-    this.itemDetails = [];
+calculateItemCount(items: ItemInterface[]) {
+  this.itemDetails = [];
 
-    items.forEach(item => {
-      const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
+  items.forEach(item => {
+    const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
 
-      if (existingItemIndex !== -1) {
-        this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
-      } else {
-        this.itemDetails.push({ item: item, count: item.item.itemQuantity });
-      }
-    });
-  }
+    if (existingItemIndex !== -1) {
 
-  visible = false;
+      this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
+    } else {
+      
+      this.itemDetails.push({ item: item, count: item.item.itemQuantity });
+    }
+  });
+}
+visible = false;
 
-  open(): void {
-    this.visible = true;
-  }
+open(): void {
+  this.visible = true;
+}
 
-  close(): void {
-    this.visible = false;
-  }
+close(): void {
+  this.visible = false;
+}
 
-  getActiveChefs() {
-    this.activeChefs = this.currentChefs.filter(chef => this.getChefIsOnline(chef));
-  }
 }
