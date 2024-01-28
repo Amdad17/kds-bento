@@ -29,6 +29,7 @@ export class DisplayPageComponent implements OnInit {
   chefs: IUser[] = [];
 
   loading: boolean = false;
+  dragging: boolean = false;
 
   constructor(
     private orderService: OrdersService,
@@ -75,7 +76,8 @@ export class DisplayPageComponent implements OnInit {
     });
 
     setInterval(() => {
-      this.sortAndAssignPendingOrders(this.orderService.orders);
+      if (!this.loadingOrders.length && !this.dragging)
+        this.sortAndAssignPendingOrders(this.orderService.orders);
     }, 1000 * 60);
   }
 
@@ -141,6 +143,7 @@ export class DisplayPageComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
 
   /////////////////////////////////////////////////////////////////////
   calculateTotalPreparationTime(order: OrderItemInterface): number {
@@ -175,6 +178,10 @@ export class DisplayPageComponent implements OnInit {
 
   //////////////////////////////////////////////////////////////////////
 
+=======
+  onDragStart () { this.dragging = true }
+  onDragEnd () { this.dragging = false }
+>>>>>>> f9f0cd1ae7a3bd4cc8a001eee9e9a658ef53fff0
 
   isOrderLoading (order: OrderItemInterface) {
     return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
