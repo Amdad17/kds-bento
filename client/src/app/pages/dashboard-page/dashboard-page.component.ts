@@ -62,10 +62,12 @@ throw new Error('Method not implemented.');
     
 
     this.setOrders(this.ordersService.orders);
+    this.chefStats = this.getChefsFromOrders(this.ordersService.orders);
     this.loading = this.loadingService.orderLoading;
     this.loadingService.orderLoadingEvent.subscribe((value) => {
       this.loading = value;
       this.setOrders(this.ordersService.orders);
+      this.chefStats = this.getChefsFromOrders(this.ordersService.orders);
     });
 
     this.currentChefs = this.chefService.chefs;
