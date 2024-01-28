@@ -68,6 +68,7 @@ throw new Error('Method not implemented.');
       this.loading = value;
       this.setOrders(this.ordersService.orders);
       this.chefStats = this.getChefsFromOrders(this.ordersService.orders);
+      this.calculateItemCount(this.ordersService.orders);
     });
 
     this.currentChefs = this.chefService.chefs;
@@ -132,24 +133,23 @@ throw new Error('Method not implemented.');
 
     return chefs;
   }
+
   getChefIsOnline (chef: IUser) {
     return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }
 
-calculateItemCount(items: ItemInterface[]) {
-  this.itemDetails = [];
-
-  items.forEach(item => {
-    const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
-
-    if (existingItemIndex !== -1) {
-
-      this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
-    } else {
-      
-      this.itemDetails.push({ item: item, count: item.item.itemQuantity });
-    }
-  });
+calculateItemCount(orders: OrderItemInterface[]) {
+  orders.forEach(order => {
+    order.items.forEach(item => {
+      const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
+  
+      if (existingItemIndex !== -1) {
+        this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
+      } else {
+        this.itemDetails.push({ item: item, count: item.item.itemQuantity });
+      }
+    });
+  })
 }
 visible = false;
 
