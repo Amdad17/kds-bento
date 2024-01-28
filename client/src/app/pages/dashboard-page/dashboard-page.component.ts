@@ -52,15 +52,8 @@ throw new Error('Method not implemented.');
 
     this.apiService.getOrdersByMonthly().subscribe(data => {
       console.log('MonthgetOrdersByMonthly:', data);
-    })
-  
+    });
     
-    
-    
-    
-    const orders = this.ordersService.orders;
-    
-
     this.setOrders(this.ordersService.orders);
     this.loading = this.loadingService.orderLoading;
     this.loadingService.orderLoadingEvent.subscribe((value) => {
@@ -71,8 +64,8 @@ throw new Error('Method not implemented.');
     this.currentChefs = this.chefService.chefs;
     this.chefService.chefChange.subscribe(data => this.currentChefs = data);
 
-    this.ordersService.newOrder.subscribe(() => this.pendingOrders++);
-    
+    this.ordersService.newOrder.subscribe(() => this.setOrders(this.ordersService.orders));
+    this.ordersService.updatedItemsOrder.subscribe(() => this.setOrders(this.ordersService.orders));
   }
 
   setOrders(orders: OrderItemInterface[]) {
@@ -86,7 +79,6 @@ throw new Error('Method not implemented.');
     this.servedOrders = orders.filter(
       (order) => (order.status === 'complete' || order.status === 'ready')
     ).length;
-    const targetDeliveryTime = new Date();
 
     this.servedOnTime = orders.filter((order) => {
       if (!order.preparingTimestamp || !order.readyTimestamp) return false;
@@ -95,6 +87,9 @@ throw new Error('Method not implemented.');
       const prepTime = ((new Date(order.readyTimestamp)).getTime() - (new Date(order.preparingTimestamp)).getTime()) / 60000;
       return prepTime < totalPrepTime;
     }).length;
+
+    this.chefStats = this.getChefsFromOrders(orders);
+    this.calculateItemCount(orders);
   }
   
   getChefsFromOrders (orders: OrderItemInterface[]) {
