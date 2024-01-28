@@ -143,15 +143,12 @@ export class DisplayPageComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
+  onDragStart () { this.dragging = true }
+  onDragEnd () { this.dragging = false }
 
-  /////////////////////////////////////////////////////////////////////
-  calculateTotalPreparationTime(order: OrderItemInterface): number {
-    return order.items.reduce((totalTime, item) => {
-      return totalTime + item.item.itemPreparationTime * item.item.itemQuantity;
-    }, 0);
+  isOrderLoading (order: OrderItemInterface) {
+    return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
   }
-
 
   checkServedOnTime(order: OrderItemInterface): void {
     const totalPreparationTime = this.calculateTotalPreparationTime(order);
@@ -161,7 +158,7 @@ export class DisplayPageComponent implements OnInit {
       servedOnTime = actualPrepTime < totalPreparationTime;
     } else {
       // Handle the case where either readyTimestamp or preparingTimestamp is missing.
-      servedOnTime = false;
+      servedOnTime = true;
     }
 
     const chefData = {
@@ -170,21 +167,15 @@ export class DisplayPageComponent implements OnInit {
       servedOnTime: servedOnTime
     }
 
-    console.log('Sending efficiency data to HR');
     this.api.postChefEffiiciency(chefData).subscribe(data => {
       console.log('Chef data to HR is: ', data);
     })
   }
 
-  //////////////////////////////////////////////////////////////////////
-
-=======
-  onDragStart () { this.dragging = true }
-  onDragEnd () { this.dragging = false }
->>>>>>> f9f0cd1ae7a3bd4cc8a001eee9e9a658ef53fff0
-
-  isOrderLoading (order: OrderItemInterface) {
-    return this.loadingOrders.findIndex(item => item._id === order._id) > -1;
+  calculateTotalPreparationTime(order: OrderItemInterface): number {
+    return order.items.reduce((totalTime, item) => {
+      return totalTime + item.item.itemPreparationTime * item.item.itemQuantity;
+    }, 0);
   }
 
 }
