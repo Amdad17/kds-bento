@@ -49,14 +49,8 @@ export async function postChefEfficiency(req: AuthRequest, res: Response) {
     if (!user || !token) return res.status(401).send({ message: 'Unauthorized' });
 
     const { chefId, orderId, servedOnTime } = req.body;
-
-    // // Emit order served event with Socket IO.
-    // const io = res.locals.io;
-    // io.to(user.employeeInformation.restaurantId.toString()).emit('chef-efficiency', { chefId, order: servedOnTime });
-
     await postChefEfficiencyToHR(token, { chefId, orderId, servedOnTime });
     res.status(200).json({ message: 'Order served successfully, and chef efficiency updated.' });
-    console.log("effhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error in marking the order as served and updating chef efficiency.' });

@@ -42,6 +42,7 @@ import { environment } from '../environments/environment';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { GraphComponent } from './pages/graph/graph.component';
 
+
 const config: SocketIoConfig = { url: environment.API_URL, options: {} };
 
 registerLocaleData(en);
@@ -62,6 +63,7 @@ registerLocaleData(en);
     OverrideOptionCardComponent,
     OrderCardComponent,
     GraphComponent,
+    
     
   
    

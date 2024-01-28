@@ -11,11 +11,6 @@ import { IEmployeeInfo } from '../../interfaces/employeeInfo.interface';
   providedIn: 'root'
 })
 export class ApiService {
-  // postChefEffiiciency: any;
-  // // updateQuickService(_id: string, quickService: boolean) {
-  // //   throw new Error('Method not implemented.');
-  // // }
-
   constructor(private http: HttpClient) { }
 
   authenticate (code: string) {

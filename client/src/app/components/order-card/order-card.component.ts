@@ -39,7 +39,7 @@ export class OrderCardComponent {
   }
 
   getOrderTypeColor() {
-    switch (this.order.type) {
+    switch (this.order.type) { 
       case 'in-house':
           return '#3b5999';
       case 'delivery':
