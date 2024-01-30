@@ -31,6 +31,7 @@ export class DisplayPageComponent implements OnInit {
   loading: boolean = false;
   dragging: boolean = false;
 
+  // Constructor
   constructor(
     private orderService: OrdersService,
     private loadingService: LoadingService,
