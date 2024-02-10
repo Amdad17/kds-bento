@@ -30,6 +30,7 @@ export class DisplayPageComponent implements OnInit {
 
   loading: boolean = false;
   dragging: boolean = false;
+  restaurantUtilization: number = 0;
 
   constructor(
     private orderService: OrdersService,
@@ -49,6 +50,7 @@ export class DisplayPageComponent implements OnInit {
       if (!value) {
         this.chefs = this.chefService.chefs;
         this.setOrders(this.orderService.orders);
+        this.calculateRestaurantUtilization();
       }
     })
 
@@ -56,6 +58,8 @@ export class DisplayPageComponent implements OnInit {
       console.log(data);
       this.chefs = data;
       this.sortAndAssignPendingOrders(this.orderService.orders);
+      this.calculateRestaurantUtilization();
+      
     });
 
 
@@ -78,6 +82,7 @@ export class DisplayPageComponent implements OnInit {
     setInterval(() => {
       if (!this.loadingOrders.length && !this.dragging)
         this.sortAndAssignPendingOrders(this.orderService.orders);
+      
     }, 1000 * 60);
   }
 
@@ -92,7 +97,38 @@ export class DisplayPageComponent implements OnInit {
     const sortedOrders = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
     const preparingOrders = orders.filter((item) => item.status === 'preparing');
     this.pending = assignChefToPendingOrders([...sortedOrders], [...preparingOrders], this.chefs);
+    // const utilizationRange = this.calculateDynamicUtilizationRange(this.restaurantUtilization);
   }
+  /////////////////////////////
+
+  calculateRestaurantUtilization(): void {
+    const totalChefs = this.chefs.length;
+  
+    if (totalChefs > 0) {
+      const totalChefHours = totalChefs * 1 * 60; 
+  
+      const totalPreparationTime = this.pending.reduce((totalTime, order) => {
+        return totalTime + this.calculateTotalPreparationTime(order);
+      }, 0);
+  
+      this.restaurantUtilization = (totalPreparationTime / totalChefHours) * 100;
+  
+      console.log('Restaurant Utilization:', this.restaurantUtilization);
+  
+     
+      const restaurantUtilizationData = {
+        utilization: this.restaurantUtilization 
+      };
+  
+      this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
+        console.log('Restaurant Utilization Data:', data);
+      });
+    } else {
+      console.log('No active chefs. Restaurant utilization cannot be calculated.');
+    }
+  }
+
+  ///////////////////////////
 
   onDrop(event: CdkDragDrop<OrderItemInterface[]>, targetList: "pending" | "preparing" | "ready") {
     if (event.previousContainer === event.container) {

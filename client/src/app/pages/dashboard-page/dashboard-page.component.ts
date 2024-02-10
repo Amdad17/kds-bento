@@ -44,6 +44,8 @@ throw new Error('Method not implemented.');
     
     this.apiService.getOrdersByHourly().subscribe(data => {
       console.log('hourly', data);
+     
+      
     })
 
     this.apiService.getOrdersByWeekly().subscribe(data => {
@@ -52,9 +54,11 @@ throw new Error('Method not implemented.');
 
     this.apiService.getOrdersByMonthly().subscribe(data => {
       console.log('MonthgetOrdersByMonthly:', data);
+  
     });
-    
+
     this.setOrders(this.ordersService.orders);
+    this.chefStats = this.getChefsFromOrders(this.ordersService.orders);
     this.loading = this.loadingService.orderLoading;
     this.loadingService.orderLoadingEvent.subscribe((value) => {
       this.loading = value;
@@ -91,7 +95,6 @@ throw new Error('Method not implemented.');
     this.chefStats = this.getChefsFromOrders(orders);
     this.calculateItemCount(orders);
   }
-  
   getChefsFromOrders (orders: OrderItemInterface[]) {
     const chefs : {
       chef: IUser,
@@ -121,29 +124,28 @@ throw new Error('Method not implemented.');
 
           chefs.push({ chef, totalServed, servedOutOfTime, servedOnTime })
         }
-      }      
+      }
     }
 
     return chefs;
   }
+
   getChefIsOnline (chef: IUser) {
     return this.currentChefs.findIndex(item => item.employeeInformation.id === chef.employeeInformation.id) !== -1;
   }
 
-calculateItemCount(items: ItemInterface[]) {
-  this.itemDetails = [];
-
-  items.forEach(item => {
-    const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
-
-    if (existingItemIndex !== -1) {
-
-      this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
-    } else {
-      
-      this.itemDetails.push({ item: item, count: item.item.itemQuantity });
-    }
-  });
+calculateItemCount(orders: OrderItemInterface[]) {
+  orders.forEach(order => {
+    order.items.forEach(item => {
+      const existingItemIndex = this.itemDetails.findIndex(i => i.item.item.itemName === item.item.itemName);
+  
+      if (existingItemIndex !== -1) {
+        this.itemDetails[existingItemIndex].count += item.item.itemQuantity;
+      } else {
+        this.itemDetails.push({ item: item, count: item.item.itemQuantity });
+      }
+    });
+  })
 }
 visible = false;
 
@@ -154,5 +156,7 @@ open(): void {
 close(): void {
   this.visible = false;
 }
-
 }
+
+
+

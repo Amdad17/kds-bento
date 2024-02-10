@@ -56,5 +56,7 @@ getOrdersByMonthly (): Observable<{ data:{ count: number, month: number }[] }>{
 postChefEffiiciency(chefData: any):Observable<any>{
   return this.http.post<any>(environment.API_URL +'/chef/efficiency', chefData);
 }
+postRestaurantUtilization(restaurantUtilizationData:any):Observable<any>{
+  return this.http.post<any>(environment.API_URL +'/utilization/restaurant-Utilization', restaurantUtilizationData);
 }
-
+}

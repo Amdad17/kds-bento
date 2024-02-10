@@ -101,4 +101,14 @@ export async function getAllOrdersByMonthly(token:string){
     console.log(error);
     throw new Error("Error getting ordersByMonthly.")
   }
+
+}
+  export async function postRestaurantUtilizationToSkeleton (token: string, data: { restaurantUtilization:number }) {
+    try {
+      const res = await axios.post<any>(config.SKELETON_BE_URL + '/utilization/set', data, { headers: { 'Authorization': token }});
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error getting to post RestaurantUtilization.")
+    }
 }

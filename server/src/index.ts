@@ -12,6 +12,7 @@ import chefRouter from "./routers/chef.router";
 import ordersBYHourlyRouter from "./routers/ordersByHourlyRouter";
 import ordersBYWeeklyRouter from "./routers/ordersByWeeklyRouter";
 import ordersBYMonthlyRouter from "./routers/ordersByMonthlyRouter";
+import restaurantUtilizationRouter from "./routers/restaurantUtilizationRouter";
 
 const app: Express = express();
 
@@ -45,7 +46,7 @@ app.use("/rules", rulerouter);
 app.use('/orders-hourly', ordersBYHourlyRouter);
 app.use('/orders-weekly',ordersBYWeeklyRouter);
 app.use('/orders-monthly',ordersBYMonthlyRouter)
-
+app.use('/utilization', restaurantUtilizationRouter);
 
 
 async function main() {
