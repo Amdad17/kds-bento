@@ -112,3 +112,15 @@ export async function getAllOrdersByMonthly(token:string){
       throw new Error("Error getting to post RestaurantUtilization.")
     }
 }
+
+
+export async function getRestaurantUtilizationFromSkeleton(token: string, id: number) {
+  try {
+    const res = await axios.get<{ restaurantId: number, utilization: number, updatedAt: Date }>(config.SKELETON_BE_URL + '/utilization/restaurant/' + id);
+    return res;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting restaurant utilization from skeleton.")
+  }
+  
+}
