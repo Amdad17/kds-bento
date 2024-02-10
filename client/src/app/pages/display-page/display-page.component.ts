@@ -24,7 +24,7 @@ export class DisplayPageComponent implements OnInit {
   preparing: OrderItemInterface[] = [];
   ready: OrderItemInterface[] = [];
   loadingOrders: OrderItemInterface[] = [];
-  served:any;
+  served: OrderItemInterface[] = [];
 
   chefs: IUser[] = [];
 
@@ -32,6 +32,7 @@ export class DisplayPageComponent implements OnInit {
   dragging: boolean = false;
   restaurantUtilization: number = 0;
 
+  // Constructor
   constructor(
     private orderService: OrdersService,
     private loadingService: LoadingService,
@@ -79,6 +80,8 @@ export class DisplayPageComponent implements OnInit {
       }
     });
 
+    this.orderService.servedOrder.subscribe(order => this.handleServedOrder(order));
+
     setInterval(() => {
       if (!this.loadingOrders.length && !this.dragging)
         this.sortAndAssignPendingOrders(this.orderService.orders);
@@ -90,7 +93,7 @@ export class DisplayPageComponent implements OnInit {
     this.preparing = orders.filter((item) => item.status === 'preparing');
     this.sortAndAssignPendingOrders(orders);
     this.ready = orders.filter((item) => item.status === 'ready');
-    
+    this.served = orders.filter((item) => item.status === 'served' || item.status === 'complete');
   }
 
   sortAndAssignPendingOrders(orders: OrderItemInterface[]) {
@@ -212,6 +215,11 @@ export class DisplayPageComponent implements OnInit {
     return order.items.reduce((totalTime, item) => {
       return totalTime + item.item.itemPreparationTime * item.item.itemQuantity;
     }, 0);
+  }
+
+  handleServedOrder (order: OrderItemInterface) {
+    this.served.push(order);
+    this.ready = this.ready.filter(item => item._id !== order._id);
   }
 
 }
