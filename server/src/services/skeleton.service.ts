@@ -15,7 +15,7 @@ export async function  getUserFromToken (token: string) {
   try {
     // console.log("object====", token);
     const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization':  token }});
-    console.log('res from get user token' , res);
+    console.log('res from get user token utility 🥳🥳🥳🥳🥳🥳🥳🥳ß' , res.data);
     return res.data;
   } catch (error) {
     console.log(error);
