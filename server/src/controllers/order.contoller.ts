@@ -9,6 +9,7 @@ export async function incomingOrder(req: AuthRequest, res: Response) {
     if (!user) return res.status(401).send({ message: 'Unauthorized' });
     const data = req.body;
     console.log('order data from inside controller======' , data);
+    console.log('order data from skeleton 🥳🥳🥳🥳🥳🥳🥳🥳 ======' , data);
 
     // Emit new order with Socket IO.
     const io = res.locals.io;
