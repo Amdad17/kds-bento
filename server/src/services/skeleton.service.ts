@@ -117,7 +117,7 @@ export async function getAllOrdersByMonthly(token:string){
 export async function getRestaurantUtilizationFromSkeleton(token: string, id: number) {
   try {
     const res = await axios.get<{ restaurantId: number, utilization: number, updatedAt: Date }>(config.SKELETON_BE_URL + '/utilization/restaurant/' + id, { headers: { 'Authorization': token }});
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
     throw new Error("Error getting restaurant utilization from skeleton.")

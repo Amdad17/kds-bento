@@ -43,7 +43,6 @@ function assignOrdersBasedOnWorkload (pendingOrders: OrderItemInterface[], chefQ
 
     chefQueueDeepCopy.forEach(chefQueue => {
       const totalWorkTime = chefQueue.queue.reduce((total, item) => item.prepTime + total, 0);
-      console.log('Total TIme', totalWorkTime)
       const currentSmallestWorkTime = smallest.queue.reduce((total, item) => item.prepTime + total, 0);
       if (totalWorkTime < currentSmallestWorkTime) smallest = chefQueue;
     });
