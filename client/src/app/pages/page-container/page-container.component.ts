@@ -7,6 +7,7 @@ import { LoadingService } from '../../services/loading/loading.service';
 import { OrdersService } from '../../services/orders/orders.service';
 import { SocketService } from '../../services/socket/socket.service';
 import { ChefService } from '../../services/chef/chef.service';
+import { UtilizationService } from '../../services/utilization/utilization.service';
 
 @Component({
   selector: 'app-page-container',
@@ -26,6 +27,7 @@ export class PageContainerComponent implements OnInit {
     private loadingService: LoadingService,
     private chefService: ChefService,
     private socket: SocketService,
+    private utilizationService: UtilizationService
     ){
 
   }
@@ -71,6 +73,10 @@ export class PageContainerComponent implements OnInit {
       this.ordersService.orders = data.data;
       this.loadingService.setOrderLoading(false);
     });
+
+    this.api.getRestaurantUtilization().subscribe(data => {
+      this.utilizationService.setUtilization(data.utilization);
+    })
   }
 
   fetchRules () {

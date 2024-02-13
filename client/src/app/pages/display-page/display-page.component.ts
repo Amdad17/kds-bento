@@ -13,6 +13,7 @@ import { ApiService } from '../../services/api/api.service';
 import { IUser } from '../../interfaces/user.interface';
 import { ChefService } from '../../services/chef/chef.service';
 import { assignChefToPendingOrders } from '../../utils/assign.helper';
+import { UtilizationService } from '../../services/utilization/utilization.service';
 
 @Component({
   selector: 'app-display-page',
@@ -38,7 +39,8 @@ export class DisplayPageComponent implements OnInit {
     private loadingService: LoadingService,
     private ruleService: RuleService,
     private api: ApiService,
-    private chefService: ChefService
+    private chefService: ChefService,
+    private utilizationService: UtilizationService
     ) {}
 
   ngOnInit(): void {
@@ -53,7 +55,9 @@ export class DisplayPageComponent implements OnInit {
         this.setOrders(this.orderService.orders);
         this.calculateRestaurantUtilization();
       }
-    })
+    });
+
+    this.restaurantUtilization = this.utilizationService.utilization;
 
     this.chefService.chefChange.subscribe(data => {
       console.log(data);
@@ -81,11 +85,11 @@ export class DisplayPageComponent implements OnInit {
     });
 
     this.orderService.servedOrder.subscribe(order => this.handleServedOrder(order));
+    this.utilizationService.newUtilizationEvent.subscribe(utilization => this.restaurantUtilization = utilization);
 
     setInterval(() => {
       if (!this.loadingOrders.length && !this.dragging)
         this.sortAndAssignPendingOrders(this.orderService.orders);
-      
     }, 1000 * 60);
   }
 
@@ -100,9 +104,8 @@ export class DisplayPageComponent implements OnInit {
     const sortedOrders = sortOrdersByRules(orders.filter((item) => item.status === 'pending'), this.ruleService.rule);
     const preparingOrders = orders.filter((item) => item.status === 'preparing');
     this.pending = assignChefToPendingOrders([...sortedOrders], [...preparingOrders], this.chefs);
-    // const utilizationRange = this.calculateDynamicUtilizationRange(this.restaurantUtilization);
+    this.calculateRestaurantUtilization();
   }
-  /////////////////////////////
 
   calculateRestaurantUtilization(): void {
     const totalChefs = this.chefs.length;
@@ -113,19 +116,21 @@ export class DisplayPageComponent implements OnInit {
       const totalPreparationTime = this.pending.reduce((totalTime, order) => {
         return totalTime + this.calculateTotalPreparationTime(order);
       }, 0);
-  
-      this.restaurantUtilization = (totalPreparationTime / totalChefHours) * 100;
-  
-      console.log('Restaurant Utilization:', this.restaurantUtilization);
-  
+
+      const calculatedUtilization = (totalPreparationTime / totalChefHours) * 100;
+      const roundedUtilization = Math.round(calculatedUtilization / 10) * 10;
+
+      if (roundedUtilization !== this.restaurantUtilization) {
+        const restaurantUtilizationData = {
+          utilization: roundedUtilization 
+        };
+        
+        this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
+          this.utilizationService.setUtilization(roundedUtilization);
+          console.log('Restaurant Utilization Data:', data);
+        });
+      }
      
-      const restaurantUtilizationData = {
-        utilization: this.restaurantUtilization 
-      };
-  
-      this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
-        console.log('Restaurant Utilization Data:', data);
-      });
     } else {
       console.log('No active chefs. Restaurant utilization cannot be calculated.');
     }

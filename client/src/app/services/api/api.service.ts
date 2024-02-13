@@ -44,19 +44,28 @@ export class ApiService {
   getActiveChefs () : Observable<{ data: { employee: IEmployeeInfo }[]}> {
     return this.http.get<{ data: { employee: IEmployeeInfo }[]}>(environment.API_URL + '/chef/active');
   }
+
   getOrdersByHourly (): Observable<{ data:{ count: number, hour: number }[] }>{
     return this.http.get<{ data:{ count: number, hour: number }[] }>(environment.API_URL + '/orders-hourly/ordersHourly');
   }
+
   getOrdersByWeekly (): Observable<{ data:{ count: number, day: number }[] }>{
     return this.http.get<{ data:{ count: number, day: number }[] }>(environment.API_URL + '/orders-weekly/ordersWeekly');
-}
-getOrdersByMonthly (): Observable<{ data:{ count: number, month: number }[] }>{
-  return this.http.get<{ data:{ count: number, month: number }[] }>(environment.API_URL + '/orders-monthly/ordersMonthly');
-}
-postChefEffiiciency(chefData: any):Observable<any>{
-  return this.http.post<any>(environment.API_URL +'/chef/efficiency', chefData);
-}
-postRestaurantUtilization(restaurantUtilizationData:any):Observable<any>{
-  return this.http.post<any>(environment.API_URL +'/utilization/restaurant-Utilization', restaurantUtilizationData);
-}
+  }
+
+  getOrdersByMonthly (): Observable<{ data:{ count: number, month: number }[] }>{
+    return this.http.get<{ data:{ count: number, month: number }[] }>(environment.API_URL + '/orders-monthly/ordersMonthly');
+  }
+
+  postChefEffiiciency(chefData: any):Observable<any>{
+    return this.http.post<any>(environment.API_URL +'/chef/efficiency', chefData);
+  }
+
+  postRestaurantUtilization(restaurantUtilizationData:any):Observable<any>{
+    return this.http.post<any>(environment.API_URL +'/utilization/restaurant-Utilization', restaurantUtilizationData);
+  }
+
+  getRestaurantUtilization() {
+    return this.http.get<{ utilization: number, updatedAt: Date }>(environment.API_URL + '/utilization/restaurant-utilization');
+  }
 }
