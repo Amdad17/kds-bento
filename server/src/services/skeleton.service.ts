@@ -103,7 +103,7 @@ export async function getAllOrdersByMonthly(token:string){
   }
 
 }
-  export async function postRestaurantUtilizationToSkeleton (token: string, data: { restaurantUtilization:number }) {
+  export async function postRestaurantUtilizationToSkeleton (token: string, data: { utilization: number }) {
     try {
       const res = await axios.post<any>(config.SKELETON_BE_URL + '/utilization/set', data, { headers: { 'Authorization': token }});
       return res.data;

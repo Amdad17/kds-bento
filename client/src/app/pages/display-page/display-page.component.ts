@@ -121,16 +121,12 @@ export class DisplayPageComponent implements OnInit {
       const roundedUtilization = Math.round(calculatedUtilization / 10) * 10;
 
       if (roundedUtilization !== this.restaurantUtilization) {
-        const restaurantUtilizationData = {
-          utilization: roundedUtilization 
-        };
-        
-        // this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
-        //   this.utilizationService.setUtilization(roundedUtilization);
-        //   console.log('Restaurant Utilization Data:', data);
-        // });
+        this.api.postRestaurantUtilization(roundedUtilization).subscribe(data => {
+          this.utilizationService.setUtilization(roundedUtilization);
+          console.log('Restaurant Utilization Data:', data);
+        });
 
-        console.log('Restaurant Utilization: ', restaurantUtilizationData);
+        // console.log('Restaurant Utilization: ', restaurantUtilizationData);
       }
      
     } else {
