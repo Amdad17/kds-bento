@@ -42,6 +42,8 @@ export async function getRestaurantUtilization(
       token,
       user.employeeInformation.restaurantId
     );
+
+    console.log('Get utilization result ===>', result);
     res.send(result);
   } catch (error) {
     console.log(error);

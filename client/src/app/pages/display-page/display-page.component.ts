@@ -125,10 +125,12 @@ export class DisplayPageComponent implements OnInit {
           utilization: roundedUtilization 
         };
         
-        this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
-          this.utilizationService.setUtilization(roundedUtilization);
-          console.log('Restaurant Utilization Data:', data);
-        });
+        // this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
+        //   this.utilizationService.setUtilization(roundedUtilization);
+        //   console.log('Restaurant Utilization Data:', data);
+        // });
+
+        console.log('Restaurant Utilization: ', restaurantUtilizationData);
       }
      
     } else {
