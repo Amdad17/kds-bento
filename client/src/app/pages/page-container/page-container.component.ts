@@ -52,6 +52,7 @@ export class PageContainerComponent implements OnInit {
     });
 
     this.socket.getIncomingOrders().subscribe(data => {
+      console.log("Incoming order ==>", data);
       this.ordersService.emitIncomingOrder(data);
     });
 
