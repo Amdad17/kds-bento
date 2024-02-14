@@ -36,11 +36,13 @@ import { BaseOptionCardComponent } from './components/base-option-card/base-opti
 import { OverrideOptionCardComponent } from './components/override-option-card/override-option-card.component';
 import { OrderCardComponent } from './components/order-card/order-card.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { GraphComponent } from './pages/graph/graph.component';
+import { UtilizationCardComponent } from './components/utilization-card/utilization-card.component';
 
 
 const config: SocketIoConfig = { url: environment.API_URL, options: {} };
@@ -63,13 +65,7 @@ registerLocaleData(en);
     OverrideOptionCardComponent,
     OrderCardComponent,
     GraphComponent,
-    
-    
-    
-  
-   
-    
-   
+    UtilizationCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +86,7 @@ registerLocaleData(en);
     NzDrawerModule,
     NgChartsModule,
     NzBadgeModule,
-    
+    NzProgressModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [

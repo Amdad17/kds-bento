@@ -143,6 +143,14 @@ pre {
   flex-grow: 1;
 }
 
+.sticky {
+  position: sticky;
+}
+
+.fixed {
+  position: fixed;
+}
+
 /* Justify Content Utilities */
 .justify-start {
   justify-content: flex-start;
@@ -1406,6 +1414,9 @@ pre {
   width: 50%;
 }
 
+.w-fit {
+  width: fit-content;
+}
 /* Width Classes in Percentages */
 .wp-0 {
   width: 0%;

@@ -1,0 +1,10 @@
+<div class="w-fit border border-gray rounded-lg p-2 fixed">
+    <div>Utilization:</div>
+    <nz-progress 
+        nzType="circle" 
+        [nzWidth]="60" 
+        [nzPercent]="utilization" 
+        [nzFormat]="format"
+        [nzStrokeColor]="{ '0%': '#87d068', '50%': '#f5df1b', '100%': '#eb4131' }"
+        ></nz-progress>
+</div>
