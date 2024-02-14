@@ -11,11 +11,11 @@ export async function getTokenFromCode (code: string) {
     throw new Error("Error getting token from code.");
   }
 }
-export async function getUserFromToken (token: string) {
+export async function  getUserFromToken (token: string) {
   try {
     // console.log("object====", token);
     const res = await axios.get<{ user: IUser }>(config.SKELETON_BE_URL + '/service-auth/user-from-token', { headers: { 'Authorization':  token }});
-    console.log('res from get user token' , res);
+    console.log('res from get user token utility 🥳🥳🥳🥳🥳🥳🥳🥳ß' , res.data);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -103,7 +103,7 @@ export async function getAllOrdersByMonthly(token:string){
   }
 
 }
-  export async function postRestaurantUtilizationToSkeleton (token: string, data: { restaurantUtilization:number }) {
+  export async function postRestaurantUtilizationToSkeleton (token: string, data: { utilization: number }) {
     try {
       const res = await axios.post<any>(config.SKELETON_BE_URL + '/utilization/set', data, { headers: { 'Authorization': token }});
       return res.data;
@@ -116,8 +116,8 @@ export async function getAllOrdersByMonthly(token:string){
 
 export async function getRestaurantUtilizationFromSkeleton(token: string, id: number) {
   try {
-    const res = await axios.get<{ restaurantId: number, utilization: number, updatedAt: Date }>(config.SKELETON_BE_URL + '/utilization/restaurant/' + id);
-    return res;
+    const res = await axios.get<{ restaurantId: number, utilization: number, updatedAt: Date }>(config.SKELETON_BE_URL + '/utilization/restaurant/' + id, { headers: { 'Authorization': token }});
+    return res.data;
   } catch (error) {
     console.log(error);
     throw new Error("Error getting restaurant utilization from skeleton.")

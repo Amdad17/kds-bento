@@ -127,6 +127,8 @@ throw new Error('Method not implemented.');
       }
     }
 
+    console.log("Chefs: ", chefs);
+
     return chefs;
   }
 

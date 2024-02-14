@@ -13,8 +13,8 @@ export async function postRestaurantUtilization(
     const { user, token } = req;
     if (!user || !token)
       return res.status(401).send({ message: "Unauthorized" });
-    const { restaurantUtilizationData } = req.body;
-    await postRestaurantUtilizationToSkeleton(token, restaurantUtilizationData);
+    const { utilization } = req.body;
+    await postRestaurantUtilizationToSkeleton(token, { utilization });
     res
       .status(200)
       .json({ message: "Order pending, and restaurantUtilization updated." });
@@ -42,6 +42,8 @@ export async function getRestaurantUtilization(
       token,
       user.employeeInformation.restaurantId
     );
+
+    console.log('Get utilization result ===>', result);
     res.send(result);
   } catch (error) {
     console.log(error);

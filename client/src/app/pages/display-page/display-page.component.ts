@@ -60,7 +60,7 @@ export class DisplayPageComponent implements OnInit {
     this.restaurantUtilization = this.utilizationService.utilization;
 
     this.chefService.chefChange.subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.chefs = data;
       this.sortAndAssignPendingOrders(this.orderService.orders);
       this.calculateRestaurantUtilization();
@@ -74,7 +74,7 @@ export class DisplayPageComponent implements OnInit {
     });
 
     this.orderService.updatedItemsOrder.subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if (data.status === 'preparing') {
         this.preparing = this.preparing.map(item => item._id === data._id ? data : item)
       } else if (data.status === 'ready') {
@@ -121,14 +121,12 @@ export class DisplayPageComponent implements OnInit {
       const roundedUtilization = Math.round(calculatedUtilization / 10) * 10;
 
       if (roundedUtilization !== this.restaurantUtilization) {
-        const restaurantUtilizationData = {
-          utilization: roundedUtilization 
-        };
-        
-        this.api.postRestaurantUtilization(restaurantUtilizationData).subscribe(data => {
+        this.api.postRestaurantUtilization(roundedUtilization).subscribe(data => {
           this.utilizationService.setUtilization(roundedUtilization);
           console.log('Restaurant Utilization Data:', data);
         });
+
+        // console.log('Restaurant Utilization: ', restaurantUtilizationData);
       }
      
     } else {
@@ -154,7 +152,6 @@ export class DisplayPageComponent implements OnInit {
       );
 
       const order = event.container.data[event.currentIndex];
-      console.log(order)
       order.status = targetList;
 
       if(targetList === "pending" || event.previousContainer.id === "cdk-drop-list-0") {
