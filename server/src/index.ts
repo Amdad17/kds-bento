@@ -13,11 +13,12 @@ import ordersBYHourlyRouter from "./routers/ordersByHourlyRouter";
 import ordersBYWeeklyRouter from "./routers/ordersByWeeklyRouter";
 import ordersBYMonthlyRouter from "./routers/ordersByMonthlyRouter";
 import restaurantUtilizationRouter from "./routers/restaurantUtilizationRouter";
+import { closeMQConnection, connectAndconsumeMQDataForMarketplaceOrders } from "./services/marketplaceOrderMQ.service";
 
 const app: Express = express();
 
 const server = http.createServer(app);
-const io = new Server(server, {
+export const io = new Server(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
@@ -51,11 +52,17 @@ app.use('/utilization', restaurantUtilizationRouter);
 
 async function main() {
   try {
-    await mongoose.connect(config.MONGOOSE_URI);
+    // await mongoose.connect(config.MONGOOSE_URI);
     console.log("db connected mongoose");
-    server.listen(config.PORT, () => {
+    // connecting to rabbitmq from here
+
+    server.listen(8000, () => {
       console.log("Server running on Port", config.PORT);
     });
+
+    await connectAndconsumeMQDataForMarketplaceOrders()
+
+
   } catch (error) {}
 }
 
@@ -67,3 +74,12 @@ io.on("connection", (socket) => {
     socket.join(data.restaurantId.toString());
   });
 });
+
+
+
+// Handle server shutdown. Close MQ Connection
+process.on('SIGINT' , async() =>{
+  console.log('Closing MQ Connection')
+  await closeMQConnection();
+  process.exit(0)
+})
