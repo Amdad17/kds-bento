@@ -108,30 +108,30 @@ export class DisplayPageComponent implements OnInit {
   }
 
   calculateRestaurantUtilization(): void {
-    const totalChefs = this.chefs.length;
+    // const totalChefs = this.chefs.length;
   
-    if (totalChefs > 0) {
-      const totalChefHours = totalChefs * 1 * 60; 
+    // if (totalChefs > 0) {
+    //   const totalChefHours = totalChefs * 1 * 60; 
   
-      const totalPreparationTime = this.pending.reduce((totalTime, order) => {
-        return totalTime + this.calculateTotalPreparationTime(order);
-      }, 0);
+    //   const totalPreparationTime = this.pending.reduce((totalTime, order) => {
+    //     return totalTime + this.calculateTotalPreparationTime(order);
+    //   }, 0);
 
-      const calculatedUtilization = (totalPreparationTime / totalChefHours) * 100;
-      const roundedUtilization = Math.round(calculatedUtilization / 10) * 10;
+    //   const calculatedUtilization = (totalPreparationTime / totalChefHours) * 100;
+    //   const roundedUtilization = Math.round(calculatedUtilization / 10) * 10;
 
-      if (roundedUtilization !== this.restaurantUtilization) {
-        this.api.postRestaurantUtilization(roundedUtilization).subscribe(data => {
-          this.utilizationService.setUtilization(roundedUtilization);
-          console.log('Restaurant Utilization Data:', data);
-        });
+    //   if (roundedUtilization !== this.restaurantUtilization) {
+    //     this.api.postRestaurantUtilization(roundedUtilization).subscribe(data => {
+    //       this.utilizationService.setUtilization(roundedUtilization);
+    //       console.log('Restaurant Utilization Data:', data);
+    //     });
 
-        // console.log('Restaurant Utilization: ', restaurantUtilizationData);
-      }
+    //     // console.log('Restaurant Utilization: ', restaurantUtilizationData);
+    //   }
      
-    } else {
-      console.log('No active chefs. Restaurant utilization cannot be calculated.');
-    }
+    // } else {
+    //   console.log('No active chefs. Restaurant utilization cannot be calculated.');
+    // }
   }
 
   ///////////////////////////

@@ -1,12 +1,13 @@
 import { Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface";
 import { getAllOrders, postChefEfficiencyToHR, sendOrderChefToPOS, sendOrderUpdateToPOS } from "../services/skeleton.service";
+import { handleRestaurantUtilization } from "../utils/utilization.helper";
 
 
 export async function incomingOrder(req: AuthRequest, res: Response) {
   try {
-    const { user } = req;
-    if (!user) return res.status(401).send({ message: 'Unauthorized' });
+    const { user, token } = req;
+    if (!user || !token) return res.status(401).send({ message: 'Unauthorized' });
     const data = req.body;
     console.log('order data from inside controller======' , data);
     console.log('order data from skeleton 🥳🥳🥳🥳🥳🥳🥳🥳 ======' , data);
@@ -14,6 +15,9 @@ export async function incomingOrder(req: AuthRequest, res: Response) {
     // Emit new order with Socket IO.
     const io = res.locals.io;
     io.to(data.restaurantId.toString()).emit('incoming-order', data);
+
+    const utilization = await handleRestaurantUtilization(token, data.restaurantId);
+    io.to(data.restaurantId.toString()).emit('utilization', { utilization });
 
     res.status(201).json(data);
   } catch (error) {
@@ -49,7 +53,7 @@ export async function findOrdersByRestaurantId(
     if (!token) return res.status(401).send({ message: "Unauthorized." });
 
     const orders = await getAllOrders(token);
-    res.status(200).json(orders);
+    res.status(200).json({ data: orders });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error in finding orders by restaurantId." });
@@ -83,6 +87,12 @@ export async function changeOrderStatus(req: AuthRequest, res: Response) {
 
         postChefEfficiencyToHR(token, { chefId, orderId: order._id, servedOnTime });
       }
+    }
+
+    if (status === 'pending' || status === 'preparing') {
+      const utilization = await handleRestaurantUtilization(token, user.employeeInformation.restaurantId);
+      const io = res.locals.io;
+      io.to(user.employeeInformation.restaurantId.toString()).emit('utilization', { utilization });
     }
 
     res.status(200).json(order);

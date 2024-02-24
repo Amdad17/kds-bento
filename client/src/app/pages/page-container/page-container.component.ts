@@ -65,6 +65,7 @@ export class PageContainerComponent implements OnInit {
 
     this.socket.getChefCheckIn().subscribe(data => this.chefService.checkIn(data.chef));
     this.socket.getChefCheckOut().subscribe(data => this.chefService.checkOut(data.chef));
+    this.socket.getRestaurantUtilization().subscribe(data => this.utilizationService.setUtilization(data.utilization));
   }
 
   fetchOrders () {

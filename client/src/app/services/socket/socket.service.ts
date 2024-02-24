@@ -33,4 +33,8 @@ export class SocketService {
   getServedOrders () {
     return this.socket.fromEvent<{order:  OrderItemInterface}>('order-served');
   }
+
+  getRestaurantUtilization () {
+    return this.socket.fromEvent<{utilization: number}>('utilization');
+  }
 }

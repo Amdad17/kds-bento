@@ -25,7 +25,7 @@ export async function  getUserFromToken (token: string) {
 
 export async function getActiveChefsFromHR (token: string) {
   try {
-    const res = await axios.get<any>(config.SKELETON_BE_URL + '/employee/position/chef/active', { headers: { 'Authorization': token }});
+    const res = await axios.get<{ data: IUser[] }>(config.SKELETON_BE_URL + '/employee/position/chef/active', { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);
