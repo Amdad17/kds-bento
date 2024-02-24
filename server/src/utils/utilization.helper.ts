@@ -8,7 +8,7 @@ export async function handleRestaurantUtilization (token: string, restaurantId: 
     const chefs = chefData.data;
 
     const orderData = await getAllOrders(token);
-    const orders = orderData.data;
+    const orders = orderData;
 
     const currentUtilization = await getRestaurantUtilizationFromSkeleton(token, restaurantId);
 
