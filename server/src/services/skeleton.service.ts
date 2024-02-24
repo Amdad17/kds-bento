@@ -36,7 +36,7 @@ export async function getActiveChefsFromHR (token: string) {
 
 export async function getAllOrders (token: string) {
   try {
-    const res = await axios.get<{ data: IOrder[] }>(config.SKELETON_BE_URL + '/orders/all', { headers: { 'Authorization': token }});
+    const res = await axios.get<IOrder[]>(config.SKELETON_BE_URL + '/orders/all', { headers: { 'Authorization': token }});
     return res.data;
   } catch (error) {
     console.log(error);

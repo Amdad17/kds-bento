@@ -1,4 +1,4 @@
-import amqp, { Channel, Connection } from "amqplib"
+import amqp, { Channel, Connection } from "amqplib";
 import { io } from "..";
 
 
@@ -17,7 +17,7 @@ export async function connectAndconsumeMQDataForMarketplaceOrders() {
 
     await channel.assertQueue(queue, { durable: false })
 
-    await channel.consume(queue, (data) => {
+    await channel.consume(queue, (data: any) => {
       if (data) {
         // console.log('data has come');
         const order = JSON.parse(data.content.toString())
