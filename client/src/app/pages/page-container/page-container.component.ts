@@ -71,7 +71,7 @@ export class PageContainerComponent implements OnInit {
   fetchOrders () {
     this.loadingService.setOrderLoading(true);
     this.api.getOrders().subscribe(data => {
-      console.log(data)
+      console.log("Order data:", data);
       this.ordersService.orders = data.data;
       this.loadingService.setOrderLoading(false);
     });
