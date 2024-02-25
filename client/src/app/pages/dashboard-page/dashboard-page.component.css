@@ -14,7 +14,7 @@ h1 {
   /* display: flex; */
   position: absolute;
   display: grid;
-  grid-template-columns: auto auto auto auto ;
+  grid-template-columns: auto auto auto auto auto  ;
   grid-row-gap: 15px;
   grid-column-gap: 10px;
   justify-content: space-between;
@@ -154,7 +154,7 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   margin-left: 5px;
-  width: 75%;
+  /* width: 75%; */
   
 }
 
