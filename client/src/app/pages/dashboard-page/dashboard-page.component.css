@@ -5,11 +5,6 @@ h1 {
   font-size: 40px;
   font-weight: bold;
 }
-.widthClass{
-  width: 100% !important;
-
-  position: relative;
-}
 .stats-container {
   position: absolute;
   display: grid;
@@ -114,9 +109,11 @@ h3 {
 }
 
 .item-statistics-container {
+  width: 89vw !important;
   display: flex;
   flex-wrap: wrap;
   margin-left: 5px;
+ 
   
 }
 
