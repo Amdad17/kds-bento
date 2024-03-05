@@ -5,16 +5,10 @@ h1 {
   font-size: 40px;
   font-weight: bold;
 }
-.widthClass{
-  width: 75% !important;
-  /* border: 1px solid red; */
-  position: relative;
-}
 .stats-container {
-  /* display: flex; */
   position: absolute;
   display: grid;
-  grid-template-columns: auto auto auto auto ;
+  grid-template-columns: auto auto auto auto auto  auto ;
   grid-row-gap: 15px;
   grid-column-gap: 10px;
   justify-content: space-between;
@@ -22,29 +16,14 @@ h1 {
   size: 30px;
   width:50%;
   margin-left: 10px;
-  /* border: 1px solid black; */
+ 
  
 }
-/* .stat-item {
-  text-align: center;
-  padding-bottom: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-} */
-
 .stat-item {
   text-align: center;
   padding: 30px ;
   border: 1px solid #ccc;
   border-radius: 10px;
-  /* margin: 0 20px; */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -55,13 +34,11 @@ h1 {
 }
 
 .label {
-  /* margin: 0 auto; */
   font-weight: bold;
   color:green;
   position: absolute;
   top: 0;  
   right: 10px;
-  /* text-align: center; */
 
 }
 .label1 {
@@ -123,25 +100,6 @@ h2 {
   text-align: left;
   width: 200px; 
 }
-
-
-/* .online-container {
-  display: flex;
-  align-items: center;
-  margin-left: 5px; 
-}
-
-.online-icon {
-  font-size: 9px; 
-  color: lawngreen; 
-}
-
-.online-text {
-  margin-left: 2px; 
-  font-weight: bold;
-  color:lawngreen;
-} */
-
 h3 {
   text-align: left;
   color: black;
@@ -151,10 +109,11 @@ h3 {
 }
 
 .item-statistics-container {
+  width: 89vw !important;
   display: flex;
   flex-wrap: wrap;
   margin-left: 5px;
-  width: 75%;
+ 
   
 }
 
@@ -176,30 +135,14 @@ h3 {
 .item-count {
   color: black;
   font-weight: bold;
-  /* font-size: 13px; */
 
  }
-/* .offline-container {
-  display: flex;
-  align-items: center;
-  color: #dc3545; 
-}
-
-.offline-icon {
-  margin-right: 5px;
-}
-
-.offline-text {
-  font-weight: bold;
-} */ 
 .chef-image {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin-right: 10px; 
 }
-
-/* chef.component.css */
 .online-container,
 .offline-container {
   display: flex;
