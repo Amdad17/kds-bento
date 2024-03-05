@@ -52,7 +52,7 @@ app.use('/utilization', restaurantUtilizationRouter);
 
 async function main() {
   try {
-    // await mongoose.connect(config.MONGOOSE_URI);
+    await mongoose.connect(config.MONGOOSE_URI);
     console.log("db connected mongoose");
     // connecting to rabbitmq from here
 
