@@ -36,8 +36,12 @@ export async function getRulesForRestaurant(req: AuthRequest, res: Response) {
     const user = req.user;
     if (!user) return res.status(401).send({ message: 'Unauthorized' });
 
+    console.log('Restaurant ID:', user.employeeInformation.restaurantId);
+
     const restaurantId = user.employeeInformation.restaurantId;
     const rules = await findRulesForRestaurant(restaurantId);
+
+    console.log('Rules:', rules);
     res.status(200).json(rules);
   } catch (error) {
     console.error(error);
